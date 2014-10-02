@@ -4,7 +4,16 @@
   "description": "NPM Package install for Digital Flash Cards.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  	"postinstall": "bower install",
+  	"prestart": "npm install",
+    "start": "http-server -a 0.0.0.0 -p 8000",
+    "pretest": "npm install",
+    "test": "node node_modules/karma/bin/karma start test/karma.conf.js",
+    "test-single-run": "node node_modules/karma/bin/karma start test/karma.conf.js  --single-run",
+    "preupdate-webdriver": "npm install",
+    "update-webdriver": "webdriver-manager update",
+    "preprotractor": "npm run update-webdriver",
+    "protractor": "protractor test/protractor-conf.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +24,14 @@
   "bugs": {
     "url": "https://github.com/AustinClift/DigitalFlash/issues"
   },
-  "homepage": "https://github.com/AustinClift/DigitalFlash"
+  "homepage": "https://github.com/AustinClift/DigitalFlash",
+  "devDependencies": {
+    "bower": "^1.3.12",
+    "grunt": "^0.4.5",
+    "http-server": "^0.7.1",
+    "karma": "^0.12.24",
+    "karma-chrome-launcher": "^0.1.5",
+    "karma-jasmine": "^0.1.5",
+    "protractor": "^1.3.1"
+  }
 }
