@@ -1,0 +1,33 @@
+{
+  "name": "DigitalFlash",
+  "version": "1.0.0",
+  "homepage": "https://github.com/AustinClift/DigitalFlash",
+  "authors": [
+    "Austin Clift <austinclift@outlook.com>"
+  ],
+  "description": "Bower Package install for Digital Flash Cards.",
+  "main": "bower.json",
+  "moduleType": [
+    "node",
+    "globals",
+    "yui"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.26",
+    "angular-mocks": "~1.2.26",
+    "jquery": "1.10.2",
+    "bootstrap": "~3.2.0",
+    "angular-route": "~1.2.26",
+    "angular-resource": "~1.2.26",
+    "angular-animate": "~1.2.26",
+    "dictionary": "https://github.com/adambom/dictionary.git"
+  }
+}
