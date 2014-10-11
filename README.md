@@ -7,12 +7,6 @@ The second way the user can create a stack is by manually adding vocabulary word
 
 The third way is a feature for those who just want to brush up on general vocabulary.  There will be a button to create a random stack of words.
 
-## Installation Instructures
+## Installation Instructions
 
 [Instructions to Come]
-
-## Tasks for Base Project Files
-- Create Grunt Files
-- Create Directory and Script Files for Tests (Fix NPM Package)
-- Add Base HTML
-- Add CSS Reset
