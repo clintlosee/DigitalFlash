@@ -9,4 +9,18 @@ The third way is a feature for those who just want to brush up on general vocabu
 
 ## Installation Instructions
 
+After you clone the repository, you have to install the production and development dependencies.  Run the following command: 
+
+```
+npm install
+```
+
+Doing so will not only install the development dependencies listed in package.json, but will automatically install all of the dependicies in bower.json as well.
+
+
+
 [Instructions to Come]
+
+## Taks to Complete
+- Match Bower Directories & Match Links OR use grunt to minify even BOWER components
+- Configure Grunt
