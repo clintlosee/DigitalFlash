@@ -40,7 +40,5 @@ grunt watch
 
 ## Tasks for Base Project
 - Modify 'views' to reflect application pages.
-- Create central directory for 'views' controllers (That way they can be ran through grunt properly).
-- Convert base CSS into LESS files.
+- BUG: LESS CSS doesn't work while minified.
 - Make sure everything links up.
-
