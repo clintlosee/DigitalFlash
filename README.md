@@ -38,7 +38,11 @@ You can also use the watch command for grunt in order to watch the css and scrip
 grunt watch
 ```
 
+If you want to modify scripts or styles, make sure to modify the CSS and JavaScript files in the components/source folder.
+
+## Bug Tracking
+- Currently, the app is set up using a minified version of the application LESS file.  For some reason, the LESS will not render while minified.
+
 ## Tasks for Base Project
 - Modify 'views' to reflect application pages.
-- BUG: LESS CSS doesn't work while minified.
 - Make sure everything links up.
