@@ -1,38 +1,39 @@
 {
-	"name": "DigitalFlash",
-	"description": "Bower package install for DigitalFlash.",
-	"homepage": "https://github.com/AustinClift/DigitalFlash",
-	"version": "1.0.0",
-	"private": true,
-	"license": "MIT",
-	"authors": [
-		"Austin Clift",
-		"Brennan Davis",
-		"Jordan Larkin",
-		"Clint Losee"
-	],
-	"moduleType": [
-		"globals",
-		"node",
-		"yui"
-	],
-	"ignore": [
-		"**/.*",
-		"node_modules",
-		"bower_components",
-		"test",
-		"tests"
-	],
-	"dependencies": {
-		"angular": "~1.2.26",
-		"angular-route": "~1.2.26",
-		"angular-loader": "~1.2.26",
-		"angular-mocks": "~1.2.26",
-		"angular-resource": "~1.2.26",
-		"html5-boilerplate": "~4.3.0",
-    	"angular-animate": "~1.2.26",
-		"jquery": "~1.11.1",
-		"bootstrap": "~3.2.0",
-		"dictionary": "https://github.com/adambom/dictionary.git"
-	}
+  "name": "DigitalFlash",
+  "description": "Bower package install for DigitalFlash.",
+  "homepage": "https://github.com/AustinClift/DigitalFlash",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "authors": [
+    "Austin Clift",
+    "Brennan Davis",
+    "Jordan Larkin",
+    "Clint Losee"
+  ],
+  "moduleType": [
+    "globals",
+    "node",
+    "yui"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.26",
+    "angular-route": "~1.2.26",
+    "angular-loader": "~1.2.26",
+    "angular-mocks": "~1.2.26",
+    "angular-resource": "~1.2.26",
+    "html5-boilerplate": "~4.3.0",
+    "angular-animate": "~1.2.26",
+    "jquery": "~1.11.1",
+    "bootstrap": "~3.2.0",
+    "dictionary": "https://github.com/adambom/dictionary.git",
+    "less": "~1.7.5"
+  }
 }

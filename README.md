@@ -17,10 +17,30 @@ npm install
 
 Doing so will not only install the development dependencies listed in package.json, but will automatically install all of the dependicies in bower.json as well.
 
+You can run the application by typing the following command and then browsing to localhost:8000.
 
+```
+npm start
+```
 
-[Instructions to Come]
+If you modify scripts or css in the app/components folder, run the commands to make sure those files are properly minified.
 
-## Taks to Complete
-- Match Bower Directories & Match Links OR use grunt to minify even BOWER components
-- Configure Grunt
+```
+Run All: grunt default
+Uglify Scripts: grunt uglify
+Concatinate CSS: grunt concat
+Minifiy CSS (Must Concat First): grunt cssmin
+```
+
+You can also use the watch command for grunt in order to watch the css and script directories.  Whenever changes are made and you save it, grunt will autmomatically run the tasks.  The command is:
+
+```
+grunt watch
+```
+
+## Tasks for Base Project
+- Modify 'views' to reflect application pages.
+- Create central directory for 'views' controllers (That way they can be ran through grunt properly).
+- Convert base CSS into LESS files.
+- Make sure everything links up.
+
