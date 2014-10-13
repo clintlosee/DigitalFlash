@@ -7,12 +7,42 @@ The second way the user can create a stack is by manually adding vocabulary word
 
 The third way is a feature for those who just want to brush up on general vocabulary.  There will be a button to create a random stack of words.
 
-## Installation Instructures
+## Installation Instructions
 
-[Instructions to Come]
+After you clone the repository, you have to install the production and development dependencies.  Run the following command: 
 
-## Tasks for Base Project Files
-- Create Grunt Files
-- Create Directory and Script Files for Tests (Fix NPM Package)
-- Add Base HTML
-- Add CSS Reset
+```
+npm install
+```
+
+Doing so will not only install the development dependencies listed in package.json, but will automatically install all of the dependicies in bower.json as well.
+
+You can run the application by typing the following command and then browsing to localhost:8000.
+
+```
+npm start
+```
+
+If you modify scripts or css in the app/components folder, run the commands to make sure those files are properly minified.
+
+```
+Run All: grunt default
+Uglify Scripts: grunt uglify
+Concatinate CSS: grunt concat
+Minifiy CSS (Must Concat First): grunt cssmin
+```
+
+You can also use the watch command for grunt in order to watch the css and script directories.  Whenever changes are made and you save it, grunt will autmomatically run the tasks.  The command is:
+
+```
+grunt watch
+```
+
+If you want to modify scripts or styles, make sure to modify the CSS and JavaScript files in the components/source folder.
+
+## Bug Tracking
+- Currently, the app is set up using a minified version of the application LESS file.  For some reason, the LESS will not render while minified.
+
+## Tasks for Base Project
+- Modify 'views' to reflect application pages.
+- Make sure everything links up.
