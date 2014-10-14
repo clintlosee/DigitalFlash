@@ -1,16 +1,15 @@
 'use strict';
 
 module.exports = function(grunt){
-	
+
 	// Initialize Grunt
 	grunt.initConfig({
-		
+	
 		// Uglify Scripts
 		uglify: {
 			frameworks: {
 				files: {
 					'app/scripts/jquery.min.js': ['bower_components/jquery/dist/jquery.js'],
-					'app/scripts/less.min.js': ['bower_components/less/dist/less-1.7.5.js'],
 					'app/scripts/frame.min.js': [
 						'bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js',
 						'bower_components/bootstrap/dist/js/bootstrap.js'
@@ -50,7 +49,7 @@ module.exports = function(grunt){
 			}
 		},
 		
-		// Concatenate CSS
+		// Concatenate CSS/LESS
 		concat: {
 			frameworks: {
 				files: {
@@ -66,7 +65,20 @@ module.exports = function(grunt){
 			},
 			less: {
 				files: {
-					'app/css/app.less': ['app/components/source/css/**/*.less'],
+					'app/css/app.less': ['app/components/source/less/**/*.less']
+				}
+			}
+		},
+		
+		// Package LESS
+		less: {
+			dist: {
+				options: {
+					paths: ['app/css'],
+					cleancss: true
+				},
+				files: {
+					'app/css/app.min.css': 'app/css/app.less'
 				}
 			}
 		},
@@ -80,19 +92,16 @@ module.exports = function(grunt){
 			bootstrap: {
 				src: 'app/css/bootstrap.css',
 				dest: 'app/css/bootstrap.min.css'
-			},
-			app: {
-				src: 'app/css/app.less',
-				dest: 'app/css/app.min.less'
 			}
 		},
 		
 		// Watch Directories
 		watch: {
-			files: ['app/components/source/scripts/*', 'app/components/source/css/*'],
-			tasks: ['uglify', 'concat', 'cssmin']
+			files: ['app/components/source/scripts/*', 'app/components/source/less/*'],
+			tasks: ['uglify', 'concat', 'less', 'cssmin']
 		}
 		
+	
 	});
 	
 	// Load NPM Contributions
@@ -100,8 +109,9 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-contrib-less');
 	
 	// Register Grunt Tasks
-	grunt.registerTask('default', ['uglify', 'concat', 'cssmin', 'watch']);
-	
+	grunt.registerTask('default', ['uglify', 'concat', 'less', 'cssmin', 'watch']);
+
 };

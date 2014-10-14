@@ -1,48 +1,52 @@
-Digital Flash - Portable Flashcards for Students 
-================================================
+Digital Flash
+=============
 
-Digital Flash is a web application for students to study vocabulary.  Users can create stacks of cards in three different ways.  The first way the user will search through the application’s predefined terms.  The user will be able to sort through the words by defining the first letter of the word per by typing in a text box for the word and, as they type, the results will be narrowed (similar to Google Instant).
+## Application Details
 
-The second way the user can create a stack is by manually adding vocabulary words.  When the user chooses this option, two text boxes will appear.  The user will then enter the term then the definition in the next box.  When the user confirms this information, it will be added to the stack.
+Digital Flash is a web application for students to study vocabulary.  They can choose words from a dictionary or enter the terms and definitions manually, and create stacks for them to study.  This application is being developed and managed by a team of four developers.
 
-The third way is a feature for those who just want to brush up on general vocabulary.  There will be a button to create a random stack of words.
+- Austin Clift
+- Brennan Davis
+- Jordan Larkin
+- Clint Losee
 
-## Installation Instructions
+## Development Instructions
 
-After you clone the repository, you have to install the production and development dependencies.  Run the following command: 
+This application is based on AngularJS and NodeJS.  To run this application, you must install NodeJS.  After you clone the repository, you can install the project's dependencies.  To do so, run the following command:
 
 ```
 npm install
 ```
 
-Doing so will not only install the development dependencies listed in package.json, but will automatically install all of the dependicies in bower.json as well.
+Doing so will not only install NPM development dependencies, but will also install BOWER production dependencies.  To add/remove dependencies you can modify the package.json file (development), and the bower.json file (production).
 
-You can run the application by typing the following command and then browsing to localhost:8000.
+You can run the application on your local machine by running the following command:
 
 ```
 npm start
 ```
 
-If you modify scripts or css in the app/components folder, run the commands to make sure those files are properly minified.
+The application is currently set up for the developers to modify scripts in /app/components/source/scripts and to modify LESS files in /app/components/source/less.  The application uses GRUNT to concatinate and minify script and css files /app/scripts/ and /app/css/ respectively.  To activate grunt, run the following command:
 
-```
-Run All: grunt default
-Uglify Scripts: grunt uglify
-Concatinate CSS: grunt concat
-Minifiy CSS (Must Concat First): grunt cssmin
+``` 
+grunt
 ```
 
-You can also use the watch command for grunt in order to watch the css and script directories.  Whenever changes are made and you save it, grunt will autmomatically run the tasks.  The command is:
+Running that command will automatically uglify scripts, concatenate CSS, package LESS, minify CSS, and watch the directories for any changes (if any changes are made, the process will run again).
+
+You can choose to activate any of these commands independantly, though it isn't reconmended, by running the following commands:
 
 ```
+grunt uglify
+grunt concat
+grunt less
+grunt cssmin
 grunt watch
 ```
 
-If you want to modify scripts or styles, make sure to modify the CSS and JavaScript files in the components/source folder.
-
 ## Bug Tracking
-- Currently, the app is set up using a minified version of the application LESS file.  For some reason, the LESS will not render while minified.
+No bugs so far!
 
-## Tasks for Base Project
+## Tasks
 - Modify 'views' to reflect application pages.
 - Make sure everything links up.
