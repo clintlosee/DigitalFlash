@@ -2,7 +2,7 @@
 
 Digital Flash is a web application for students to study vocabulary.  They can choose words from a dictionary or enter the terms and definitions manually, and create stacks for them to study.  This application is being developed and managed by a team of four developers.
 
-- Austin Clift
+- Austin Clift (Project Manager & Scrum Master)
 - Brennan Davis
 - Jordan Larkin
 - Clint Losee
