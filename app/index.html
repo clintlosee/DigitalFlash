@@ -5,45 +5,43 @@
 <!--[if gt IE 8]><!--> <html lang="en" ng-app="DigitalFlash" class="no-js"> <!--<![endif]-->
 
 	<head>
-	
+		
+		<!-- Title -->
+		<title>Digital Flash</title>
+		
 		<!-- Meta Data -->
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
-		<!-- Title -->
-		<title>Digital Flash</title>
-
 		<!-- Load CSS -->
-		<link rel="stylesheet" type="text/css" href="css/boilerplate.min.css" />
-		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-		<link rel="stylesheet" type="text/css" href="css/app.min.css" />
-		
-					
+		<link rel="stylesheet" type="text/css" href="styles/frame.min.css" />
+		<link rel="stylesheet" type="text/css" href="styles/app.min.css" />
+
+		<!-- Load Scripts -->
+		<script src="scripts/angular.min.js" type="text/javascript"></script>
+		<script src="scripts/angular.modules.min.js" type="text/javascript"></script>
+		<script src="scripts/jquery.min.js" type="text/javascript"></script>
+		<script src="scripts/frame.min.js" type="text/javascript"></script>
+		<script src="scripts/app.min.js" type="text/javascript"></script>
+		<script src="scripts/controllers.js" type="text/javascript"></script> 
+				
 	</head>
 	
 	<body>
 	
 		<!-- Temp Menu -->
 		<ul class="menu">
-			<li><a href="#/view1">view1</a></li>
-			<li><a href="#/view2">view2</a></li>
+			<li><a href="#/">Home</a></li>
+			<li><a href="#/create">Create</a></li>
+			<li><a href="#/manage">Manage</a></li>
 		</ul>
 		
 		<!-- Angular App Start -->
 		<div ng-view>
 		</div>
-		
-		<!-- Load Scripts -->
-		<script src="scripts/jquery.min.js" type="text/javascript"></script>
-		<script src="scripts/angular.min.js" type="text/javascript"></script>
-		<script src="scripts/angular.modules.min.js" type="text/javascript"></script>
-		<script src="scripts/controllers.min.js" type="text/javascript"></script>
-		<script src="scripts/frame.min.js" type="text/javascript"></script>
-		<script src="scripts/versions.min.js" type="text/javascript"></script>
-		<script src="scripts/app.min.js" type="text/javascript"></script>
-	
+
 	</body>
 
 </html>

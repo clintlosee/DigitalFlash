@@ -1,6 +1,3 @@
-Digital Flash
-=============
-
 ## Application Details
 
 Digital Flash is a web application for students to study vocabulary.  They can choose words from a dictionary or enter the terms and definitions manually, and create stacks for them to study.  This application is being developed and managed by a team of four developers.
@@ -26,7 +23,7 @@ You can run the application on your local machine by running the following comma
 npm start
 ```
 
-The application is currently set up for the developers to modify scripts in /app/components/source/scripts and to modify LESS files in /app/components/source/less.  The application uses GRUNT to concatinate and minify script and css files /app/scripts/ and /app/css/ respectively.  To activate grunt, run the following command:
+The application is currently set up for the developers to modify scripts in /app/components/scripts and to modify styles in /app/components/styles.  The application uses GRUNT to concatinate and minify script and css files /app/scripts/ and /app/styles/ respectively.  To activate grunt, run the following command:
 
 ``` 
 grunt
@@ -46,7 +43,3 @@ grunt watch
 
 ## Bug Tracking
 No bugs so far!
-
-## Tasks
-- Modify 'views' to reflect application pages.
-- Make sure everything links up.
