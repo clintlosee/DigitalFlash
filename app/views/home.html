@@ -1,5 +1,15 @@
 <div class="jumbotron text-center">
-		<h1>Home Page</h1>
+	<h1>Home Page</h1>
 
-		<p>{{ message }}</p>
+	<p>{{ message }}</p>
+</div>
+
+<div class="container">
+	<div>Search: <input ng-model="query"></div>
+	<div class="span-10">
+		<dl ng-repeat="term in dictionary | filter:query">
+			<dt>{{ term.term }}</dt>
+			<dd>{{ term.definition }}</dd>
+		</dl>
 	</div>
+</div>
