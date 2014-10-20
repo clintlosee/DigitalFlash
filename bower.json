@@ -29,7 +29,6 @@
     "angular-loader": "~1.2.26",
     "angular-mocks": "~1.2.26",
     "angular-resource": "~1.2.26",
-    "html5-boilerplate": "~4.3.0",
     "angular-animate": "~1.2.26",
     "jquery": "~1.11.1",
     "bootstrap": "~3.2.0",
