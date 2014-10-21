@@ -83,8 +83,10 @@ module.exports = function(grunt){
 			
 			// Application
 			application: {
-				src: 'app/components/scripts/**/*.js',
-				dest: 'app/scripts/app.min.js'
+				options: {mangle: false},
+				files: {
+					'app/scripts/app.min.js': ['app/components/scripts/**/*.js']
+				}
 			}
 			
 		},
