@@ -29,12 +29,14 @@
     "angular-loader": "~1.2.26",
     "angular-mocks": "~1.2.26",
     "angular-resource": "~1.2.26",
-    "html5-boilerplate": "~4.3.0",
     "angular-animate": "~1.2.26",
     "jquery": "~1.11.1",
     "bootstrap": "~3.2.0",
     "dictionary": "https://github.com/adambom/dictionary.git",
     "less": "~1.7.5",
-    "font-awesome": "~4.2.0"
+    "font-awesome": "~4.2.0",
+    "jquery-ui": "~1.11.2",
+    "reset-css": "~2.0.20110126",
+    "modernizr": "~2.8.3"
   }
 }

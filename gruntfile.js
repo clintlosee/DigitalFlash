@@ -2,100 +2,170 @@
 
 module.exports = function(grunt){
 	
-	// Initialize Grunt
+	/* 
+	--------- October 20th --------
+	No longer fetches the following files:	
+		1. bootstrap.js
+		2. HTML5 Boilerplate Files
+		
+	*/
+	
+	// Start Grunt Tasks
 	grunt.initConfig({
+	
+		// Copy
+		copy: {
+			
+			// Libraries
+			libraries: {
+				src: [
+					'bower_components/angular/angular.min.js',
+					'bower_components/jquery/dist/jquery.min.js',
+					'bower_components/jquery-ui/jquery-ui.min.js'
+				],
+				dest: 'app/scripts/',
+				expand: true,
+				flatten: true
+			},
+			
+			// Reset
+			reset: {
+				src: 'bower_components/reset-css/reset.css',
+				dest: 'app/styles',
+				expand: true,
+				flatten: true,
+				filter: 'isFile'
+			},
+			
+			// Less
+			less: {
+				src: [
+					'bower_components/font-awesome/less/*', 
+					'!**/font-awesome.less**', 
+					'!**/variables.less**'],
+				dest: 'app/resources/template',
+				expand: true,
+				flatten: true,
+				filter: 'isFile'
+			},
+			
+			// Fonts
+			fonts: {
+				src: 'bower_components/font-awesome/fonts/*',
+				dest: 'app/resources/fonts',
+				expand: true,
+				flatten: true,
+				filter: 'isFile'
+			}
+			
+		},
 		
 		// Uglify
 		uglify: {
-			frameworks: {
-				files: {
-					'app/scripts/jquery.min.js': ['bower_components/jquery/dist/jquery.js'],
-					'app/scripts/angular.min.js': ['bower_components/angular/angular.js'],
-					'app/scripts/angular.modules.min.js': [
-						'bower_components/angular-route/angular-route.js',
-						'bower_components/angular-loader/angular-loader.js',
-						'bower_components/angular-mocks/angular-mocks.js',
-						'bower_components/angular-resource/angular-resource.js',
-						'bower_components/angular-animate/angular-animate.js'],
-					'app/scripts/frame.min.js': [
-						'bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js',
-						'bower_components/bootstrap/dist/js/bootstrap.js']
-				}
+			
+			// Angular
+			angular: {
+				src: [
+					'bower_components/angular-route/angular-route.min.js',
+					'bower_components/angular-resource/angular-resource.min.js',
+					'bower_components/angular-animate/angular-animate.min.js',
+					'bower_components/angular-loader/angular-loader.min.js',
+					'bower_components/angular-mocks/angular-mocks.js'	
+				],
+				dest: 'app/scripts/modules.min.js'
 			},
-			scripts: {
-				files: {
-					'app/scripts/app.min.js': ['app/components/scripts/**/*.js']
-				}
+			
+			// Modernizr
+			modernizr: {
+				src: 'bower_components/modernizr/modernizr.js',
+				dest: 'app/scripts/modernizr.min.js'
+			},
+			
+			// Application
+			application: {
+				src: 'app/components/scripts/**/*.js',
+				dest: 'app/scripts/app.min.js'
 			}
+			
 		},
 		
-		// Concatenate
+		// Concat
 		concat: {
-			frameworks: {
-				files: {
-					'app/styles/frame.css': [
-						'bower_components/html5-boilerplate/css/normalize.css',
-						'bower_components/html5-boilerplate/css/main.css',
-						'bower_components/bootstrap/dist/css/bootstrap.css',
-						'bower_components/bootstrap/dist/css/bootstrap-theme.css']
-				}
-			},
-			less: {
-				files: {
-					'app/styles/app.less': ['app/components/styles/**/*.less']
-				}
-			},
+			
+			// Controllers
 			controllers: {
-				files: {
-					'app/scripts/controllers.js': ['app/components/controllers/**/*.js']
-				}
+				src: 'app/components/controllers/**/*.js',
+				dest: 'app/scripts/controllers.js'
+			},
+			
+			// Bootstrap
+			bootstrap: {
+				src: [
+					'bower_components/bootstrap/dist/css/bootstrap.min.css',
+					'bower_components/bootstrap/dist/css/bootstrap-theme.min.css'
+				],
+				dest: 'app/styles/bootstrap.min.css'
+			},
+			
+			// Application
+			application: {
+				src: [
+					'app/components/styles/**/*.less',
+					'app/resources/template/**/*.less'
+				],
+				dest: 'app/resources/less/app.less'
 			}
+			
 		},
 		
-		// Compile
+		// Less
 		less: {
-			dist: {
+			
+			// Application
+			application: {
 				options: {
 					paths: ['app/styles'],
 					cleancss: true
 				},
-				files: {
-					'app/styles/app.min.css': 'app/styles/app.less'
-				}
+				files: {'app/styles/app.min.css': 'app/resources/less/app.less'}
 			}
+			
 		},
 		
-		// Minify 
-		cssmin: {
-			frameworks: {
-				src: 'app/styles/frame.css',
-				dest: 'app/styles/frame.min.css'
-			}
-		},
-		
-		// Watch
+		// Watch 
 		watch: {
-			files: [
-				'app/components/controllers/*',
-				'app/components/routes/*',
-				'app/components/scripts/*',
-				'app/components/styles/*',
-				'app/components/version/*'
-			],
-			tasks: ['uglify', 'concat', 'less', 'cssmin']
+			
+			// Controllers
+			controllers: {
+				files: 'app/components/controllers/*',
+				tasks: ['concat:controllers']
+			},
+			
+			// Scripts
+			scripts: {
+				files: 'app/components/scripts/*',
+				tasks: ['uglify:application']
+			},
+			
+			// Styles
+			styles: {
+				files: 'app/components/styles/*',
+				tasks: ['concat:application', 'less:application']
+			}
+			
 		}
-		
+	
 	});
 	
-	// Load NPM Contributions
-	grunt.loadNpmTasks('grunt-contrib-concat');
+	// Load Grunt Modules
+	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-cssmin');
-	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-less');
+	grunt.loadNpmTasks('grunt-contrib-watch');
 	
 	// Register Grunt Tasks
-	grunt.registerTask('default', ['uglify', 'concat', 'less', 'cssmin', 'watch']);
+	grunt.registerTask('default', ['uglify', 'concat', 'less', 'watch']);
+	grunt.registerTask('init', ['copy', 'uglify', 'concat', 'less', 'watch']);
 	
 };
-
