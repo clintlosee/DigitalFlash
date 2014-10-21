@@ -2,9 +2,13 @@
 var DigitalFlashCtrls = angular.module('DigitalFlashCtrls', []);
 
 // Create Main Controller
-DigitalFlashCtrls.controller('mainCtrl', function($scope){
+DigitalFlashCtrls.controller('mainCtrl', function($scope, $http){
 
 	$scope.message = 'home';
+
+	$http.get('components/json/test-dictionary.json').success(function(data) {
+		$scope.dictionary = data;
+	});
 	
 });
 
