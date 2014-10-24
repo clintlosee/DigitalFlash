@@ -4,12 +4,26 @@
 	<p>{{ message }}</p>
 </div>
 
-<div class="container">
-	<div>Search: <input ng-model="query"></div>
-	<div class="span-10">
+<div class="">
+	<div class="col-md-12">Search: <input ng-model="query"></div>
+
+	<div class="stack_box">
+
+			<ul class="col-md-12 stacks_list clearfix">
+					<li class="col-md-3" ng-repeat="stack in stacks | filter:query">
+							<a href=""><h3>{{ stack }}</h3></a>
+					</li>
+			</ul>
+
+	</div>
+
+<!--
+	<div class="col-md-10">
 		<dl ng-repeat="term in dictionary | filter:query">
 			<dt>{{ term.term }}</dt>
 			<dd>{{ term.definition }}</dd>
 		</dl>
 	</div>
+-->
+
 </div>

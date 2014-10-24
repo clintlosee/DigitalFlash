@@ -11,8 +11,8 @@
         <input id="stack_name" type="text" name="stack_name" ng-model="lsValue" placeholder="Stack name">
         <button id="create_stack" name="create_stack" ng-click="saveStack('stack_name', lsValue)">Go!</button>
 
-        <ul id="stacks_list">
-            <li ng-repeat="stack in stacks track by $index">
+        <ul class="col-md-12 stacks_list clearfix">
+            <li class="col-md-3" ng-repeat="stack in stacks track by $index">
                 <h3>{{ stack }}</h3>
             </li>
         </ul>
