@@ -7,18 +7,22 @@
         <p>{{ message }}</p>
     </div>
 
-    <div class="create_stack_box">
-        <input id="stack_name" type="text" name="stack_name" ng-model="lsValue" placeholder="Stack name">
-        <button id="create_stack" name="create_stack" ng-click="saveStack('stack_name', lsValue)">Go!</button>
+</div>
 
+<div class="container">
+    <div class="create_stack_box search_stacks col-md-12">
+        <input id="stack_name" class="col-md-10" type="text" name="stack_name" ng-model="lsValue" placeholder="Stack name">
+        <button id="" class="col-md-2 btn pull-right" name="create_stack" ng-click="saveStack('stack_name', lsValue)">Go!</button>
+    </div>
+    <div class="stack_box ">
         <ul class="col-md-12 stacks_list clearfix">
-            <li class="col-md-3" ng-repeat="stack in stacks track by $index">
-                <h3>{{ stack }}</h3>
+            <li class="col-md-3 text-center" ng-repeat="stack in stacks track by $index">
+                <a href=""><h3>{{ stack }}</h3></a>
             </li>
         </ul>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-4 text-center">
        <i class="fa fa-random fa-3x"></i>
         <h3>Random</h3>
         <p>Description here that is really quite descriptive</p>
@@ -27,7 +31,7 @@
         </button>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-4 text-center">
        <i class="fa fa-cog fa-3x"></i>
         <h3>Custom</h3>
         <p>Description here that is really quite descriptive</p>
@@ -36,7 +40,7 @@
         </button>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-4 text-center">
         <i class="fa fa-child fa-3x"></i>
         <h3>Basic</h3>
         <p>Description here that is really quite descriptive</p>
@@ -45,6 +49,4 @@
         </button>
     </div>
 
-
-
-</div>
+</div> <!-- end container -->
