@@ -16,24 +16,45 @@ DigitalFlashCtrls.controller('mainCtrl', function($scope, $http){
 });
 
 // Create Create Controller
-DigitalFlashCtrls.controller('createCtrl', function($scope, $window, displayStacks, localStorageService) {
+DigitalFlashCtrls.controller('createCtrl', function($scope, $window, displayStacks) {
 
 	$scope.message = 'Create a new stack by entering a name and clicking go.';
 
-    $scope.stacks = displayStacks();
+	$scope.stacks = displayStacks();
 
-    $scope.saveStack = function(key, val) {
-        console.log(val);
+	$scope.createStack = function(stack_name) {
+		var new_stack_name = stack_name.replace(/ /g, "_");
 
-        var lsLength = localStorageService.length();
+		var stack = new localStorageDB(new_stack_name, localStorage);
 
-        var saveStack = localStorageService.set(key + lsLength, val);
-        var refresh = (function() {
-            $window.location.reload();
-        })();
+		if ( stack.isNew() ) {
+			stack.createTable("words", ["word", "definition"]);
+			stack.insert("words", {word: "test", definition: "to evaluate knowledge of a subject"});
 
-        return [saveStack, refresh];
-    }
+			stack.commit();
+		}
+
+		var refresh = (function() {
+			$window.location.reload();
+		})();
+
+		return refresh;
+	}
+
+    // $scope.stacks = displayStacks();
+	//
+    // $scope.saveStack = function(key, val) {
+    //     console.log(val);
+	//
+    //     var lsLength = localStorageService.length();
+	//
+    //     var saveStack = localStorageService.set(key + lsLength, val);
+    //     var refresh = (function() {
+    //         $window.location.reload();
+    //     })();
+	//
+    //     return [saveStack, refresh];
+    // }
 
 });
 

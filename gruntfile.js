@@ -22,7 +22,7 @@ module.exports = function(grunt){
 					'bower_components/angular/angular.min.js',
 					'bower_components/angular-local-storage/dist/angular-local-storage.min.js',
 					'bower_components/jquery/dist/jquery.min.js',
-					'bower_components/jquery-ui/jquery-ui.min.js'
+					'bower_components/jquery-ui/jquery-ui.min.js',
 				],
 				dest: 'app/scripts/',
 				expand: true,
@@ -166,7 +166,6 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-angular-service');
 
 	// Register Grunt Tasks
 	grunt.registerTask('default', ['uglify', 'concat', 'less', 'watch']);

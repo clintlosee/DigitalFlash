@@ -3,7 +3,6 @@ var DigitalFlash = angular.module('DigitalFlash', [
 	'ngAnimate',
 	'DigitalFlashCtrls',
 	'DigitalFlashServices',
-	'LocalStorageModule',
 ]);
 
 DigitalFlash.config(function (localStorageServiceProvider) {
@@ -13,20 +12,21 @@ DigitalFlash.config(function (localStorageServiceProvider) {
 
 var DigitalFlashServices = angular.module('DigitalFlashServices', []);
 
-DigitalFlashServices.factory('displayStacks', function(localStorageService){
+DigitalFlashServices.factory('displayStacks', function(){
     var stacks = [];
 
     return function() {
-        var lskeys = localStorageService.keys();
+		var stacks = [];
 
-        var arrayLength = lskeys.length;
+		for(var i = 0; i < localStorage.length; i++) {  // Length gives the # of pairs
+			var stackKey = localStorage.key(i);
+			var stack = stackKey.replace("db_", "").replace(/_/g, " ");             // Get the name of pair i
+			stacks.push(stack);
+		}
 
-        for (var i = 0; i < arrayLength; i++) {
-            var stackKey = localStorageService.get(lskeys[i]);
-            stacks.push(stackKey);
-        }
+		console.log(stacks);
 
-        return stacks;
+		return stacks;
     };
 });
 
