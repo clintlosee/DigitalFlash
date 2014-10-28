@@ -1,7 +1,7 @@
 // Create Controllers Angular Module
 var DigitalFlashCtrls = angular.module('DigitalFlashCtrls', [
 	'DigitalFlashServices',
-	'LocalStorageModule'
+	'LocalStorageModule',
 ]);
 
 // Create Main Controller
@@ -12,7 +12,7 @@ DigitalFlashCtrls.controller('mainCtrl', function($scope, $http){
 	$http.get('components/json/test-dictionary.json').success(function(data) {
 		$scope.dictionary = data;
 	});
-	
+
 });
 
 // Create Create Controller
@@ -34,15 +34,16 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $window, displayStac
 
         return [saveStack, refresh];
     }
-	
+
 });
 
 // Create Manage Controller
 DigitalFlashCtrls.controller('manageCtrl', function($scope){
 
 	$scope.message = 'manage';
-	
+
 });
+
 // Create Main Angular Module
 var DigitalFlash = angular.module('DigitalFlash', [
 	'ngRoute',

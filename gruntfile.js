@@ -1,21 +1,21 @@
 'use strict';
 
 module.exports = function(grunt){
-	
-	/* 
+
+	/*
 	--------- October 20th --------
-	No longer fetches the following files:	
+	No longer fetches the following files:
 		1. bootstrap.js
 		2. HTML5 Boilerplate Files
-		
+
 	*/
-	
+
 	// Start Grunt Tasks
 	grunt.initConfig({
-	
+
 		// Copy
 		copy: {
-			
+
 			// Libraries
 			libraries: {
 				src: [
@@ -28,7 +28,7 @@ module.exports = function(grunt){
 				expand: true,
 				flatten: true
 			},
-			
+
 			// Reset
 			reset: {
 				src: 'bower_components/reset-css/reset.css',
@@ -37,19 +37,19 @@ module.exports = function(grunt){
 				flatten: true,
 				filter: 'isFile'
 			},
-			
+
 			// Less
 			less: {
 				src: [
-					'bower_components/font-awesome/less/*', 
-					'!**/font-awesome.less**', 
+					'bower_components/font-awesome/less/*',
+					'!**/font-awesome.less**',
 					'!**/variables.less**'],
 				dest: 'app/resources/template',
 				expand: true,
 				flatten: true,
 				filter: 'isFile'
 			},
-			
+
 			// Fonts
 			fonts: {
 				src: 'bower_components/font-awesome/fonts/*',
@@ -58,12 +58,12 @@ module.exports = function(grunt){
 				flatten: true,
 				filter: 'isFile'
 			}
-			
+
 		},
-		
+
 		// Uglify
 		uglify: {
-			
+
 			// Angular
 			angular: {
 				src: [
@@ -71,17 +71,17 @@ module.exports = function(grunt){
 					'bower_components/angular-resource/angular-resource.min.js',
 					'bower_components/angular-animate/angular-animate.min.js',
 					'bower_components/angular-loader/angular-loader.min.js',
-					'bower_components/angular-mocks/angular-mocks.js'	
+					'bower_components/angular-mocks/angular-mocks.js'
 				],
 				dest: 'app/scripts/modules.min.js'
 			},
-			
+
 			// Modernizr
 			modernizr: {
 				src: 'bower_components/modernizr/modernizr.js',
 				dest: 'app/scripts/modernizr.min.js'
 			},
-			
+
 			// Application
 			application: {
 				options: {mangle: false},
@@ -89,18 +89,18 @@ module.exports = function(grunt){
 					'app/scripts/app.min.js': ['app/components/scripts/**/*.js']
 				}
 			}
-			
+
 		},
-		
+
 		// Concat
 		concat: {
-			
+
 			// Controllers
 			controllers: {
 				src: 'app/components/controllers/**/*.js',
 				dest: 'app/scripts/controllers.js'
 			},
-			
+
 			// Bootstrap
 			bootstrap: {
 				src: [
@@ -109,7 +109,7 @@ module.exports = function(grunt){
 				],
 				dest: 'app/styles/bootstrap.min.css'
 			},
-			
+
 			// Application
 			application: {
 				src: [
@@ -118,12 +118,12 @@ module.exports = function(grunt){
 				],
 				dest: 'app/resources/less/app.less'
 			}
-			
+
 		},
-		
+
 		// Less
 		less: {
-			
+
 			// Application
 			application: {
 				options: {
@@ -132,43 +132,44 @@ module.exports = function(grunt){
 				},
 				files: {'app/styles/app.min.css': 'app/resources/less/app.less'}
 			}
-			
+
 		},
-		
-		// Watch 
+
+		// Watch
 		watch: {
-			
+
 			// Controllers
 			controllers: {
 				files: 'app/components/controllers/*',
 				tasks: ['concat:controllers']
 			},
-			
+
 			// Scripts
 			scripts: {
 				files: 'app/components/scripts/*',
 				tasks: ['uglify:application']
 			},
-			
+
 			// Styles
 			styles: {
 				files: 'app/components/styles/*',
 				tasks: ['concat:application', 'less:application']
 			}
-			
+
 		}
-	
+
 	});
-	
+
 	// Load Grunt Modules
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	
+	grunt.loadNpmTasks('grunt-angular-service');
+
 	// Register Grunt Tasks
 	grunt.registerTask('default', ['uglify', 'concat', 'less', 'watch']);
 	grunt.registerTask('init', ['copy', 'uglify', 'concat', 'less', 'watch']);
-	
+
 };
