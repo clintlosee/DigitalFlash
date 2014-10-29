@@ -1,7 +1,6 @@
 // Create Controllers Angular Module
 var DigitalFlashCtrls = angular.module('DigitalFlashCtrls', [
 	'DigitalFlashServices',
-	'LocalStorageModule',
 ]);
 
 // Create Main Controller
@@ -29,7 +28,6 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $window, displayStac
 
 		if ( stack.isNew() ) {
 			stack.createTable("words", ["word", "definition"]);
-			stack.insert("words", {word: "test", definition: "to evaluate knowledge of a subject"});
 
 			stack.commit();
 		}
@@ -40,60 +38,97 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $window, displayStac
 
 		return refresh;
 	}
-
-    // $scope.stacks = displayStacks();
-	//
-    // $scope.saveStack = function(key, val) {
-    //     console.log(val);
-	//
-    //     var lsLength = localStorageService.length();
-	//
-    //     var saveStack = localStorageService.set(key + lsLength, val);
-    //     var refresh = (function() {
-    //         $window.location.reload();
-    //     })();
-	//
-    //     return [saveStack, refresh];
-    // }
-
 });
 
 // Create Manage Controller
-DigitalFlashCtrls.controller('manageCtrl', function($scope){
+DigitalFlashCtrls.controller('manageCtrl', function($scope, displayStacks){
 
-	$scope.message = 'manage';
+	$scope.message = 'Choose a stack to edit.';
+
+	$scope.stacks = displayStacks();
 
 });
 
-// Create Main Angular Module
-var DigitalFlash = angular.module('DigitalFlash', [
-	'ngRoute',
-	'ngAnimate',
-	'DigitalFlashCtrls'
-]);
+DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $http, $window){
+
+	$scope.message = 'Add words to this stack below';
+
+	var stack_slug = $routeParams.stack_slug;
+
+	$scope.stack_name = stack_slug.replace(/_/g, " ");
+
+	var stackDB = localStorageDB(stack_slug, localStorage);
+
+	$scope.addWord = function(term) {
+		stackDB.insert("words", {word: term.term, definition: term.definition});
+
+		stackDB.commit();
+
+		var refresh = (function() {
+			$window.location.reload();
+		})();
+
+		return refresh;
+	}
+
+	$scope.words = stackDB.query("words");
+
+	$http.get('components/json/test-dictionary.json').success(function(data) {
+		$scope.dictionary = data;
+	});
+
+	$scope.deleteStack = function() {
+		if (confirm("Are you sure you want to delete this stack?") == true) {
+			stackDB.drop();
+			window.location.replace("/app/#/");
+		}
+		else {
+			return false;
+		}
+	}
+
+	$scope.deleteWord = function(word) {
+		console.log(word.word);
+
+		stackDB.deleteRows("words",{word:word.word});
+
+		stackDB.commit();
+
+		var refresh = (function() {
+			$window.location.reload();
+		})();
+
+		return refresh;
+	}
+});
 
 // Configure Routes
 DigitalFlash.config(['$routeProvider', function($routeProvider){
-	
+
 	// Mention Route Provider
 	$routeProvider
-	
+
 	// Home
 	.when('/', {
 		templateUrl: 'views/home.html',
 		controller: 'mainCtrl'
 	})
-	
+
 	// Create
 	.when('/create', {
 		templateUrl: 'views/create.html',
 		controller: 'createCtrl'
 	})
-	
+
 	// Manage
 	.when('/manage', {
 		templateUrl: 'views/manage.html',
 		controller: 'manageCtrl'
 	})
-	
+
+	.when('/manage/:stack_slug', {
+        templateUrl: 'views/manage_stack.html',
+        controller: 'manageStackCtrl'
+    });
+
 }]);

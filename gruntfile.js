@@ -20,9 +20,9 @@ module.exports = function(grunt){
 			libraries: {
 				src: [
 					'bower_components/angular/angular.min.js',
-					'bower_components/angular-local-storage/dist/angular-local-storage.min.js',
 					'bower_components/jquery/dist/jquery.min.js',
 					'bower_components/jquery-ui/jquery-ui.min.js',
+					'bower_components/angular-route/angular-route.js'
 				],
 				dest: 'app/scripts/',
 				expand: true,

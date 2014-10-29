@@ -5,10 +5,6 @@
         <h1>Create a Stack</h1>
 
         <p>{{ message }}</p>
-
-        <p>
-            {{ new_stack }}
-        </p>
     </div>
 
     <div class="create_stack_box">
@@ -17,7 +13,7 @@
 
         <ul id="stacks_list">
             <li ng-repeat="stack in stacks track by $index">
-                <h3>{{ stack }}</h3>
+                <h3><a href="/app/#/manage/{{ stack.slug }}">{{ stack.name }}</a></h3>
             </li>
         </ul>
     </div>

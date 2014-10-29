@@ -1,14 +1,11 @@
 // Create Main Angular Module
 var DigitalFlash = angular.module('DigitalFlash', [
+	'ngRoute',
 	'ngAnimate',
+
 	'DigitalFlashCtrls',
 	'DigitalFlashServices',
 ]);
-
-DigitalFlash.config(function (localStorageServiceProvider) {
-    localStorageServiceProvider
-        .setPrefix('digitalFlash');
-});
 
 var DigitalFlashServices = angular.module('DigitalFlashServices', []);
 
@@ -18,13 +15,15 @@ DigitalFlashServices.factory('displayStacks', function(){
     return function() {
 		var stacks = [];
 
-		for(var i = 0; i < localStorage.length; i++) {  // Length gives the # of pairs
+		for(var i = 0; i < localStorage.length; i++) {
 			var stackKey = localStorage.key(i);
-			var stack = stackKey.replace("db_", "").replace(/_/g, " ");             // Get the name of pair i
-			stacks.push(stack);
-		}
+			var stack_name = stackKey.replace("db_", "").replace(/_/g, " ");
+			var stack_slug = stackKey.replace("db_", "");
 
-		console.log(stacks);
+			stack_array = {"name": stack_name, "slug": stack_slug}
+
+			stacks.push(stack_array);
+		}
 
 		return stacks;
     };

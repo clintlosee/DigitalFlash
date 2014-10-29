@@ -6,7 +6,7 @@
 
 <div class="container">
 	<div>Search: <input ng-model="query"></div>
-	<div class="span-10">
+	<div class="col-md-10">
 		<dl ng-repeat="term in dictionary | filter:query">
 			<dt>{{ term.term }}</dt>
 			<dd>{{ term.definition }}</dd>
