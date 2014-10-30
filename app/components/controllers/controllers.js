@@ -4,7 +4,7 @@ var DigitalFlashCtrls = angular.module('DigitalFlashCtrls', [
 ]);
 
 // Create Main Controller
-DigitalFlashCtrls.controller('mainCtrl', function($scope, $http, displayStacks, localStorageService){
+DigitalFlashCtrls.controller('mainCtrl', function($scope, $http, displayStacks){
 
 	$scope.message = 'home';
 
