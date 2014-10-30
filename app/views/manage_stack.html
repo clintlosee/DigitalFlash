@@ -1,0 +1,34 @@
+<div class="jumbotron text-center">
+    <h1>{{ stack_name }}</h1>
+
+    <p>{{ message }}</p>
+
+    <button name="button" ng-click="deleteStack()">delete stack</button>
+</div>
+
+<!--  Search Bar Here -->
+
+<!-- <input type="text" value="search"/> -->
+
+<!---  Stacks go Here -->
+<!---  actual js to come later-->
+
+
+<div class="container">
+    <div class="col-md-10 col-md-offset-1">
+
+        <div id="words">
+            <ul ng-repeat="word in words">
+                <li>
+                    <span ng-model="word">{{ word.word }}</span> - <button ng-click="deleteWord(word)">delete word</button></li>
+            </ul>
+        </div>
+
+        <div class="text-center">Search for Words to Add: <input ng-model="query"></div>
+        <dl ng-repeat="term in dictionary | filter:query">
+            <dt ng-model="term">{{ term.term }}</dt>
+            <dd>{{ term.definition }}</dd>
+            <dd><button ng-click="addWord(term)">Add Word</button></dd>
+        </dl>
+    </div>
+</div>

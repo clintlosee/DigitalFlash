@@ -8,12 +8,12 @@
     </div>
 
     <div class="create_stack_box">
-        <input id="stack_name" type="text" name="stack_name" ng-model="lsValue" placeholder="Stack name">
-        <button id="create_stack" name="create_stack" ng-click="saveStack('stack_name', lsValue)">Go!</button>
+        <input id="stack_name" type="text" name="stack_name" ng-model="stack_name" placeholder="Stack name">
+        <button id="create_stack" name="create_stack" ng-click="createStack(stack_name)">Go!</button>
 
         <ul id="stacks_list">
             <li ng-repeat="stack in stacks track by $index">
-                <h3>{{ stack }}</h3>
+                <h3><a href="/app/#/manage/{{ stack.slug }}">{{ stack.name }}</a></h3>
             </li>
         </ul>
     </div>

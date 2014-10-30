@@ -1,61 +1,58 @@
 // Create Main Angular Module
 var DigitalFlash = angular.module('DigitalFlash', [
+	'ngRoute',
 	'ngAnimate',
+
 	'DigitalFlashCtrls',
 	'DigitalFlashServices',
-	'LocalStorageModule'
 ]);
-
-DigitalFlash.config(function (localStorageServiceProvider) {
-    localStorageServiceProvider
-        .setPrefix('digitalFlash');
-});
 
 var DigitalFlashServices = angular.module('DigitalFlashServices', []);
 
-DigitalFlashServices.factory('displayStacks', function(localStorageService){
+DigitalFlashServices.factory('displayStacks', function(){
     var stacks = [];
 
     return function() {
-        var lskeys = localStorageService.keys();
+		var stacks = [];
 
-        var arrayLength = lskeys.length;
+		for(var i = 0; i < localStorage.length; i++) {
+			var stackKey = localStorage.key(i);
+			var stack_name = stackKey.replace("db_", "").replace(/_/g, " ");
+			var stack_slug = stackKey.replace("db_", "");
 
-        for (var i = 0; i < arrayLength; i++) {
-            var stackKey = localStorageService.get(lskeys[i]);
-            stacks.push(stackKey);
-        }
+			stack_array = {"name": stack_name, "slug": stack_slug}
 
-        return stacks;
+			stacks.push(stack_array);
+		}
+
+		return stacks;
     };
 });
 
 
-
-
 /* Configure Routing
 DigitalFlash.config(['$routeProvider', function($routeProvider){
-	
+
 	// Mention Route Provider
 	$routeProvider
-	
+
 	// Home
 	.when('/', {
 		templateUrl: 'views/home.html',
 		controller: 'mainCtrl'
 	})
-	
+
 	// Create
 	.when('/create', {
 		templateUrl: 'views/create.html',
 		controller: 'createCtrl'
 	})
-	
+
 	// Manage
 	.when('/manage', {
 		templateUrl: 'views/manage.html',
 		controller: 'manageCtrl'
 	})
-	
+
 }]);
 */
