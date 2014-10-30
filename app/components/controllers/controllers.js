@@ -1,7 +1,7 @@
 // Create Controllers Angular Module
 var DigitalFlashCtrls = angular.module('DigitalFlashCtrls', [
 	'DigitalFlashServices',
-	'LocalStorageModule'
+	'LocalStorageModule',
 ]);
 
 // Create Main Controller
@@ -43,3 +43,6 @@ DigitalFlashCtrls.controller('manageCtrl', function($scope){
 	$scope.message = 'manage';
 	
 });
+
+
+

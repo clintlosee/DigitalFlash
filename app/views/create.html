@@ -11,13 +11,17 @@
         <input id="stack_name" type="text" name="stack_name" ng-model="lsValue" placeholder="Stack name">
         <button id="create_stack" name="create_stack" ng-click="saveStack('stack_name', lsValue)">Go!</button>
 
+
+
+            <button class=""  ng-click="alert()"><i class="fa fa-plus"></i>
+
         <ul id="stacks_list">
             <li ng-repeat="stack in stacks track by $index">
                 <h3>{{ stack }}</h3>
             </li>
         </ul>
     </div>
-
+<!--
     <div class="col-md-4">
        <i class="fa fa-random fa-3x"></i>
         <h3>Random</h3>
@@ -44,7 +48,7 @@
             <i class="fa fa-arrow-right"></i>
         </button>
     </div>
-
+-->
 
 
 </div>
