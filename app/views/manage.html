@@ -1,22 +1,17 @@
-<div class=" text-center">
+<div class="jumbotron text-center">
+    <h1>Manage Stacks</h1>
 
-    <div id="spotlight"><h1>Manage Stacks</h1></div>
-
-    <!---  Search Bar Here --->
-
-   <!-- <input type="text" value="search"/> -->
-
-    <!---  Stacks go Here --->
-    <!---  actual js to come later--->
-    <ul class="stacks">
-        <li ng-repeat="">
-            <p>{{stack.title}}</p>
-        </li>
-    </ul>
-
-
-
-    <button class="btn btn-default btn-warning">Save changes</button>
-
-
+    <p>{{ message }}</p>
 </div>
+
+<div id="container">
+    <div class="col-md-10 col-md-offset-1 text-center">
+        <ul class="stacks">
+            <li ng-repeat="stack in stacks track by $index">
+                <h3><a href="/app/#/manage/{{ stack.slug }}">{{ stack.name }}</a></h3>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- <button class="btn btn-default btn-warning">Save changes</button> -->
