@@ -106,3 +106,5 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 		return refresh;
 	}
 });
+
+

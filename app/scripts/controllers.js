@@ -64,6 +64,11 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 
 		stackDB.commit();
 
+	$scope.message = 'manage';
+	
+});
+
+
 		var refresh = (function() {
 			$window.location.reload();
 		})();
@@ -102,6 +107,25 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 	}
 });
 
+DigitalFlashCtrls.controller('addCustomCtrl', function($scope){
+
+    var dictionary = new customDictionary("dictionary", localStorage);
+
+// Check if the database was just created. Useful for initial database setup
+    if( dictionary.isNew() ) {
+
+        // create the "books" table
+        // dictionary.createTable("books", ["code", "title", "author", "year", "copies"]);
+        dictionary.createTable("terms", ["term""definition"]);
+
+        // insert some data
+       // dictionary.insert("books", {code: "B001", title: "Phantoms in the brain", author: "Ramachandran", year: 1999, copies: 10});
+        dictionary.insert("term",{term: "y", defition: "yup"})
+        // commit the database to localStorage
+        // all create/drop/insert/update/delete operations should be committed
+        dictionary.commit();
+    }
+});
 // Configure Routes
 DigitalFlash.config(['$routeProvider', function($routeProvider){
 
