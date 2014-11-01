@@ -65,7 +65,7 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 		stackDB.commit();
 
 	$scope.message = 'manage';
-	
+
 });
 
 
@@ -107,23 +107,27 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 	}
 });
 
-DigitalFlashCtrls.controller('addCustomCtrl', function($scope){
+DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window) {
 
-    var dictionary = new customDictionary("dictionary", localStorage);
+//    var dictionary = new customDictionary("dictionary", localStorage);
 
-// Check if the database was just created. Useful for initial database setup
-    if( dictionary.isNew() ) {
 
-        // create the "books" table
-        // dictionary.createTable("books", ["code", "title", "author", "year", "copies"]);
-        dictionary.createTable("terms", ["term""definition"]);
+    $scope.addToDic = function (cus_term, cus_definition) {
+        var new_cus_term = cus_term.replace(/ /g, "_");
+        var new_cus_definition = cus_definition.replace(/ /g,"_");
 
-        // insert some data
-       // dictionary.insert("books", {code: "B001", title: "Phantoms in the brain", author: "Ramachandran", year: 1999, copies: 10});
-        dictionary.insert("term",{term: "y", defition: "yup"})
-        // commit the database to localStorage
-        // all create/drop/insert/update/delete operations should be committed
-        dictionary.commit();
+        var term = new localStorageDB(new_cus_term, new_cus_definition, localStorage);
+
+        if (term.isNew()) {
+            term.createTable("terms", ["term", "definition"]);
+            term.commit();
+        }
+
+        var refresh = (function () {
+            $window.location.reload();
+        })();
+
+        return refresh;
     }
 });
 // Configure Routes
