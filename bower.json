@@ -37,6 +37,6 @@
     "font-awesome": "~4.2.0",
     "jquery-ui": "~1.11.2",
     "reset-css": "~2.0.20110126",
-    "modernizr": "~2.8.3",
+    "modernizr": "~2.8.3"
   }
 }
