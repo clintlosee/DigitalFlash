@@ -5,14 +5,7 @@
 
     <button name="button" ng-click="deleteStack()">delete stack</button>
 </div>
-
-<!--  Search Bar Here -->
-
-<!-- <input type="text" value="search"/> -->
-
-<!---  Stacks go Here -->
-<!---  actual js to come later-->
-
+{{dictionary.term}}
 
 <div class="container">
     <div class="col-md-10 col-md-offset-1">
@@ -23,6 +16,16 @@
                     <span ng-model="word">{{ word.word }}</span> - <button ng-click="deleteWord(word)">delete word</button></li>
             </ul>
         </div>
+
+        <div>
+            <button class="text-center"  ng-click=""><i class="fa fa-plus"> Add Custom Word</i></button>
+            <dl class="hidden">
+                <dt>Term:<input id="cus_term" type="text" name="cus_term" ng-model="cus_term" placeholder="Term"></dt>
+                <dd>Defintion:<input id="cus_definition" type="text" name="cus_definition" ng-model="cus_definition" placeholder="Definition"></dd>
+                <dd><button id="add_to_dic" name="add_to_dic" ng-click="addToDic(cus_term, cus_definition)" >Add to Dictionary</button></dd>
+            </dl>
+        </div>
+        
 
         <div class="text-center">Search for Words to Add: <input ng-model="query"></div>
         <dl ng-repeat="term in dictionary | filter:query">

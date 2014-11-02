@@ -65,7 +65,7 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 		stackDB.commit();
 
 	$scope.message = 'manage';
-	
+
 });
 
 
@@ -105,4 +105,28 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 
 		return refresh;
 	}
+});
+
+DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window) {
+
+//    var dictionary = new customDictionary("dictionary", localStorage);
+
+
+    $scope.addToDic = function (cus_term, cus_definition) {
+        var new_cus_term = cus_term.replace(/ /g, "_");
+        var new_cus_definition = cus_definition.replace(/ /g,"_");
+
+        var term = new localStorageDB(new_cus_term, new_cus_definition, localStorage);
+
+        if (term.isNew()) {
+            term.createTable("terms", ["term", "definition"]);
+            term.commit();
+        }
+
+        var refresh = (function () {
+            $window.location.reload();
+        })();
+
+        return refresh;
+    }
 });
