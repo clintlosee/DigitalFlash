@@ -66,8 +66,6 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 
 	$scope.message = 'manage';
 
-});
-
 
 		var refresh = (function() {
 			$window.location.reload();
