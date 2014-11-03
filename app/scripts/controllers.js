@@ -4,7 +4,7 @@ var DigitalFlashCtrls = angular.module('DigitalFlashCtrls', [
 ]);
 
 // Create Main Controller
-DigitalFlashCtrls.controller('mainCtrl', function($scope, $http){
+DigitalFlashCtrls.controller('mainCtrl', function($scope, $http, displayStacks){
 
 	$scope.message = 'home';
 
@@ -12,6 +12,7 @@ DigitalFlashCtrls.controller('mainCtrl', function($scope, $http){
 		$scope.dictionary = data;
 	});
 
+	$scope.stacks = displayStacks();
 });
 
 // Create Create Controller
@@ -128,6 +129,7 @@ DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window) {
         return refresh;
     }
 });
+
 // Configure Routes
 DigitalFlash.config(['$routeProvider', function($routeProvider){
 
