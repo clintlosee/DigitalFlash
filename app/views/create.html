@@ -1,6 +1,5 @@
 <div class="text-center">
-
-
+	
     <div class="jumbotron text-center">
         <h1>Create a Stack</h1>
 
@@ -9,11 +8,13 @@
 
 </div>
 
-<div class="container">
+<div class="container-fluid">
+	
     <div class="create_stack_box search_stacks col-md-12">
         <input id="stack_name" class="col-md-10" type="text" name="stack_name" ng-model="stack_name" placeholder="Stack name">
         <button id="" class="col-md-2 btn pull-right" name="create_stack" ng-click="createStack(stack_name)">Go!</button>
     </div>
+    
     <div class="stack_box ">
         <ul class="col-md-12 stacks_list clearfix">
             <li class="col-md-3 text-center" ng-repeat="stack in stacks track by $index">
@@ -21,17 +22,14 @@
             </li>
         </ul>
     </div>
-<<<<<<< HEAD
-<!--
+    
     <div class="col-md-4">
-=======
 
     <div class="col-md-4 text-center">
->>>>>>> 690be954da8f1e5facb11cc9ff0781a1dce86d1b
        <i class="fa fa-random fa-3x"></i>
         <h3>Random</h3>
         <p>Description here that is really quite descriptive</p>
-        <button class="btn btn-default btn-warning"> Build Stack
+        <button class="btn btn-default btn-warning" ng-click="createRandomStack(stack_name)"> Build Stack
             <i class="fa fa-arrow-right"></i>
         </button>
     </div>
@@ -53,12 +51,7 @@
             <i class="fa fa-arrow-right"></i>
         </button>
     </div>
-<<<<<<< HEAD
--->
-
 
 </div>
-=======
 
-</div> <!-- end container -->
->>>>>>> 690be954da8f1e5facb11cc9ff0781a1dce86d1b
+</div>

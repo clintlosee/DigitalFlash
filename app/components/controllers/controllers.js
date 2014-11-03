@@ -16,9 +16,81 @@ DigitalFlashCtrls.controller('mainCtrl', function($scope, $http, displayStacks){
 });
 
 // Create Create Controller
-DigitalFlashCtrls.controller('createCtrl', function($scope, $window, displayStacks) {
-
+DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $routeParams, displayStacks) {
+	
+	// Header Message
 	$scope.message = 'Create a new stack by entering a name and clicking go.';
+
+	// Create Random Stack
+	$scope.createRandomStack = function(input){
+		
+		// Grab New Name
+		var name = input.replace(/ /g, "_");
+		
+		// Create New Local Storage Database
+		var stack = new localStorageDB(name, localStorage);
+		
+		// Only Apply if Stack is New
+		if(stack.isNew()){
+			
+			// Create Table
+			stack.createTable("words", ["word", "definition"]);
+			
+			// Commit Table
+			stack.commit();
+			
+			// Populate Table With Random Words
+			$http.get('components/json/test-dictionary.json').success(function(data) {
+				
+				// Put Data into Variable Scope
+				$scope.data = data;
+				
+				// Create Number Array
+				var array = [];
+				
+				// Push Random Index Numbers to Array
+				while(array.length < 10){
+				
+					// Generate Random Number
+					var number = Math.floor(Math.random() * data.length);	
+					
+					// Only Push to Array if Number Doesn't Exist
+					if($.inArray(number, array) == -1){array.push(number);}
+				
+				}
+				
+				console.log(array);
+				
+				// Add Words to Tables
+				for(i = 0; i < array.length; i++){
+					
+					// Insert Random Term
+					stack.insert("words", {word: data[array[i]].term, definition: data[array[i]].definition});
+					
+				}
+				
+				// Commit Table
+				stack.commit();
+				
+			});
+					
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	$scope.stacks = displayStacks();
 
