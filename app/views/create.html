@@ -1,27 +1,85 @@
-<div class="text-center">
-	
-    <div class="jumbotron text-center">
-        <h1>Create a Stack</h1>
-
-        <p>{{ message }}</p>
-    </div>
-
+<!-- Spotlight -->
+<div class="spotlight">
+	<div class="spot-content">
+		<h1>{{header}}</h1>
+		<p>{{message}}</p>
+	</div>
 </div>
 
-<div class="container-fluid">
-	
-    <div class="create_stack_box search_stacks col-md-12">
-        <input id="stack_name" class="col-md-10" type="text" name="stack_name" ng-model="stack_name" placeholder="Stack name">
-        <button id="" class="col-md-2 btn pull-right" name="create_stack" ng-click="createStack(stack_name)">Go!</button>
-    </div>
-    
-    <div class="stack_box ">
+<!-- Search -->
+<div class="search">
+	<div class="container-fluid">
+		<input class="col-md-12" placeholder="Name Stack" ng-model="stack_name" type="text">
+	</div>
+</div>
+
+<!-- Create Stack -->
+<div class="create-stack">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12 col-sm-4 col-md-4 type">
+				<i class="fa fa-random fa-4x"></i>
+				<h3>Random</h3>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+				<a href="#/mode/{{stack_name}}" ng-click="createRandomStack(stack_name)">Build Random Stack <i class="fa fa-chevron-right"></i></a>
+			</div>
+			<div class="col-xs-12 col-sm-4 col-md-4 type">
+				<i class="fa fa-cog fa-4x"></i>
+				<h3>Custom</h3>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+				<a href="#" ng-click="createStack(stack_name)">Build Custom Stack <i class="fa fa-chevron-right"></i></a>
+			</div>
+			<div class="col-xs-12 col-sm-4 col-md-4 type">
+				<i class="fa fa-child fa-4x"></i>
+				<h3>Basic</h3>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+				<a href="#">Build Basic Stack <i class="fa fa-chevron-right"></i></a>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<!-- Temp Display for Boxes -->
+ <div class="stack_box ">
         <ul class="col-md-12 stacks_list clearfix">
             <li class="col-md-3 text-center" ng-repeat="stack in stacks track by $index">
                 <h3><a href="/app/#/manage/{{ stack.slug }}">{{ stack.name }}</a></h3>
             </li>
         </ul>
     </div>
+
+
+
+
+
+
+
+
+<!--
+	  <div class="create_stack_box search_stacks col-md-12">
+        <input id="stack_name" class="col-md-10" type="text" name="stack_name" ng-model="stack_name" placeholder="Stack name">
+        <button id="" class="col-md-2 btn pull-right" name="create_stack" ng-click="createStack(stack_name)">Go!</button>
+    
+    
+    
+    </div>
+    
+    
+    
+    
+    <div class="container-fluid">
+	
+  
+    
+   
+    
+    
+    
+    
+    
+    
     
     <div class="col-md-4">
 
@@ -55,3 +113,4 @@
 </div>
 
 </div>
+-->

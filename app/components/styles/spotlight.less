@@ -1,0 +1,53 @@
+/* ================================================== 
+	Digital Flash Base CSS
+================================================== */
+
+/* =========================
+	Mobile
+========================= */
+
+/* Foundation */
+.spotlight {
+	text-align: center;
+	background: url('/app/images/spotlight_bg.png') repeat-x;
+	background-position-y: -20px;
+	background-color: @body-highlight-1;
+	padding: 50px 0px 50px 0px;
+	margin: 0px 0px 40px 0px;
+}
+.spotlight h1 {
+	color: white;
+	font-size: 40px;
+	font-weight: 400;
+	text-transform: uppercase;
+	line-height: 50px;
+}
+.spotlight p {
+	color: white;
+	font-size: 18px;
+	line-height: 28px;
+}
+.spotlight p strong {font-weight: 400; letter-spacing: 1.5px;}
+
+/* =========================
+	Tablet
+========================= */
+@media screen and (min-width: 720px){
+	
+	/* Foundation */
+	.spotlight {padding: 75px 0px 75px 0px;}
+	.spotlight h1 {font-size: 50px; line-height: 60px;}
+	.spotlight p {font-size: 20px; line-height: 30px;}
+	
+}
+
+/* =========================
+	Desktop
+========================= */
+@media screen and (min-width: 1024px){
+	
+	/* Foundation */
+	.spotlight h1 {font-size: 60px; line-height: 70px;}
+	.spotlight p {font-size: 22px; line-height: 32px;}
+	
+}

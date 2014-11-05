@@ -14,11 +14,18 @@
 
 // Header
 @header-bg: #ffffff;
-@header-height: 100px;
+@header-height: 75px;
 @header-color: #474747;
+@header-level-bg: lighten(@navigation-bg, 10%);
 
 // Navigation 
 @navigation-bg: #2A2C2B;
+
+// Search
+@search-bg: #d5d5d5;
+
+// Content
+@create-stack-border-color: #dedede;
 
 // Footer
 
@@ -40,6 +47,13 @@
 	line-height: @font-size + 10px;
 	letter-spacing: 1px;
 	color: darken(@body-text-color, 10%);
+}
+
+// Display
+.rounded-corners(@radius: 5px){
+	-webkit-border-radius: @radius;
+	-moz-border-radius: @radius;
+	border-radius: @radius;
 }
 
 /* =========================================

@@ -40,6 +40,11 @@ DigitalFlash.config(['$routeProvider', function($routeProvider){
 	.when('/manage/:stack_slug', {
         templateUrl: 'views/manage_stack.html',
         controller: 'manageStackCtrl'
-    });
+    })
+    
+    .when('/mode/:stack_name', {
+	    templateUrl: 'views/mode.html',
+	    controller: 'modeCtrl'
+    })
 
 }]);

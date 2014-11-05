@@ -5,8 +5,21 @@ var DigitalFlashCtrls = angular.module('DigitalFlashCtrls', [
 
 // Create Main Controller
 DigitalFlashCtrls.controller('mainCtrl', function($scope, $http, displayStacks){
-
-	$scope.message = 'home';
+	
+	// Spotlight Quotes
+	$http.get('components/json/quotes.json').success(function(data){
+		
+		// Generate Random Index Number
+		var number = Math.floor(Math.random() * data.length);
+		
+		// Store Data Objects into Scope Variables
+		$scope.quote = data[number].quote;
+		$scope.quote_by = data[number].by;
+		
+	});
+	
+	
+	
 
 	$http.get('components/json/test-dictionary.json').success(function(data) {
 		$scope.dictionary = data;
@@ -15,11 +28,19 @@ DigitalFlashCtrls.controller('mainCtrl', function($scope, $http, displayStacks){
 	$scope.stacks = displayStacks();
 });
 
-// Create Create Controller
+
+
+
+
+
+/* ============================================
+				CREATE CONTROLLER
+============================================ */
 DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $routeParams, displayStacks) {
 	
 	// Header Message
-	$scope.message = 'Create a new stack by entering a name and clicking go.';
+	$scope.header = 'Create Stacks';
+	$scope.message = 'Create a new stack by entering a name and clicking on the stack type.'
 
 	// Create Random Stack
 	$scope.createRandomStack = function(input){
@@ -59,8 +80,6 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $rou
 				
 				}
 				
-				console.log(array);
-				
 				// Add Words to Tables
 				for(i = 0; i < array.length; i++){
 					
@@ -78,7 +97,7 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $rou
 		
 	}
 	
-	
+	// Create Custom Stack
 	
 	
 	
@@ -112,6 +131,42 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $rou
 		return refresh;
 	}
 });
+
+
+/* ============================================
+				MODE CONTROLLER
+============================================ */
+DigitalFlashCtrls.controller('modeCtrl', function($scope, $routeParams){
+	
+	// Grab Stack Information from Param
+	var stack_name = $routeParams.stack_name;
+	$scope.stack_name = stack_name;
+	
+	// Header Message
+	$scope.header = 'Choose Game Mode';
+	$scope.message = 'Choose the game mode for ' + stack_name + ' to start playing!';
+	
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Create Manage Controller
 DigitalFlashCtrls.controller('manageCtrl', function($scope, displayStacks){
@@ -244,13 +299,23 @@ DigitalFlash.config(['$routeProvider', function($routeProvider){
 	.when('/manage/:stack_slug', {
         templateUrl: 'views/manage_stack.html',
         controller: 'manageStackCtrl'
-    });
+    })
+    
+    .when('/mode/:stack_name', {
+	    templateUrl: 'views/mode.html',
+	    controller: 'modeCtrl'
+    })
 
 }]);
 
-// Create Digital Flash Module
-var DigitalFlashServices = angular.module('DigitalFlashServices', []);
+/* ============================================
+			DigitalFlash Services
+============================================ */
 
+// Create the Module
+var DigitalFlashServices = angular.module('DigitalFlashServices', ['ngResource']);
+
+// Create Display Stacks
 DigitalFlashServices.factory('displayStacks', function(){
     var stacks = [];
 

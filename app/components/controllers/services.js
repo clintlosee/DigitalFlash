@@ -1,6 +1,11 @@
-// Create Digital Flash Module
-var DigitalFlashServices = angular.module('DigitalFlashServices', []);
+/* ============================================
+			DigitalFlash Services
+============================================ */
 
+// Create the Module
+var DigitalFlashServices = angular.module('DigitalFlashServices', ['ngResource']);
+
+// Create Display Stacks
 DigitalFlashServices.factory('displayStacks', function(){
     var stacks = [];
 

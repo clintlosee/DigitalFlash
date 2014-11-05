@@ -1,0 +1,54 @@
+/* ================================================== 
+	Digital Flash Base CSS
+================================================== */
+
+/* =========================
+	Mobile
+========================= */
+
+/* Foundation */
+.search {margin: 0px 0px 40px 0px;}
+.search input {
+	background: @search-bg;
+	padding: 20px;
+	border: 0px;
+	line-height: 1em;
+	width: 100%;
+	border: 1px solid @search-bg;
+	font-size: 16px;
+	.rounded-corners(5px);
+}
+.search input:focus {outline: none; border: 1px solid @body-highlight-1;}
+
+/* Create Stacks */
+.create-stack {background: white;  text-align: center; padding: 40px 0px 40px 0px;}
+.create-stack .type {border-top: 1px solid @create-stack-border-color; padding: 30px;}
+.create-stack .type:first-child {border-top: 0px; padding-top: 0px;}
+.create-stack .type a {
+	display: block;
+	background: @body-highlight-2;
+	color: white;
+	border: 0px;
+	max-width: 200px;
+	padding: 10px 20px 10px 20px;
+	.rounded-corners(5px);
+	margin: 20px auto 0px auto;
+}
+.create-stack .type a i.fa {margin-left: 10px;}
+.create-stack .type a:hover {background: darken(@body-highlight-2, 10%);}
+
+/* =========================
+	Tablet
+========================= */
+@media screen and (min-width: 720px){
+	
+	/* Create Stacks */
+	.create-stack .type {border-top: 0px; padding: 10px;}
+	.create-stack .type:first-child {padding-top: 10px;}
+	
+}
+
+/* =========================
+	Desktop
+========================= */
+@media screen and (min-width: 1024px){}
