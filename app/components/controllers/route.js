@@ -24,12 +24,6 @@ DigitalFlash.config(['$routeProvider', function($routeProvider){
 		templateUrl: 'views/create.html',
 		controller: 'createCtrl'
 	})
-	
-	// Mode
-	.when('/mode', {
-		templateUrl: 'views/mode.html',
-		controller: 'modeCtrl'
-	})
 
 	// Manage
 	.when('/manage', {
@@ -46,5 +40,10 @@ DigitalFlash.config(['$routeProvider', function($routeProvider){
 	    templateUrl: 'views/mode.html',
 	    controller: 'modeCtrl'
     })
+    
+    .when('/addwords', {
+            templateUrl: 'views/add_words.html',
+            controller: 'addCustomCtrl'
+        });
 
 }]);

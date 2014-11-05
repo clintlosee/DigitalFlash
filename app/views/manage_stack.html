@@ -17,21 +17,24 @@
             </ul>
         </div>
 
-        <div>
-            <button class="text-center"  ng-click=""><i class="fa fa-plus"> Add Custom Word</i></button>
-            <dl class="hidden">
-                <dt>Term:<input id="cus_term" type="text" name="cus_term" ng-model="cus_term" placeholder="Term"></dt>
-                <dd>Defintion:<input id="cus_definition" type="text" name="cus_definition" ng-model="cus_definition" placeholder="Definition"></dd>
-                <dd><button id="add_to_dic" name="add_to_dic" ng-click="addToDic(cus_term, cus_definition)" >Add to Dictionary</button></dd>
-            </dl>
-        </div>
-        
-
+       <button class="btn text-center"><a id="" href="#/addwords">Add Custom Word</a></button>
+       
+       
+       
+       
+       
+       
+       
         <div class="text-center">Search for Words to Add: <input ng-model="query"></div>
+        <dl ng-repeat="term in entry">
+            <dt ng-model="term.term">{{term.term}}</dt>
+            <dd ng-model="term.definition">{{term.definition}}</dd>
+            <dd><button ng-click="addCustomWord(term.term, term.definition)" class="btn">Add Word</button></dd>
+        </dl>
         <dl ng-repeat="term in dictionary | filter:query">
             <dt ng-model="term">{{ term.term }}</dt>
             <dd>{{ term.definition }}</dd>
-            <dd><button ng-click="addWord(term)">Add Word</button></dd>
+            <dd><button ng-click="addWord(term)" class="btn">Add Word</button></dd>
         </dl>
     </div>
 </div>

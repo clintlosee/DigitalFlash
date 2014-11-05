@@ -1,0 +1,35 @@
+<!-- Spotlight -->
+<div class="spotlight">
+	<div class="container-fluid">
+		<p>{{message}}</p>
+		<p><strong>{{message2}}</strong></p>
+	</div>
+</div>
+
+
+<div class="container">
+    <div class="col-md-10 col-md-offset-1">
+
+        <div>
+            <input id="cus_term" type="text" name="cus_term" ng-model="cus_term" placeholder="Term" >
+            <input id="cus_def" type="text" name="cus_def" ng-model="cus_def" placeholder="Definition" >
+            <button class="btn" id="add_to_dic" name="add_to_dic" ng-click="addToDict(cus_term, cus_def)" >Add to Dictionary</button>
+
+            <div data-ng-repeat="enty in data">{{term.cus_term}}</div>
+
+
+        </div>
+        <div>Search: <input ng-model="query"></div>
+        <div class="col-md-10" >
+            <dl ng-repeat="term in entry">
+                <dt>{{term.term}}</dt>
+                <dd>{{term.definition}}</dd>
+            </dl>
+            <dl ng-repeat="term in dictionary | filter:query">
+                <dt>{{ term.term }}</dt>
+                <dd>{{ term.definition }}</dd>
+            </dl>
+        </div>
+
+    </div>
+</div>

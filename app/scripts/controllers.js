@@ -1,6 +1,6 @@
 // Create Controllers Angular Module
 var DigitalFlashCtrls = angular.module('DigitalFlashCtrls', [
-	'DigitalFlashServices',
+	'DigitalFlashServices'
 ]);
 
 // Create Main Controller
@@ -40,7 +40,7 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $rou
 	
 	// Header Message
 	$scope.header = 'Create Stacks';
-	$scope.message = 'Create a new stack by entering a name and clicking on the stack type.'
+	$scope.message = 'Create a new stack by entering a name and clicking on the stack type.';
 
 	// Create Random Stack
 	$scope.createRandomStack = function(input){
@@ -230,32 +230,45 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 		})();
 
 		return refresh;
+	
 	}
+
+	
 });
 
-DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window) {
+DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window, $http) {
 
-//    var dictionary = new customDictionary("dictionary", localStorage);
+    $scope.message = 'Add Words';
+    $scope.message2 = 'Add your own words to the dictionary';
 
+    $http.get('components/json/test-dictionary.json').success(function(data) {
+        $scope.dictionary = data;
+    });
 
-    $scope.addToDic = function (cus_term, cus_definition) {
-        var new_cus_term = cus_term.replace(/ /g, "_");
-        var new_cus_definition = cus_definition.replace(/ /g,"_");
+    var custom;
+    custom = new localStorageDB("cus_dict", localStorage);
+    if ( custom.isNew() )  {
+        custom.createTable("entry", ["term", "definition"]);
+    }
 
-        var term = new localStorageDB(new_cus_term, new_cus_definition, localStorage);
+    $scope.addToDict = function (cus_term, cus_def) {
+        custom.insert("entry", {term: cus_term, definition: cus_def});
+        custom.commit();
+        //end if
 
-        if (term.isNew()) {
-            term.createTable("terms", ["term", "definition"]);
-            term.commit();
-        }
-
-        var refresh = (function () {
+        var refresh = (function() {
             $window.location.reload();
         })();
 
         return refresh;
-    }
-});
+
+
+    } // end add to dic
+
+
+    $scope.entry = custom.query("entry");
+
+}); // end addCustom controller
 
 // Create Digital Flash Module
 var DigitalFlash = angular.module('DigitalFlash', [
@@ -283,12 +296,6 @@ DigitalFlash.config(['$routeProvider', function($routeProvider){
 		templateUrl: 'views/create.html',
 		controller: 'createCtrl'
 	})
-	
-	// Mode
-	.when('/mode', {
-		templateUrl: 'views/mode.html',
-		controller: 'modeCtrl'
-	})
 
 	// Manage
 	.when('/manage', {
@@ -305,6 +312,11 @@ DigitalFlash.config(['$routeProvider', function($routeProvider){
 	    templateUrl: 'views/mode.html',
 	    controller: 'modeCtrl'
     })
+    
+    .when('/addwords', {
+            templateUrl: 'views/add_words.html',
+            controller: 'addCustomCtrl'
+        });
 
 }]);
 
