@@ -1,3 +1,12 @@
+// Create Digital Flash Module
+var DigitalFlash = angular.module('DigitalFlash', [
+	'ngRoute',
+	'ngAnimate',
+	
+	'DigitalFlashCtrls',
+	'DigitalFlashServices'
+]);
+
 // Configure Routes
 DigitalFlash.config(['$routeProvider', function($routeProvider){
 
@@ -15,6 +24,12 @@ DigitalFlash.config(['$routeProvider', function($routeProvider){
 		templateUrl: 'views/create.html',
 		controller: 'createCtrl'
 	})
+	
+	// Mode
+	.when('/mode', {
+		templateUrl: 'views/mode.html',
+		controller: 'modeCtrl'
+	})
 
 	// Manage
 	.when('/manage', {
@@ -25,6 +40,11 @@ DigitalFlash.config(['$routeProvider', function($routeProvider){
 	.when('/manage/:stack_slug', {
         templateUrl: 'views/manage_stack.html',
         controller: 'manageStackCtrl'
-    });
+    })
+    
+    .when('/mode/:stack_name', {
+	    templateUrl: 'views/mode.html',
+	    controller: 'modeCtrl'
+    })
 
 }]);

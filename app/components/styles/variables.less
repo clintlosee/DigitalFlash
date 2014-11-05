@@ -1,14 +1,78 @@
-// Variables
-// --------------------------
+/* =========================================
+	Digital Flash Variables
+========================================= */
 
-@fa-font-path:        "/app/resources/fonts";
-//@fa-font-path:        "//netdna.bootstrapcdn.com/font-awesome/4.2.0/fonts"; // for referencing Bootstrap CDN font files directly
-@fa-css-prefix:       fa;
-@fa-version:          "4.2.0";
-@fa-border-color:     #eee;
-@fa-inverse:          #fff;
-@fa-li-width:         (30em / 14);
+// --------------- Variables
 
+// Directories
+
+// Body
+@body-bg: #eeeeee;
+@body-text-color: #666666;
+@body-highlight-1: #a265e2;
+@body-highlight-2: #fc6047;
+
+// Header
+@header-bg: #ffffff;
+@header-height: 75px;
+@header-color: #474747;
+@header-level-bg: lighten(@navigation-bg, 10%);
+
+// Navigation 
+@navigation-bg: #2A2C2B;
+
+// Search
+@search-bg: #d5d5d5;
+
+// Content
+@create-stack-border-color: #dedede;
+
+// Footer
+
+// --------------- Mixins
+
+// Typography
+.type-paragraph(@font-size: 13px; @font-weight: 200){
+	font-family: "Helvetica Neue", Helvetica, Arial;
+	font-weight: @font-weight;
+	font-size: @font-size;
+	line-height: @font-size + 10px;
+	letter-spacing: 0.5px;
+	color: @body-text-color;
+}
+.type-header(@font-size: 38px; @font-weight: 500){
+	font-family: "Helvetica Neue", Helvetica, Arial;
+	font-weight: @font-weight;
+	font-size: @font-size;
+	line-height: @font-size + 10px;
+	letter-spacing: 1px;
+	color: darken(@body-text-color, 10%);
+}
+
+// Display
+.rounded-corners(@radius: 5px){
+	-webkit-border-radius: @radius;
+	-moz-border-radius: @radius;
+	border-radius: @radius;
+}
+
+/* =========================================
+	Font Awesome Variables
+========================================= */
+
+// Directories
+@fa-font-path: "/app/resources/fonts";
+
+// Colors
+@fa-border-color: #eeeeee;
+@fa-inverse: #ffffff;
+
+// Other
+@fa-css-prefix: fa;
+@fa-version: "4.2.0";
+@fa-li-width: (30em / 14);
+
+// Content
 @fa-var-adjust: "\f042";
 @fa-var-adn: "\f170";
 @fa-var-align-center: "\f037";
@@ -558,4 +622,3 @@
 @fa-var-youtube: "\f167";
 @fa-var-youtube-play: "\f16a";
 @fa-var-youtube-square: "\f166";
-

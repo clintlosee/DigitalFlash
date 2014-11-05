@@ -1,80 +1,50 @@
-/* app css stylesheet */
+/* ================================================== 
+	Digital Flash Base CSS
+================================================== */
 
-.menu {
-  list-style: none;
-  border-bottom: 0.1em solid black;
-  margin-bottom: 2em;
-  padding: 0 0 0.5em;
+/* =========================
+	Mobile
+========================= */
+
+/* Fixes */
+.clear {clear: both;}
+
+/* Wrappers */
+body {background: @body-bg; .type-paragraph();}
+.app-wrapper {display: block; height: 100%; width: 100%;}
+.app-wrapper.clicked {margin-left: -70%}
+
+/* Typography */
+p {padding: 0px 0px 0px 0px; margin: 0px 0px 7px 0px;}
+h1 {.type-header(38px; 600); padding: 0px 0px 0px 0px; margin: 0px 0px 10px 0px;}
+h2 {.type-header(34px; 600); padding: 0px 0px 0px 0px; margin: 0px 0px 10px 0px;}
+h3 {.type-header(30px; 500); padding: 0px 0px 0px 0px; margin: 0px 0px 10px 0px;}
+h4 {.type-header(26px; 500); padding: 0px 0px 0px 0px; margin: 0px 0px 10px 0px;}
+h5 {.type-header(22px; 400); padding: 0px 0px 0px 0px; margin: 0px 0px 10px 0px;}
+h6 {.type-header(18px; 400); padding: 0px 0px 0px 0px; margin: 0px 0px 10px 0px;}
+
+/* Links */
+a {text-decoration: none; color: @body-highlight-2;}
+a:hover {color: darken(@body-highlight-2, 10%); text-decoration: none;}
+
+/* =========================
+	Tablet
+========================= */
+@media screen and (min-width: 720px){
+	
+	/* Wrappers */
+	.container-fluid {max-width: 85%;}
+	.app-wrapper.clicked {margin-left: -30%;}
+	
 }
 
-.menu:before {
-  content: "[";
-}
-
-.menu:after {
-  content: "]";
-}
-
-.menu > li {
-  display: inline;
-}
-
-.menu > li:before {
-  content: "|";
-  padding-right: 0.3em;
-}
-
-.menu > li:nth-child(1):before {
-  content: "";
-  padding: 0;
-}
-
-/*button{
-  color: @orange;
-  color: ff5f40;
-}*/
-
-/* Save Stack Input */
-#stack_name {
-    .Centered(0, 0);
-}
-
-#create_stack {
-    .Centered(10px, 10px);
-}
-
-.stacks_list h3 {
-  color:#ff4400;
-}
-
-.Centered (@top, @bottom) {
-    display: block;
-    margin: @top auto @bottom auto;
-}
-
-/* Display Stacks */
-.search_stacks input {
-  height:70px;
-  border:1px solid #ddd;
-  background-color:#eee;
-  text-transform:uppercase;
-  font-size:1.7em;
-  font-weight:bold;
-}
-
-.stacks_list {
-
-}
-ul.stacks_list li {
-  background:url("../components/img/box_closed.png") #fff no-repeat;
-  width:202px;
-  height:202px;
-  margin: 0px;
-  padding: 0px;
-}
-
-
-.stacks_list li h3 a {
-  position:relative;
-  top:140px;
+/* =========================
+	Desktop
+========================= */
+@media screen and (min-width: 1024px){
+	
+	/* Wrappers */
+	.container-fluid {max-width: 1200px;}
+	.app-wrapper.clicked {margin-left: 0%;}
+	
 }
