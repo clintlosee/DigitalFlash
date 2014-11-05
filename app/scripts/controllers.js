@@ -64,6 +64,11 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 
 		stackDB.commit();
 
+	$scope.message = 'manage';
+	
+});
+
+
 		var refresh = (function() {
 			$window.location.reload();
 		})();
@@ -101,7 +106,6 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 		return refresh;
 	}
 });
-
 // Configure Routes
 DigitalFlash.config(['$routeProvider', function($routeProvider){
 
