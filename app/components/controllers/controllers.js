@@ -4,20 +4,112 @@ var DigitalFlashCtrls = angular.module('DigitalFlashCtrls', [
 ]);
 
 // Create Main Controller
-DigitalFlashCtrls.controller('mainCtrl', function($scope, $http){
-
-	$scope.message = 'home';
+DigitalFlashCtrls.controller('mainCtrl', function($scope, $http, displayStacks){
+	
+	// Spotlight Quotes
+	$http.get('components/json/quotes.json').success(function(data){
+		
+		// Generate Random Index Number
+		var number = Math.floor(Math.random() * data.length);
+		
+		// Store Data Objects into Scope Variables
+		$scope.quote = data[number].quote;
+		$scope.quote_by = data[number].by;
+		
+	});
+	
+	
+	
 
 	$http.get('components/json/test-dictionary.json').success(function(data) {
 		$scope.dictionary = data;
 	});
 
+	$scope.stacks = displayStacks();
 });
 
-// Create Create Controller
-DigitalFlashCtrls.controller('createCtrl', function($scope, $window, displayStacks) {
 
-	$scope.message = 'Create a new stack by entering a name and clicking go.';
+
+
+
+
+/* ============================================
+				CREATE CONTROLLER
+============================================ */
+DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $routeParams, displayStacks) {
+	
+	// Header Message
+	$scope.header = 'Create Stacks';
+	$scope.message = 'Create a new stack by entering a name and clicking on the stack type.'
+
+	// Create Random Stack
+	$scope.createRandomStack = function(input){
+		
+		// Grab New Name
+		var name = input.replace(/ /g, "_");
+		
+		// Create New Local Storage Database
+		var stack = new localStorageDB(name, localStorage);
+		
+		// Only Apply if Stack is New
+		if(stack.isNew()){
+			
+			// Create Table
+			stack.createTable("words", ["word", "definition"]);
+			
+			// Commit Table
+			stack.commit();
+			
+			// Populate Table With Random Words
+			$http.get('components/json/test-dictionary.json').success(function(data) {
+				
+				// Put Data into Variable Scope
+				$scope.data = data;
+				
+				// Create Number Array
+				var array = [];
+				
+				// Push Random Index Numbers to Array
+				while(array.length < 10){
+				
+					// Generate Random Number
+					var number = Math.floor(Math.random() * data.length);	
+					
+					// Only Push to Array if Number Doesn't Exist
+					if($.inArray(number, array) == -1){array.push(number);}
+				
+				}
+				
+				// Add Words to Tables
+				for(i = 0; i < array.length; i++){
+					
+					// Insert Random Term
+					stack.insert("words", {word: data[array[i]].term, definition: data[array[i]].definition});
+					
+				}
+				
+				// Commit Table
+				stack.commit();
+				
+			});
+					
+		}
+		
+	}
+	
+	// Create Custom Stack
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	$scope.stacks = displayStacks();
 
@@ -39,6 +131,42 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $window, displayStac
 		return refresh;
 	}
 });
+
+
+/* ============================================
+				MODE CONTROLLER
+============================================ */
+DigitalFlashCtrls.controller('modeCtrl', function($scope, $routeParams){
+	
+	// Grab Stack Information from Param
+	var stack_name = $routeParams.stack_name;
+	$scope.stack_name = stack_name;
+	
+	// Header Message
+	$scope.header = 'Choose Game Mode';
+	$scope.message = 'Choose the game mode for ' + stack_name + ' to start playing!';
+	
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Create Manage Controller
 DigitalFlashCtrls.controller('manageCtrl', function($scope, displayStacks){
@@ -65,8 +193,6 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 		stackDB.commit();
 
 	$scope.message = 'manage';
-	
-});
 
 
 		var refresh = (function() {
@@ -105,4 +231,28 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 
 		return refresh;
 	}
+});
+
+DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window) {
+
+//    var dictionary = new customDictionary("dictionary", localStorage);
+
+
+    $scope.addToDic = function (cus_term, cus_definition) {
+        var new_cus_term = cus_term.replace(/ /g, "_");
+        var new_cus_definition = cus_definition.replace(/ /g,"_");
+
+        var term = new localStorageDB(new_cus_term, new_cus_definition, localStorage);
+
+        if (term.isNew()) {
+            term.createTable("terms", ["term", "definition"]);
+            term.commit();
+        }
+
+        var refresh = (function () {
+            $window.location.reload();
+        })();
+
+        return refresh;
+    }
 });

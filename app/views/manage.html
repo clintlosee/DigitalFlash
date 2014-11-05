@@ -4,13 +4,14 @@
     <p>{{ message }}</p>
 </div>
 
-<div id="container">
-    <div class="col-md-10 col-md-offset-1 text-center">
-        <ul class="stacks">
-            <li ng-repeat="stack in stacks track by $index">
+<div class="container">
+    <div class="stack_box col-md-12 text-center">
+        <ul class="stacks_list clearfix">
+            <li class="col-md-3 text-center" ng-repeat="stack in stacks track by $index">
                 <h3><a href="/app/#/manage/{{ stack.slug }}">{{ stack.name }}</a></h3>
             </li>
         </ul>
+
     </div>
 </div>
 

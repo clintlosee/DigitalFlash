@@ -1,15 +1,37 @@
-<div class="jumbotron text-center">
-	<h1>Home Page</h1>
-
-	<p>{{ message }}</p>
+<!-- Spotlight -->
+<div class="spotlight">
+	<div class="container-fluid">
+		<p>{{quote}}</p>
+		<p><strong>{{quote_by}}</strong></p>
+	</div>
 </div>
 
-<div class="container">
-	<div>Search: <input ng-model="query"></div>
-	<div class="col-md-10">
-		<dl ng-repeat="term in dictionary | filter:query">
-			<dt>{{ term.term }}</dt>
-			<dd>{{ term.definition }}</dd>
-		</dl>
+<!-- Search -->
+<div class="search">
+	<div class="container-fluid">
+		<input class="col-md-12" ng-model="query" placeholder="Search Stacks">
 	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="container">
+
+	<div class="stack_box">
+
+			<ul class="col-md-12 stacks_list clearfix">
+					<li class="col-md-3 text-center" ng-repeat="stack in stacks | filter:query">
+							<h3><a href="">{{ stack.name }}</a></h3>
+					</li>
+			</ul>
+
+	</div>
+
 </div>
