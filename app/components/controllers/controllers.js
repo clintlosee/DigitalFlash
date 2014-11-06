@@ -192,15 +192,24 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 
 		stackDB.commit();
 
-	$scope.message = 'manage';
-
-
 		var refresh = (function() {
 			$window.location.reload();
 		})();
 
 		return refresh;
 	}
+
+    $scope.addCustomWord = function(term, definition) {
+        stackDB.insert("words", {word: term, definition: definition});
+
+        stackDB.commit();
+
+        var refresh = (function() {
+            $window.location.reload();
+        })();
+
+        return refresh;
+    }
 
 	$scope.words = stackDB.query("words");
 
@@ -230,10 +239,14 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 		})();
 
 		return refresh;
-
 	}
 
+    var custom = localStorageDB("cus_dict", localStorage);
+    if (custom.isNew()){
+        custom.createTable("entry", ["term", "definition"]);
+    }
 
+    $scope.entry = custom.query("entry");
 });
 
 DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window, $http) {
