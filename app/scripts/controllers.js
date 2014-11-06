@@ -5,21 +5,21 @@ var DigitalFlashCtrls = angular.module('DigitalFlashCtrls', [
 
 // Create Main Controller
 DigitalFlashCtrls.controller('mainCtrl', function($scope, $http, displayStacks){
-	
+
 	// Spotlight Quotes
 	$http.get('components/json/quotes.json').success(function(data){
-		
+
 		// Generate Random Index Number
 		var number = Math.floor(Math.random() * data.length);
-		
+
 		// Store Data Objects into Scope Variables
 		$scope.quote = data[number].quote;
 		$scope.quote_by = data[number].by;
-		
+
 	});
-	
-	
-	
+
+
+
 
 	$http.get('components/json/test-dictionary.json').success(function(data) {
 		$scope.dictionary = data;
@@ -37,79 +37,79 @@ DigitalFlashCtrls.controller('mainCtrl', function($scope, $http, displayStacks){
 				CREATE CONTROLLER
 ============================================ */
 DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $routeParams, displayStacks) {
-	
+
 	// Header Message
 	$scope.header = 'Create Stacks';
 	$scope.message = 'Create a new stack by entering a name and clicking on the stack type.';
 
 	// Create Random Stack
 	$scope.createRandomStack = function(input){
-		
+
 		// Grab New Name
 		var name = input.replace(/ /g, "_");
-		
+
 		// Create New Local Storage Database
 		var stack = new localStorageDB(name, localStorage);
-		
+
 		// Only Apply if Stack is New
 		if(stack.isNew()){
-			
+
 			// Create Table
 			stack.createTable("words", ["word", "definition"]);
-			
+
 			// Commit Table
 			stack.commit();
-			
+
 			// Populate Table With Random Words
 			$http.get('components/json/test-dictionary.json').success(function(data) {
-				
+
 				// Put Data into Variable Scope
 				$scope.data = data;
-				
+
 				// Create Number Array
 				var array = [];
-				
+
 				// Push Random Index Numbers to Array
 				while(array.length < 10){
-				
+
 					// Generate Random Number
-					var number = Math.floor(Math.random() * data.length);	
-					
+					var number = Math.floor(Math.random() * data.length);
+
 					// Only Push to Array if Number Doesn't Exist
 					if($.inArray(number, array) == -1){array.push(number);}
-				
+
 				}
-				
+
 				// Add Words to Tables
 				for(i = 0; i < array.length; i++){
-					
+
 					// Insert Random Term
 					stack.insert("words", {word: data[array[i]].term, definition: data[array[i]].definition});
-					
+
 				}
-				
+
 				// Commit Table
 				stack.commit();
-				
+
 			});
-					
+
 		}
-		
+
 	}
-	
+
 	// Create Custom Stack
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
 
 	$scope.stacks = displayStacks();
 
@@ -137,15 +137,15 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $rou
 				MODE CONTROLLER
 ============================================ */
 DigitalFlashCtrls.controller('modeCtrl', function($scope, $routeParams){
-	
+
 	// Grab Stack Information from Param
 	var stack_name = $routeParams.stack_name;
 	$scope.stack_name = stack_name;
-	
+
 	// Header Message
 	$scope.header = 'Choose Game Mode';
 	$scope.message = 'Choose the game mode for ' + stack_name + ' to start playing!';
-	
+
 });
 
 
@@ -230,10 +230,10 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 		})();
 
 		return refresh;
-	
+
 	}
 
-	
+
 });
 
 DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window, $http) {
@@ -249,6 +249,7 @@ DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window, $http) {
     custom = new localStorageDB("cus_dict", localStorage);
     if ( custom.isNew() )  {
         custom.createTable("entry", ["term", "definition"]);
+				custom.commit();
     }
 
     $scope.addToDict = function (cus_term, cus_def) {
@@ -332,18 +333,24 @@ DigitalFlashServices.factory('displayStacks', function(){
     var stacks = [];
 
     return function() {
-		var stacks = [];
+    var stacks = [];
 
-		for(var i = 0; i < localStorage.length; i++) {
-			var stackKey = localStorage.key(i);
-			var stack_name = stackKey.replace("db_", "").replace(/_/g, " ");
-			var stack_slug = stackKey.replace("db_", "");
+    for(var i = 0; i < localStorage.length; i++) {
+      var stackKey = localStorage.key(i);
 
-			stack_array = {"name": stack_name, "slug": stack_slug}
+            if ( stackKey == "db_cus_dict") {
+                continue;
+            }
+            else {
+                var stack_name = stackKey.replace("db_", "").replace(/_/g, " ");
+                var stack_slug = stackKey.replace("db_", "");
 
-			stacks.push(stack_array);
-		}
+                stack_array = {"name": stack_name, "slug": stack_slug}
 
-		return stacks;
+                stacks.push(stack_array);
+            }
+    }
+
+    return stacks;
     };
 });

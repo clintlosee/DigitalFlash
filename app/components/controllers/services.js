@@ -10,18 +10,24 @@ DigitalFlashServices.factory('displayStacks', function(){
     var stacks = [];
 
     return function() {
-		var stacks = [];
+    var stacks = [];
 
-		for(var i = 0; i < localStorage.length; i++) {
-			var stackKey = localStorage.key(i);
-			var stack_name = stackKey.replace("db_", "").replace(/_/g, " ");
-			var stack_slug = stackKey.replace("db_", "");
+    for(var i = 0; i < localStorage.length; i++) {
+      var stackKey = localStorage.key(i);
 
-			stack_array = {"name": stack_name, "slug": stack_slug}
+            if ( stackKey == "db_cus_dict") {
+                continue;
+            }
+            else {
+                var stack_name = stackKey.replace("db_", "").replace(/_/g, " ");
+                var stack_slug = stackKey.replace("db_", "");
 
-			stacks.push(stack_array);
-		}
+                stack_array = {"name": stack_name, "slug": stack_slug}
 
-		return stacks;
+                stacks.push(stack_array);
+            }
+    }
+
+    return stacks;
     };
 });
