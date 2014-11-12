@@ -9,6 +9,7 @@
         <ul class="stacks_list clearfix">
             <li class="col-md-3 text-center" ng-repeat="stack in stacks track by $index">
                 <h3><a href="/app/#/manage/{{ stack.slug }}">{{ stack.name }}</a></h3>
+                <button name="button" ng-click="deleteStack()">delete stack</button>
             </li>
         </ul>
 

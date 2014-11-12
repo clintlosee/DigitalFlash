@@ -147,7 +147,7 @@ DigitalFlashCtrls.controller('modeCtrl', function($scope, $routeParams){
 			];
 
 			points.createTableWithData("levels", rows);
-			
+
 			// create a table for current user points
 			points.createTable("user_points", ["points"])
 
@@ -157,13 +157,29 @@ DigitalFlashCtrls.controller('modeCtrl', function($scope, $routeParams){
 });
 
 
-
-// Create Manage Controller
+/* ============================================
+				CREATE-MANAGE CONTROLLER
+============================================ */
 DigitalFlashCtrls.controller('manageCtrl', function($scope, displayStacks){
 
 	$scope.message = 'Choose a stack to edit.';
 
 	$scope.stacks = displayStacks();
+
+	$scope.deleteStack = function() {
+
+		var stack_slug = $scope.stacks[0].slug
+		var stackDB = localStorageDB(stack_slug, localStorage);
+
+		//console.log($scope.stacks[0].slug)
+		if (confirm("Are you sure you want to delete this stack?") == true) {
+			stackDB.drop();
+			window.location.reload();
+		}
+		else {
+			return false;
+		}
+	}
 
 });
 
