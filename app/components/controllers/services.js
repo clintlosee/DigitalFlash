@@ -15,7 +15,7 @@ DigitalFlashServices.factory('displayStacks', function(){
     for(var i = 0; i < localStorage.length; i++) {
       var stackKey = localStorage.key(i);
 
-            if ( stackKey == "db_cus_dict") {
+            if ( stackKey == "db_cus_dict" || stackKey == "db_points"){
                 continue;
             }
             else {
