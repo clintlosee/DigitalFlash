@@ -18,9 +18,6 @@ DigitalFlashCtrls.controller('mainCtrl', function($scope, $http, displayStacks){
 
 	});
 
-
-
-
 	$http.get('components/json/test-dictionary.json').success(function(data) {
 		$scope.dictionary = data;
 	});
@@ -99,18 +96,6 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $rou
 
 	// Create Custom Stack
 
-
-
-
-
-
-
-
-
-
-
-
-
 	$scope.stacks = displayStacks();
 
 	$scope.createStack = function(stack_name) {
@@ -146,25 +131,30 @@ DigitalFlashCtrls.controller('modeCtrl', function($scope, $routeParams){
 	$scope.header = 'Choose Game Mode';
 	$scope.message = 'Choose the game mode for ' + stack_name + ' to start playing!';
 
+	$scope.addPoints = function() {
+		// create the user points database
+		var points = new localStorageDB("points", localStorage);
+
+		// if this is the first time the points database is being accessed, create the levels and user points tables
+		if ( points.isNew() ) {
+			// create a table for levels and populate with data
+			var rows = [
+				{level: "1", required_points: "100"},
+				{level: "2", required_points: "200"},
+				{level: "3", required_points: "300"},
+				{level: "4", required_points: "400"},
+				{level: "5", required_points: "500"},
+			];
+
+			points.createTableWithData("levels", rows);
+			
+			// create a table for current user points
+			points.createTable("user_points", ["points"])
+
+			points.commit();
+		}
+	}
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -232,6 +222,7 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 
 		stackDB.deleteRows("words",{word:word.word});
 
+		// Commit the changes to the database. Without this, the app will break.
 		stackDB.commit();
 
 		var refresh = (function() {
@@ -242,8 +233,11 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 	}
 
     var custom = localStorageDB("cus_dict", localStorage);
-    if (custom.isNew()){
+    if ( custom.isNew() ){
         custom.createTable("entry", ["term", "definition"]);
+
+		// Commit the changes to the database. Without this, the app will break.
+		custom.commit();
     }
 
     $scope.entry = custom.query("entry");
