@@ -193,14 +193,19 @@ DigitalFlashCtrls.controller('manageCtrl', function($scope, displayStacks){
 
 	$scope.message = 'Choose a stack to edit.';
 
+	// Display saved stacks from localstorage database
 	$scope.stacks = displayStacks();
 
+	// Function to delete stacks
 	$scope.deleteStack = function() {
 
+		// Access stack slug name from object and save into variable
 		var stack_slug = $scope.stacks[0].slug
+
+		// Create variable to access localstorage database
 		var stackDB = localStorageDB(stack_slug, localStorage);
 
-		//console.log($scope.stacks[0].slug)
+		// Confirm deletion of stack or cancel
 		if (confirm("Are you sure you want to delete this stack?") == true) {
 			stackDB.drop();
 			window.location.reload();
