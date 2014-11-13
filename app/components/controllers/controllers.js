@@ -18,9 +18,6 @@ DigitalFlashCtrls.controller('mainCtrl', function($scope, $http, displayStacks){
 
 	});
 
-
-
-
 	$http.get('components/json/test-dictionary.json').success(function(data) {
 		$scope.dictionary = data;
 	});
@@ -99,18 +96,6 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $rou
 
 	// Create Custom Stack
 
-
-
-
-
-
-
-
-
-
-
-
-
 	$scope.stacks = displayStacks();
 
 	$scope.createStack = function(stack_name) {
@@ -136,7 +121,7 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $rou
 /* ============================================
 				MODE CONTROLLER
 ============================================ */
-DigitalFlashCtrls.controller('modeCtrl', function($scope, $routeParams){
+DigitalFlashCtrls.controller('modeCtrl', function($scope, $routeParams, $window){
 
 	// Grab Stack Information from Param
 	var stack_name = $routeParams.stack_name;
@@ -146,25 +131,59 @@ DigitalFlashCtrls.controller('modeCtrl', function($scope, $routeParams){
 	$scope.header = 'Choose Game Mode';
 	$scope.message = 'Choose the game mode for ' + stack_name + ' to start playing!';
 
+	// create the user points database
+	var points = new localStorageDB("points", localStorage);
+
+	// if this is the first time the points database is being accessed, create the levels and user points tables
+	if ( points.isNew() ) {
+		// create a table for levels and populate with data
+		var level_rows = [
+			{level: "1", required_points: "100"},
+			{level: "2", required_points: "200"},
+			{level: "3", required_points: "300"},
+			{level: "4", required_points: "400"},
+			{level: "5", required_points: "500"},
+		];
+
+		points.createTableWithData("levels", level_rows);
+
+		// create a table for current user points
+		var user_point_rows = [
+			{points: 0},
+		];
+
+		points.createTableWithData("user_points", user_point_rows);
+
+		points.commit();
+	}
+
+	var current_points = points.query("user_points", {ID: "1"});
+	var current_points_json = JSON.stringify(current_points);
+	var current_points_data = JSON.parse(current_points_json);
+	var display_points = current_points_data[0].points;
+
+	console.log(display_points);
+
+	$("#level").css("padding-right", display_points);
+	$("#points").html(display_points);
+
+	$scope.addPoints = function() {
+		points.insertOrUpdate("user_points", {ID: "1"}, { ID: "1",
+				points: display_points + 10,
+		});
+
+		points.commit();
+
+		$("#level").css("padding-right", display_points);
+		$("#points").html(display_points);
+
+		var refresh = (function() {
+			$window.location.reload();
+		})();
+
+		return refresh;
+	}
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -232,6 +251,7 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 
 		stackDB.deleteRows("words",{word:word.word});
 
+		// Commit the changes to the database. Without this, the app will break.
 		stackDB.commit();
 
 		var refresh = (function() {
@@ -242,8 +262,11 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 	}
 
     var custom = localStorageDB("cus_dict", localStorage);
-    if (custom.isNew()){
+    if ( custom.isNew() ){
         custom.createTable("entry", ["term", "definition"]);
+
+		// Commit the changes to the database. Without this, the app will break.
+		custom.commit();
     }
 
     $scope.entry = custom.query("entry");
