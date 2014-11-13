@@ -249,6 +249,14 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
     $scope.entry = custom.query("entry");
 });
 
+
+
+
+
+/* ============================================
+				ADD CUSTOM CONTROLLER
+============================================ */
+
 DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window, $http) {
 
     $scope.message = 'Add Words';
@@ -258,6 +266,7 @@ DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window, $http) {
         $scope.dictionary = data;
     });
 
+		//creates 'custom' database and 'entry' table
     var custom;
     custom = new localStorageDB("cus_dict", localStorage);
     if ( custom.isNew() )  {
@@ -265,21 +274,24 @@ DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window, $http) {
 				custom.commit();
     }
 
+		// inserts user data into 'entry' table
     $scope.addToDict = function (cus_term, cus_def) {
         custom.insert("entry", {term: cus_term, definition: cus_def});
         custom.commit();
-        //end if
+			}//end if
 
+				// reloads page
         var refresh = (function() {
             $window.location.reload();
         })();
 
+				//call reload function
         return refresh;
 
 
     } // end add to dic
 
-
+		// adds search functionality to page
     $scope.entry = custom.query("entry");
 
 }); // end addCustom controller
