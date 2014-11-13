@@ -48,7 +48,7 @@ a:hover {color: darken(@body-highlight-2, 10%); text-decoration: none;}
 	.app-wrapper.clicked {margin-left: 0%;}
 	
 }
-/* ================================================== 
+/* ==================================================
 	Digital Flash Base CSS
 ================================================== */
 
@@ -87,21 +87,24 @@ a:hover {color: darken(@body-highlight-2, 10%); text-decoration: none;}
 .create-stack .type a i.fa {margin-left: 10px;}
 .create-stack .type a:hover {background: darken(@body-highlight-2, 10%);}
 
+
+
 /* =========================
 	Tablet
 ========================= */
 @media screen and (min-width: 720px){
-	
+
 	/* Create Stacks */
 	.create-stack .type {border-top: 0px; padding: 10px;}
 	.create-stack .type:first-child {padding-top: 10px;}
-	
+
 }
 
 /* =========================
 	Desktop
 ========================= */
 @media screen and (min-width: 1024px){}
+
 /* ================================================== 
 	Digital Flash Footer CSS
 ================================================== */
@@ -365,14 +368,32 @@ ul.stacks_list li {
   background:url("../components/img/box_closed.png") #fff no-repeat;
   width:202px;
   height:202px;
-  margin: 0px;
+  margin: 0px 10px;
   padding: 0px;
 }
-
-
 .stacks_list li h3 a {
   position:relative;
   top:140px;
+}
+
+// Delete Button
+.stacks_list #deleteBtn {
+  display:none;
+}
+.stacks_list li:hover #deleteBtn {
+  display:block;
+  position:absolute;
+  padding: 10px;
+  top:-20;
+  left:180;
+}
+#deleteBtn i {
+  font-size:30px;
+  color:red;
+}
+#deleteBtn i:hover {
+  color:#666;
+  cursor:pointer;
 }
 
 /* =========================================

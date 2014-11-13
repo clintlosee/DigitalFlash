@@ -22,7 +22,7 @@ DigitalFlashCtrls.controller('mainCtrl', function($scope, $http, displayStacks){
 
 	// ------------------- Display Stacks
 	$scope.stacks = displayStacks();
-	
+
 });
 
 /* ============================================
@@ -88,10 +88,10 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $rou
 		}
 
 	}
-	
+
 	// ------------------- Create Custom Stack
 	$scope.createStack = function(stack_name) {
-		
+
 		// Assign Stack Name
 		var new_stack_name = stack_name.replace(/ /g, "_");
 
@@ -100,22 +100,22 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $rou
 
 		// Only if Stack is New
 		if(stack.isNew()){
-			
+
 			// Create Database Table
 			stack.createTable("words", ["word", "definition"]);
 
 			// Commit Table
 			stack.commit();
-			
+
 		}
-		
+
 		// Window Refresh
         var refresh = (function() {
             $window.location.reload();
         })();  return refresh;
-		
+
 	}
-		
+
 	// ------------------- Display Stacks
 	$scope.stacks = displayStacks();
 
@@ -138,7 +138,7 @@ DigitalFlashCtrls.controller('modeCtrl', function($scope, $routeParams, $window)
 
 	// Only Run if Database is New
 	if(points.isNew()){
-		
+
 		// Create Array: Creating a Table for Levels & Populate With Data
 		var level_rows = [
 			{level: "1", required_points: "100"},
@@ -161,7 +161,7 @@ DigitalFlashCtrls.controller('modeCtrl', function($scope, $routeParams, $window)
 
 		// Commit Table
 		points.commit();
-		
+
 	}
 
 	// Create Variables
@@ -179,7 +179,7 @@ DigitalFlashCtrls.controller('modeCtrl', function($scope, $routeParams, $window)
 
 	// Temp Button to Add Points
 	$scope.addPoints = function() {
-		
+
 		// Update Table When Button is Pressed
 		points.insertOrUpdate("user_points", {ID: "1"}, { ID: "1",
 				points: display_points + 10,
@@ -199,10 +199,11 @@ DigitalFlashCtrls.controller('modeCtrl', function($scope, $routeParams, $window)
 
 		// Return Refresh
 		return refresh;
-		
+
 	}
-	
+
 });
+
 
 /* ============================================
 				MANAGE CONTROLLER
@@ -212,8 +213,27 @@ DigitalFlashCtrls.controller('manageCtrl', function($scope, displayStacks){
 	// ------------------- Header Messages
 	$scope.message = 'Choose a stack to edit.';
 
-	// ------------------- Dispaly Stacks
+	// Display saved stacks from localstorage database
 	$scope.stacks = displayStacks();
+
+	// Function to delete stacks
+	$scope.deleteStack = function() {
+
+		// Access stack slug name from object and save into variable
+		var stack_slug = $scope.stacks[0].slug
+
+		// Create variable to access localstorage database
+		var stackDB = localStorageDB(stack_slug, localStorage);
+
+		// Confirm deletion of stack or cancel
+		if (confirm("Are you sure you want to delete this stack?") == true) {
+			stackDB.drop();
+			window.location.reload();
+		}
+		else {
+			return false;
+		}
+	}
 
 });
 
@@ -222,7 +242,7 @@ DigitalFlashCtrls.controller('manageCtrl', function($scope, displayStacks){
 ============================================ */
 DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $http, $window){
 
-	// ------------------- Header Messages	
+	// ------------------- Header Messages
 	$scope.message = 'Add words to this stack below';
 
 	// ------------------- Manage Stacks
@@ -233,7 +253,7 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 
 	// Add Word to Stack Function
 	$scope.addWord = function(term) {
-		
+
 		// Insert Words
 		stackDB.insert("words", {word: term.term, definition: term.definition});
 
@@ -244,12 +264,12 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 		var refresh = (function() {
 			$window.location.reload();
 		})();  return refresh;
-		
+
 	}
 
 	// Add Custom Word to Stack Function
     $scope.addCustomWord = function(term, definition) {
-	    
+
 	    // Insert Words
         stackDB.insert("words", {word: term, definition: definition});
 
@@ -260,7 +280,7 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
         var refresh = (function() {
             $window.location.reload();
         })(); return refresh;
-        
+
     }
 
 	// Get Words
@@ -273,26 +293,26 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 
 	// Delete Stack
 	$scope.deleteStack = function() {
-		
+
 		// Confirm Dialog
 		if (confirm("Are you sure you want to delete this stack?") == true) {
-			
+
 			// Drop Database
 			stackDB.drop();
-			
+
 			// Replace URL
 			window.location.replace("/app/#/");
-			
+
 		}
-		
+
 		// Return False
 		else {return false;}
-		
+
 	}
 
 	// Delete Word
 	$scope.deleteWord = function(word) {
-		
+
 		// Print Word in Console
 		console.log(word.word);
 
@@ -306,15 +326,15 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 		var refresh = (function() {
 			$window.location.reload();
 		})(); return refresh;
-		
+
 	}
 
 	// ------------------- Create Custom Dictionary
     var custom = localStorageDB("cus_dict", localStorage);
-    
+
     // Only Run if New
     if(custom.isNew()){
-	    
+
 	    // Create Table
         custom.createTable("entry", ["term", "definition"]);
 
@@ -324,7 +344,7 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 
 	// Add Query to Scope
     $scope.entry = custom.query("entry");
-    
+
 });
 
 /* ============================================
@@ -332,7 +352,7 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 ============================================ */
 DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window, $http) {
 
-	// ------------------- Header Messages	
+	// ------------------- Header Messages
     $scope.message = 'Add Words';  $scope.message2 = 'Add your own words to the dictionary';
 
 	// Fetch Dictionary
@@ -342,24 +362,24 @@ DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window, $http) {
 
 	// Create Custom Variable
     var custom = new localStorageDB("cus_dict", localStorage);
-    
+
     // Only Run if New
     if(custom.isNew()) {
-	    
+
 	    // Create Table
         custom.createTable("entry", ["term", "definition"]);
-        
+
         // Commit Table
 		custom.commit();
-		
+
     }
 
 	// Add Word to Dictionary
     $scope.addToDict = function (cus_term, cus_def) {
-	    
+
 	    // Insert into Table
         custom.insert("entry", {term: cus_term, definition: cus_def});
-        
+
         // Commit Insert
         custom.commit();
 
@@ -369,11 +389,12 @@ DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window, $http) {
         })();  return refresh;
 
     }
-	
+
 	// Add Query to Scope
     $scope.entry = custom.query("entry");
 
 });
+
 // Create Digital Flash Module
 var DigitalFlash = angular.module('DigitalFlash', [
 	'ngRoute',
@@ -410,12 +431,12 @@ DigitalFlash.config(['$routeProvider', function($routeProvider){
         templateUrl: 'views/manage_stack.html',
         controller: 'manageStackCtrl'
     })
-    
+
     .when('/mode/:stack_name', {
 	    templateUrl: 'views/mode.html',
 	    controller: 'modeCtrl'
     })
-    
+
     .when('/addwords', {
             templateUrl: 'views/add_words.html',
             controller: 'addCustomCtrl'

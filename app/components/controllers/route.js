@@ -34,12 +34,12 @@ DigitalFlash.config(['$routeProvider', function($routeProvider){
         templateUrl: 'views/manage_stack.html',
         controller: 'manageStackCtrl'
     })
-    
+
     .when('/mode/:stack_name', {
 	    templateUrl: 'views/mode.html',
 	    controller: 'modeCtrl'
     })
-    
+
     .when('/addwords', {
             templateUrl: 'views/add_words.html',
             controller: 'addCustomCtrl'
