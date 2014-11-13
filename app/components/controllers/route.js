@@ -2,7 +2,6 @@
 var DigitalFlash = angular.module('DigitalFlash', [
 	'ngRoute',
 	'ngAnimate',
-	
 	'DigitalFlashCtrls',
 	'DigitalFlashServices'
 ]);
