@@ -250,48 +250,45 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 });
 
 
-
-
-
 /* ============================================
 				ADD CUSTOM CONTROLLER
 ============================================ */
 
 DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window, $http) {
 
-    $scope.message = 'Add Words';
-    $scope.message2 = 'Add your own words to the dictionary';
+		$scope.message = 'Add Words';
+		$scope.message2 = 'Add your own words to the dictionary';
 
-    $http.get('components/json/test-dictionary.json').success(function(data) {
-        $scope.dictionary = data;
-    });
+		$http.get('components/json/test-dictionary.json').success(function(data) {
+				$scope.dictionary = data;
+		});
 
 		//creates 'custom' database and 'entry' table
-    var custom;
-    custom = new localStorageDB("cus_dict", localStorage);
-    if ( custom.isNew() )  {
-        custom.createTable("entry", ["term", "definition"]);
+		var custom;
+		custom = new localStorageDB("cus_dict", localStorage);
+		if ( custom.isNew() )  {
+				custom.createTable("entry", ["term", "definition"]);
 				custom.commit();
-    }
+		}
 
 		// inserts user data into 'entry' table
-    $scope.addToDict = function (cus_term, cus_def) {
-        custom.insert("entry", {term: cus_term, definition: cus_def});
-        custom.commit();
-			}//end if
+		$scope.addToDict = function (cus_term, cus_def) {
+				custom.insert("entry", {term: cus_term, definition: cus_def});
+				custom.commit();
+
 
 				// reloads page
-        var refresh = (function() {
-            $window.location.reload();
-        })();
+				var refresh = (function() {
+						$window.location.reload();
+				})();
 
 				//call reload function
-        return refresh;
+				return refresh;
 
 
-    } // end add to dic
+		} // end add to dic
 
 		// adds search functionality to page
-    $scope.entry = custom.query("entry");
+		$scope.entry = custom.query("entry");
 
 }); // end addCustom controller
