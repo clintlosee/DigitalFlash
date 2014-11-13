@@ -1,12 +1,14 @@
-// Create Controllers Angular Module
-var DigitalFlashCtrls = angular.module('DigitalFlashCtrls', [
-	'DigitalFlashServices'
-]);
+/* ============================================
+				CREATE MODULE
+============================================ */
+var DigitalFlashCtrls = angular.module('DigitalFlashCtrls', ['DigitalFlashServices']);
 
-// Create Main Controller
+/* ============================================
+				MAIN CONTROLLER
+============================================ */
 DigitalFlashCtrls.controller('mainCtrl', function($scope, $http, displayStacks){
 
-	// Spotlight Quotes
+	// ------------------- Spotlight Quotes
 	$http.get('components/json/quotes.json').success(function(data){
 
 		// Generate Random Index Number
@@ -18,28 +20,21 @@ DigitalFlashCtrls.controller('mainCtrl', function($scope, $http, displayStacks){
 
 	});
 
-	$http.get('components/json/test-dictionary.json').success(function(data) {
-		$scope.dictionary = data;
-	});
-
+	// ------------------- Display Stacks
 	$scope.stacks = displayStacks();
+
 });
-
-
-
-
-
 
 /* ============================================
 				CREATE CONTROLLER
 ============================================ */
 DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $routeParams, displayStacks) {
 
-	// Header Message
+	// ------------------- Header Messages
 	$scope.header = 'Create Stacks';
 	$scope.message = 'Create a new stack by entering a name and clicking on the stack type.';
 
-	// Create Random Stack
+	// ------------------- Create Random Stack
 	$scope.createRandomStack = function(input){
 
 		// Grab New Name
@@ -94,49 +89,57 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $rou
 
 	}
 
-	// Create Custom Stack
-
-	$scope.stacks = displayStacks();
-
+	// ------------------- Create Custom Stack
 	$scope.createStack = function(stack_name) {
+
+		// Assign Stack Name
 		var new_stack_name = stack_name.replace(/ /g, "_");
 
+		// Create New Database
 		var stack = new localStorageDB(new_stack_name, localStorage);
 
-		if ( stack.isNew() ) {
+		// Only if Stack is New
+		if(stack.isNew()){
+
+			// Create Database Table
 			stack.createTable("words", ["word", "definition"]);
 
+			// Commit Table
 			stack.commit();
+
 		}
 
-		var refresh = (function() {
-			$window.location.reload();
-		})();
+		// Window Refresh
+        var refresh = (function() {
+            $window.location.reload();
+        })();  return refresh;
 
-		return refresh;
 	}
-});
 
+	// ------------------- Display Stacks
+	$scope.stacks = displayStacks();
+
+});
 
 /* ============================================
 				MODE CONTROLLER
 ============================================ */
 DigitalFlashCtrls.controller('modeCtrl', function($scope, $routeParams, $window){
 
-	// Grab Stack Information from Param
-	var stack_name = $routeParams.stack_name;
-	$scope.stack_name = stack_name;
+	// ------------------- Assign Variables
+	var stack_name = $routeParams.stack_name; $scope.stack_name = stack_name;
 
-	// Header Message
+	// ------------------- Header Messages
 	$scope.header = 'Choose Game Mode';
 	$scope.message = 'Choose the game mode for ' + stack_name + ' to start playing!';
 
-	// create the user points database
+	// ------------------- Level System
 	var points = new localStorageDB("points", localStorage);
 
-	// if this is the first time the points database is being accessed, create the levels and user points tables
-	if ( points.isNew() ) {
-		// create a table for levels and populate with data
+	// Only Run if Database is New
+	if(points.isNew()){
+
+		// Create Array: Creating a Table for Levels & Populate With Data
 		var level_rows = [
 			{level: "1", required_points: "100"},
 			{level: "2", required_points: "200"},
@@ -145,52 +148,69 @@ DigitalFlashCtrls.controller('modeCtrl', function($scope, $routeParams, $window)
 			{level: "5", required_points: "500"},
 		];
 
+		// Create Table With Data
 		points.createTableWithData("levels", level_rows);
 
-		// create a table for current user points
+		// Create Table With Current User Points
 		var user_point_rows = [
 			{points: 0},
 		];
 
+		// Create Table With Data
 		points.createTableWithData("user_points", user_point_rows);
 
+		// Commit Table
 		points.commit();
+
 	}
 
+	// Create Variables
 	var current_points = points.query("user_points", {ID: "1"});
 	var current_points_json = JSON.stringify(current_points);
 	var current_points_data = JSON.parse(current_points_json);
 	var display_points = current_points_data[0].points;
 
+	// Print Points to Console
 	console.log(display_points);
 
+	// Level Display
 	$("#level").css("padding-right", display_points);
 	$("#points").html(display_points);
 
+	// Temp Button to Add Points
 	$scope.addPoints = function() {
+
+		// Update Table When Button is Pressed
 		points.insertOrUpdate("user_points", {ID: "1"}, { ID: "1",
 				points: display_points + 10,
 		});
 
+		// Commit Update
 		points.commit();
 
+		// Update Display
 		$("#level").css("padding-right", display_points);
 		$("#points").html(display_points);
 
+		// ------------------- Page Refresh
 		var refresh = (function() {
 			$window.location.reload();
 		})();
 
+		// Return Refresh
 		return refresh;
+
 	}
+
 });
 
 
 /* ============================================
-				CREATE-MANAGE CONTROLLER
+				MANAGE CONTROLLER
 ============================================ */
 DigitalFlashCtrls.controller('manageCtrl', function($scope, displayStacks){
 
+	// ------------------- Header Messages
 	$scope.message = 'Choose a stack to edit.';
 
 	// Display saved stacks from localstorage database
@@ -217,113 +237,160 @@ DigitalFlashCtrls.controller('manageCtrl', function($scope, displayStacks){
 
 });
 
+/* ============================================
+				MANAGE STACK CONTROLLER
+============================================ */
 DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $http, $window){
 
+	// ------------------- Header Messages
 	$scope.message = 'Add words to this stack below';
 
-	var stack_slug = $routeParams.stack_slug;
+	// ------------------- Manage Stacks
+	var stack_slug = $routeParams.stack_slug; $scope.stack_name = stack_slug.replace(/_/g, " ");
 
-	$scope.stack_name = stack_slug.replace(/_/g, " ");
-
+	// Create Database
 	var stackDB = localStorageDB(stack_slug, localStorage);
 
+	// Add Word to Stack Function
 	$scope.addWord = function(term) {
+
+		// Insert Words
 		stackDB.insert("words", {word: term.term, definition: term.definition});
 
+		// Commit Insert
 		stackDB.commit();
 
+		// Refresh Window
 		var refresh = (function() {
 			$window.location.reload();
-		})();
+		})();  return refresh;
 
-		return refresh;
 	}
 
+	// Add Custom Word to Stack Function
     $scope.addCustomWord = function(term, definition) {
+
+	    // Insert Words
         stackDB.insert("words", {word: term, definition: definition});
 
+		// Commit Insert
         stackDB.commit();
 
+		// Refresh Window
         var refresh = (function() {
             $window.location.reload();
-        })();
+        })(); return refresh;
 
-        return refresh;
     }
 
+	// Get Words
 	$scope.words = stackDB.query("words");
 
+	// Fetch Dictionary
 	$http.get('components/json/test-dictionary.json').success(function(data) {
 		$scope.dictionary = data;
 	});
 
+	// Delete Stack
 	$scope.deleteStack = function() {
+
+		// Confirm Dialog
 		if (confirm("Are you sure you want to delete this stack?") == true) {
+
+			// Drop Database
 			stackDB.drop();
+
+			// Replace URL
 			window.location.replace("/app/#/");
+
 		}
-		else {
-			return false;
-		}
+
+		// Return False
+		else {return false;}
+
 	}
 
+	// Delete Word
 	$scope.deleteWord = function(word) {
+
+		// Print Word in Console
 		console.log(word.word);
 
+		// Delete Word from Database
 		stackDB.deleteRows("words",{word:word.word});
 
-		// Commit the changes to the database. Without this, the app will break.
+		// Commit Delete.  Important!  Keep or App Will Break!
 		stackDB.commit();
 
+		// Refresh Window
 		var refresh = (function() {
 			$window.location.reload();
-		})();
+		})(); return refresh;
 
-		return refresh;
 	}
 
+	// ------------------- Create Custom Dictionary
     var custom = localStorageDB("cus_dict", localStorage);
-    if ( custom.isNew() ){
+
+    // Only Run if New
+    if(custom.isNew()){
+
+	    // Create Table
         custom.createTable("entry", ["term", "definition"]);
 
-		// Commit the changes to the database. Without this, the app will break.
+		// Commit Table.  Important!  Keep or App Will Break!
 		custom.commit();
     }
 
+	// Add Query to Scope
     $scope.entry = custom.query("entry");
+
 });
 
+/* ============================================
+				ADD CUSTOM CONTROLLER
+============================================ */
 DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window, $http) {
 
-    $scope.message = 'Add Words';
-    $scope.message2 = 'Add your own words to the dictionary';
+	// ------------------- Header Messages
+    $scope.message = 'Add Words';  $scope.message2 = 'Add your own words to the dictionary';
 
+	// Fetch Dictionary
     $http.get('components/json/test-dictionary.json').success(function(data) {
         $scope.dictionary = data;
     });
 
-    var custom;
-    custom = new localStorageDB("cus_dict", localStorage);
-    if ( custom.isNew() )  {
+	// Create Custom Variable
+    var custom = new localStorageDB("cus_dict", localStorage);
+
+    // Only Run if New
+    if(custom.isNew()) {
+
+	    // Create Table
         custom.createTable("entry", ["term", "definition"]);
-				custom.commit();
+
+        // Commit Table
+		custom.commit();
+
     }
 
+	// Add Word to Dictionary
     $scope.addToDict = function (cus_term, cus_def) {
-        custom.insert("entry", {term: cus_term, definition: cus_def});
-        custom.commit();
-        //end if
 
+	    // Insert into Table
+        custom.insert("entry", {term: cus_term, definition: cus_def});
+
+        // Commit Insert
+        custom.commit();
+
+		// Window Refresh
         var refresh = (function() {
             $window.location.reload();
-        })();
+        })();  return refresh;
 
-        return refresh;
+    }
 
-
-    } // end add to dic
-
-
+	// Add Query to Scope
     $scope.entry = custom.query("entry");
 
-}); // end addCustom controller
+});
