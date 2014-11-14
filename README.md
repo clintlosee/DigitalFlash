@@ -42,7 +42,5 @@ grunt watch
 ```
 
 ## Bug Tracking
-1) Level up bar shows points, not level.
-2) Orange progress bar overflows.
-3) User looses progress bar on refresh even though the table is still there.
-4) On random functions the application freezes when trying to do more than 20 cards.
+- Level up bar shows points, not level.
+- On random functions the application freezes when trying to do more than 20 cards.

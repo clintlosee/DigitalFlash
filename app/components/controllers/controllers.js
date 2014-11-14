@@ -22,7 +22,10 @@ DigitalFlashCtrls.controller('mainCtrl', function($scope, $http, displayStacks){
 
 	// ------------------- Display Stacks
 	$scope.stacks = displayStacks();
-
+	
+	// ------------------- Display Levels
+	levelSystem();
+	
 });
 
 /* ============================================
@@ -33,6 +36,9 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $rou
 	// ------------------- Header Messages
 	$scope.header = 'Create Stacks';
 	$scope.message = 'Create a new stack by entering a name and clicking on the stack type.';
+	
+	// ------------------- Display Levels
+	levelSystem();
 
 	// ------------------- Create Random Stack
 	$scope.createRandomStack = function(input){
@@ -177,6 +183,9 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $rou
 				MODE CONTROLLER
 ============================================ */
 DigitalFlashCtrls.controller('modeCtrl', function($scope, $routeParams, $window){
+	
+	// ------------------- Display Levels
+	levelSystem();
 
 	// ------------------- Assign Variables
 	var stack_name = $routeParams.stack_name; $scope.stack_name = stack_name;
@@ -185,36 +194,8 @@ DigitalFlashCtrls.controller('modeCtrl', function($scope, $routeParams, $window)
 	$scope.header = 'Choose Game Mode';
 	$scope.message = 'Choose the game mode for ' + stack_name + ' to start playing!';
 
-	// ------------------- Level System
+	// ------------------- Temp Add Points to Level
 	var points = new localStorageDB("points", localStorage);
-
-	// Only Run if Database is New
-	if(points.isNew()){
-
-		// Create Array: Creating a Table for Levels & Populate With Data
-		var level_rows = [
-			{level: "1", required_points: "100"},
-			{level: "2", required_points: "200"},
-			{level: "3", required_points: "300"},
-			{level: "4", required_points: "400"},
-			{level: "5", required_points: "500"},
-		];
-
-		// Create Table With Data
-		points.createTableWithData("levels", level_rows);
-
-		// Create Table With Current User Points
-		var user_point_rows = [
-			{points: 0},
-		];
-
-		// Create Table With Data
-		points.createTableWithData("user_points", user_point_rows);
-
-		// Commit Table
-		points.commit();
-
-	}
 
 	// Create Variables
 	var current_points = points.query("user_points", {ID: "1"});
@@ -264,6 +245,9 @@ DigitalFlashCtrls.controller('manageCtrl', function($scope, displayStacks){
 
 	// ------------------- Header Messages
 	$scope.message = 'Choose a stack to edit.';
+	
+	// ------------------- Display Levels
+	levelSystem();
 
 	// Display saved stacks from localstorage database
 	$scope.stacks = displayStacks();
@@ -296,6 +280,9 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 
 	// ------------------- Header Messages
 	$scope.message = 'Add words to this stack below';
+	
+	// ------------------- Display Levels
+	levelSystem();
 
 	// ------------------- Manage Stacks
 	var stack_slug = $routeParams.stack_slug; $scope.stack_name = stack_slug.replace(/_/g, " ");
@@ -406,6 +393,9 @@ DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window, $http) {
 
 	// ------------------- Header Messages
     $scope.message = 'Add Words';  $scope.message2 = 'Add your own words to the dictionary';
+    
+    // ------------------- Display Levels
+	levelSystem();
 
 	// Fetch Dictionary
     $http.get('components/json/test-dictionary.json').success(function(data) {
