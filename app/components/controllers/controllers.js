@@ -62,7 +62,7 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $rou
 				var array = [];
 
 				// Push Random Index Numbers to Array
-				while(array.length < 10){
+				while(array.length < 20){
 
 					// Generate Random Number
 					var number = Math.floor(Math.random() * data.length);
@@ -90,7 +90,7 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $rou
 	}
 
 	// ------------------- Create Custom Stack
-	$scope.createStack = function(stack_name) {
+	$scope.createStack = function(stack_name){
 
 		// Assign Stack Name
 		var new_stack_name = stack_name.replace(/ /g, "_");
@@ -116,8 +116,60 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $rou
 
 	}
 
-	// ------------------- Display Stacks
-	$scope.stacks = displayStacks();
+	// ------------------- Create Basic Stack
+	$scope.createBasicStack = function(input){
+		
+		// Grab New Name
+		var name = input.replace(/ /g, "_");
+
+		// Create New Local Storage Database
+		var stack = new localStorageDB(name, localStorage);
+		
+		// Only Apply if Stack is New
+		if(stack.isNew()){
+			
+			// Create Table
+			stack.createTable("words", ["word", "definition"]);
+
+			// Commit Table
+			stack.commit();
+			
+			// Populate Table With Random Words
+			$http.get('components/json/basic_dictionary.json').success(function(data) {
+				
+				// Put Data into Variable Scope
+				$scope.data = data;
+
+				// Create Number Array
+				var array = [];
+				
+				// Push Random Index Numbers to Array
+				while(array.length < 20){
+					
+					// Generate Random Number
+					var number = Math.floor(Math.random() * data.length);
+
+					// Only Push to Array if Number Doesn't Exist
+					if($.inArray(number, array) == -1){array.push(number);}
+					
+				}
+				
+				// Add Words to Tables
+				for(i = 0; i < array.length; i++){
+
+					// Insert Random Term
+					stack.insert("words", {word: data[array[i]].term, definition: data[array[i]].definition});
+
+				}
+
+				// Commit Table
+				stack.commit();
+				
+			});
+			
+		}
+		
+	}
 
 });
 
