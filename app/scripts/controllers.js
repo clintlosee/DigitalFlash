@@ -497,35 +497,51 @@ DigitalFlash.config(['$routeProvider', function($routeProvider){
 }]);
 
 /* ============================================
-			DigitalFlash Services
+				CREATE MODULE
 ============================================ */
-
-// Create the Module
 var DigitalFlashServices = angular.module('DigitalFlashServices', ['ngResource']);
 
-// Create Display Stacks
+/* ============================================
+				DISPLAY STACKS
+============================================ */
 DigitalFlashServices.factory('displayStacks', function(){
+	
+	// Create Array
     var stacks = [];
 
+	// Function For Displaying Stacks
     return function() {
-    var stacks = [];
+	    
+	    // Assign Stacks Blank.  Important!  Display Will Duplicate if Deleted.
+	    var stacks = [];
 
-    for(var i = 0; i < localStorage.length; i++) {
-      var stackKey = localStorage.key(i);
+		// Loop Through Local Storage
+	    for(var i = 0; i < localStorage.length; i++){
+		    
+		  // Get Stack Key
+	      var stackKey = localStorage.key(i);
+	
+		  		// If Database Object is Not a Stack, Don't Display
+	            if (stackKey == "db_cus_dict" || stackKey == "db_points"){continue;}
+	            
+	            // If Database Object is a Stack
+	            else {
+		            
+		            // Get Stack Name & Slug
+	                var stack_name = stackKey.replace("db_", "").replace(/_/g, " ");
+	                var stack_slug = stackKey.replace("db_", "");
+	
+					// Assign Variables to Array
+	                stack_array = {"name": stack_name, "slug": stack_slug}
+					
+					// Push to Stacks Array
+	                stacks.push(stack_array);
+	            }
+	    }
 
-            if ( stackKey == "db_cus_dict" || stackKey == "db_points"){
-                continue;
-            }
-            else {
-                var stack_name = stackKey.replace("db_", "").replace(/_/g, " ");
-                var stack_slug = stackKey.replace("db_", "");
-
-                stack_array = {"name": stack_name, "slug": stack_slug}
-
-                stacks.push(stack_array);
-            }
-    }
-
-    return stacks;
+		// Return Stacks
+		return stacks;
+    
     };
+    
 });
