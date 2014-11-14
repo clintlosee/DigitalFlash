@@ -20,21 +20,32 @@
 			<div class="col-xs-12 col-sm-4 col-md-4 type">
 				<i class="fa fa-random fa-4x"></i>
 				<h3>Random</h3>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+				<p>When you build a Random stack there is a random set of words that will be generated and added to your newly created stack.</p>
 				<a href="#/mode/{{stack_name}}" ng-click="createRandomStack(stack_name)">Build Random Stack <i class="fa fa-chevron-right"></i></a>
 			</div>
 			<div class="col-xs-12 col-sm-4 col-md-4 type">
 				<i class="fa fa-cog fa-4x"></i>
 				<h3>Custom</h3>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-				<a href="#" ng-click="createStack(stack_name)">Build Custom Stack <i class="fa fa-chevron-right"></i></a>
+				<p>When you build a Custom stack you can pick words to add to your stack. You can also create custom words to add to your newly created stack.</p>
+				<a href="/app/#/manage/{{ stack_name }}" ng-click="createStack(stack_name)">Build Custom Stack <i class="fa fa-chevron-right"></i></a>
 			</div>
 			<div class="col-xs-12 col-sm-4 col-md-4 type">
 				<i class="fa fa-child fa-4x"></i>
 				<h3>Basic</h3>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+				<p>When you build a Basic stack there is a pre-defined set basic of words, meant to help you learn english, that will be added to your newly created stack.</p>
 				<a href="#/mode/{{stack_name}}" ng-click="createBasicStack(stack_name)">Build Basic Stack <i class="fa fa-chevron-right"></i></a>
 			</div>
 		</div>
 	</div>
 </div>
+
+
+
+<!-- Temp Display for Boxes
+ <div class="stack_box ">
+        <ul class="col-md-12 stacks_list clearfix">
+            <li class="col-md-3 text-center" ng-repeat="stack in stacks track by $index">
+                <h3><a href="/app/#/manage/{{ stack.slug }}">{{ stack.name }}</a></h3>
+            </li>
+        </ul>
+    </div>-->

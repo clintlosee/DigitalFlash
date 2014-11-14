@@ -22,10 +22,10 @@ DigitalFlashCtrls.controller('mainCtrl', function($scope, $http, displayStacks){
 
 	// ------------------- Display Stacks
 	$scope.stacks = displayStacks();
-	
+
 	// ------------------- Display Levels
 	levelSystem();
-	
+
 });
 
 /* ============================================
@@ -36,7 +36,7 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $rou
 	// ------------------- Header Messages
 	$scope.header = 'Create Stacks';
 	$scope.message = 'Create a new stack by entering a name and clicking on the stack type.';
-	
+
 	// ------------------- Display Levels
 	levelSystem();
 
@@ -124,42 +124,42 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $rou
 
 	// ------------------- Create Basic Stack
 	$scope.createBasicStack = function(input){
-		
+
 		// Grab New Name
 		var name = input.replace(/ /g, "_");
 
 		// Create New Local Storage Database
 		var stack = new localStorageDB(name, localStorage);
-		
+
 		// Only Apply if Stack is New
 		if(stack.isNew()){
-			
+
 			// Create Table
 			stack.createTable("words", ["word", "definition"]);
 
 			// Commit Table
 			stack.commit();
-			
+
 			// Populate Table With Random Words
 			$http.get('components/json/basic_dictionary.json').success(function(data) {
-				
+
 				// Put Data into Variable Scope
 				$scope.data = data;
 
 				// Create Number Array
 				var array = [];
-				
+
 				// Push Random Index Numbers to Array
 				while(array.length < 20){
-					
+
 					// Generate Random Number
 					var number = Math.floor(Math.random() * data.length);
 
 					// Only Push to Array if Number Doesn't Exist
 					if($.inArray(number, array) == -1){array.push(number);}
-					
+
 				}
-				
+
 				// Add Words to Tables
 				for(i = 0; i < array.length; i++){
 
@@ -170,11 +170,11 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $rou
 
 				// Commit Table
 				stack.commit();
-				
+
 			});
-			
+
 		}
-		
+
 	}
 
 });
@@ -183,7 +183,7 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $rou
 				MODE CONTROLLER
 ============================================ */
 DigitalFlashCtrls.controller('modeCtrl', function($scope, $routeParams, $window){
-	
+
 	// ------------------- Display Levels
 	levelSystem();
 
@@ -245,7 +245,7 @@ DigitalFlashCtrls.controller('manageCtrl', function($scope, displayStacks){
 
 	// ------------------- Header Messages
 	$scope.message = 'Choose a stack to edit.';
-	
+
 	// ------------------- Display Levels
 	levelSystem();
 
@@ -280,7 +280,7 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 
 	// ------------------- Header Messages
 	$scope.message = 'Add words to this stack below';
-	
+
 	// ------------------- Display Levels
 	levelSystem();
 
@@ -386,6 +386,7 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 
 });
 
+
 /* ============================================
 				ADD CUSTOM CONTROLLER
 ============================================ */
@@ -393,7 +394,7 @@ DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window, $http) {
 
 	// ------------------- Header Messages
     $scope.message = 'Add Words';  $scope.message2 = 'Add your own words to the dictionary';
-    
+
     // ------------------- Display Levels
 	levelSystem();
 
@@ -434,6 +435,7 @@ DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window, $http) {
 
 	// Add Query to Scope
     $scope.entry = custom.query("entry");
+
 
 });
 
