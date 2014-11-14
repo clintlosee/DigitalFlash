@@ -42,4 +42,5 @@ grunt watch
 ```
 
 ## Bug Tracking
-No bugs so far!
+- Level up bar shows points, not level.
+- On random functions the application freezes when trying to do more than 20 cards.

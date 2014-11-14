@@ -57,11 +57,9 @@ ul.stacks_list li {
   background:url("../components/img/box_closed.png") #fff no-repeat;
   width:202px;
   height:202px;
-  margin: 0px;
+  margin: 0px 10px;
   padding: 0px;
 }
-
-
 .stacks_list li h3 a {
   position:relative;
   top:150px;
@@ -83,6 +81,7 @@ dl.dict_list dd{
   height: 75px;
   overflow: hidden;
 }
+
 .dict_list{
   height: 30%;
   overflow: hidden;
@@ -136,3 +135,24 @@ a.hard_button{
   float:right;
   margin: auto;
 }*/
+
+
+// Delete Button
+.stacks_list #deleteBtn {
+  display:none;
+}
+.stacks_list li:hover #deleteBtn {
+  display:block;
+  position:absolute;
+  padding: 10px;
+  top:-20;
+  left:180;
+}
+#deleteBtn i {
+  font-size:30px;
+  color:red;
+}
+#deleteBtn i:hover {
+  color:#666;
+  cursor:pointer;
+}
