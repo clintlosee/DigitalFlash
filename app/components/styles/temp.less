@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 /* app css stylesheet */
 
 .menu {
@@ -42,7 +34,9 @@
   color: ff5f40;
 }*/
 
-/* Save Stack Input */
+/* ============================================
+ Save Stack Input
+ ============================================*/
 #stack_name {
     .Centered(0, 0);
 }
@@ -70,5 +64,75 @@ ul.stacks_list li {
 
 .stacks_list li h3 a {
   position:relative;
-  top:140px;
+  top:150px;
+  color: #474747;
+  font-size: .8em;
 }
+/* ============================================
+  Dictionary list
+============================================ */
+
+dl.dict_list{
+  height: 30%;
+  overflow: hidden;
+  padding: 2%;
+  background-color: #fff;
+  margin: 1%;
+}
+dl.dict_list dd{
+  height: 75px;
+  overflow: hidden;
+}
+.dict_list{
+  height: 30%;
+  overflow: hidden;
+  padding: 2%;
+  background-color: #fff;
+  margin: 1%;
+}
+
+/* ============================================
+  Add Custom Word Page
+============================================ */
+
+#cus_term, #cus_def{
+  display: block;
+  background: @search-bg;
+  padding: 20px;
+  margin: 10px;
+  border: 0px;
+  line-height: 1em;
+  border: 1px solid @search-bg;
+  font-size: 16px;
+  .rounded-corners(5px);
+}
+ button.add, a.add{
+  display: block;
+  background: @body-highlight-2;
+  color: white;
+  border: 0px;
+  max-width: 200px;
+  padding: 10px 20px 10px 20px;
+  .rounded-corners(5px);
+  margin: 20px  0px;
+}
+button.center{
+  margin: auto;
+}
+button#add_to_dic{
+  margin: 10px;
+  padding: 20px;
+}
+
+/* ============================================
+  Mode Page
+============================================ */
+/*a.easy_button{
+  float:left;
+  background-color: #cc4a31;
+  margin: auto;
+}
+a.hard_button{
+  float:right;
+  margin: auto;
+}*/

@@ -249,38 +249,47 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
     $scope.entry = custom.query("entry");
 });
 
+
+/* ============================================
+				ADD CUSTOM CONTROLLER
+============================================ */
+
 DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window, $http) {
 
-    $scope.message = 'Add Words';
-    $scope.message2 = 'Add your own words to the dictionary';
+		$scope.message = 'Add Words';
+		$scope.message2 = 'Add your own words to the dictionary';
 
-    $http.get('components/json/test-dictionary.json').success(function(data) {
-        $scope.dictionary = data;
-    });
+		$http.get('components/json/test-dictionary.json').success(function(data) {
+				$scope.dictionary = data;
+		});
 
-    var custom;
-    custom = new localStorageDB("cus_dict", localStorage);
-    if ( custom.isNew() )  {
-        custom.createTable("entry", ["term", "definition"]);
+		//creates 'custom' database and 'entry' table
+		var custom;
+		custom = new localStorageDB("cus_dict", localStorage);
+		if ( custom.isNew() )  {
+				custom.createTable("entry", ["term", "definition"]);
 				custom.commit();
-    }
+		}
 
-    $scope.addToDict = function (cus_term, cus_def) {
-        custom.insert("entry", {term: cus_term, definition: cus_def});
-        custom.commit();
-        //end if
-
-        var refresh = (function() {
-            $window.location.reload();
-        })();
-
-        return refresh;
+		// inserts user data into 'entry' table
+		$scope.addToDict = function (cus_term, cus_def) {
+				custom.insert("entry", {term: cus_term, definition: cus_def});
+				custom.commit();
 
 
-    } // end add to dic
+				// reloads page
+				var refresh = (function() {
+						$window.location.reload();
+				})();
+
+				//call reload function
+				return refresh;
 
 
-    $scope.entry = custom.query("entry");
+		} // end add to dic
+
+		// adds search functionality to page
+		$scope.entry = custom.query("entry");
 
 }); // end addCustom controller
 
