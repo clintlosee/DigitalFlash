@@ -30,19 +30,33 @@ DigitalFlash.config(['$routeProvider', function($routeProvider){
 		controller: 'manageCtrl'
 	})
 
+	// Manage individual stack
 	.when('/manage/:stack_slug', {
         templateUrl: 'views/manage_stack.html',
         controller: 'manageStackCtrl'
     })
 
+	// Game mode selection
     .when('/mode/:stack_name', {
 	    templateUrl: 'views/mode.html',
 	    controller: 'modeCtrl'
     })
 
+	// Add words to user dictionary
     .when('/addwords', {
             templateUrl: 'views/add_words.html',
             controller: 'addCustomCtrl'
-        });
+    })
 
+	// Play Game
+	.when('/game/:mode/:stack_name', {
+		templateUrl: 'views/game.html',
+		controller: 'gameCtrl'
+	})
+
+	// Game Results
+	.when('/game_results/:stack_name', {
+		templateUrl: 'views/game_results.html',
+		controller: 'gameResultsCtrl'
+	});
 }]);

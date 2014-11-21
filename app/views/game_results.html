@@ -1,0 +1,7 @@
+<ul ng-repeat="game_data in game_session_data" style="padding: 25px;">
+    <li>Number Correct: {{ game_data.num_correct }}</li>
+    <li>Number Incorrect: {{ game_data.num_incorrect }}</li>
+    <li>Points Earned: {{ game_data.points_earned }}</li>
+</ul>
+
+<a class="hard_button center" href="/app/#/mode/{{ stack_name }}" style="padding: 25px;">Return to Mode Selection</a>

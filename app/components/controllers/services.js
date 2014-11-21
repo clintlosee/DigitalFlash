@@ -86,12 +86,7 @@ var levelSystem = function(){
 
 	// Create Variables
 	var current_points = points.query("user_points", {ID: "1"});
-	var current_points_json = JSON.stringify(current_points);
-	var current_points_data = JSON.parse(current_points_json);
-	var display_points = current_points_data[0].points;
-
-	// Print Points to Console
-	console.log(display_points);
+	var display_points = current_points[0].points;
 
 	// Level Display
 	$("#level").css("padding-right", display_points);
