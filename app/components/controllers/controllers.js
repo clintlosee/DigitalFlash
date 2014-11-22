@@ -436,7 +436,7 @@ DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window, $http) {
 /* ============================================
 					Play Game
 ============================================ */
-DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $location) {
+DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $location, displayStacks) {
 	// Display overall points
 	levelSystem();
 
@@ -484,6 +484,49 @@ DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $locatio
 	$scope.stopGame = function() {
 		stopGame();
 	};
+
+
+
+	// Code to display terms for game here
+
+
+
+		//$scope.stacks = displayStacks();
+
+		//var stack_slug = $routeParams.stack_slug;
+
+		//$scope.stack_name = stack_slug.replace(/_/g, " ");
+
+		// Access the local storage database of the stack
+		var stackDB = localStorageDB($scope.stack_name, localStorage);
+		$scope.words = stackDB.query("words");
+
+
+
+
+		//$scope.randomItem = $scope.words[Math.floor(Math.random()*$scope.words.length)];
+
+		var randomWords = [];
+
+
+		for (var i = 0; i < $scope.words.length; i++) {
+			randomWords[i] = $scope.words[Math.floor(Math.random(4)*$scope.words.length)];
+
+			$scope.randomItem = randomWords[i];
+			$scope.randomItem2 = randomWords[i - 1];
+			$scope.randomItem3 = randomWords[i - 2];
+			$scope.randomItem4 = randomWords[i - 3];
+
+		}
+
+		$scope.limit = 4;
+
+
+		
+
+
+
+
 });
 
 

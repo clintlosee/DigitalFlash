@@ -1,3 +1,51 @@
-<div id="timer" style="font-size: 30px; padding: 25px;"></div>
 
-<button name="stop" class="hard_button center" ng-click="stopGame()" style="margin: 25px;">Stop</button>
+
+
+
+<div class="container">
+
+  <div id="gameBoxInfo" class="col-md-3 col-md-offset-1">
+
+    <div id="timer" style="font-size: 30px; padding: 25px;"></div>
+
+    <button name="stop" class="hard_button center" ng-click="stopGame()" style="margin: 25px;">Stop</button>
+
+  </div>
+
+  <div id="gameBox" class="col-md-7">
+    <h3>What word does this definition belong to?</h3>
+
+
+
+
+    <div>
+      <ul>
+        <li>
+
+          {{ randomItem.definition }}
+
+        </li>
+      </ul>
+    </div>
+
+    <div id="term_div">
+      <!-- <ul ng-repeat="word in words | limitTo: limit">
+        <li>{{ word.word }}</li>
+      </ul> -->
+
+      <ul>
+        <li>{{ randomItem.word }}</li>
+        <li>{{ randomItem2.word }}</li>
+        <li>{{ randomItem3.word }}</li>
+        <li>{{ randomItem4.word }}</li>
+      </ul>
+
+
+
+
+
+    </div>
+
+  </div>
+
+</div>
