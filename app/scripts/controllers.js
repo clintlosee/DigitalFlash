@@ -506,11 +506,12 @@ DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $locatio
 
 		//$scope.randomItem = $scope.words[Math.floor(Math.random()*$scope.words.length)];
 
+		// Create an array for the random words
 		var randomWords = [];
 
-
+		// Add random terms to variables
 		for (var i = 0; i < $scope.words.length; i++) {
-			randomWords[i] = $scope.words[Math.floor(Math.random(4)*$scope.words.length)];
+			randomWords[i] = $scope.words[Math.floor(Math.random()*$scope.words.length)];
 
 			$scope.randomItem = randomWords[i];
 			$scope.randomItem2 = randomWords[i - 1];
@@ -522,9 +523,48 @@ DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $locatio
 		$scope.limit = 4;
 
 
-		
+		//Function that will shuffle only your switchable elements.
+		function shuffle(nodes, switchableSelector) {
+			var length = nodes.length;
 
+			//Create the array for the random pick.
+			var switchable = nodes.filter("." + switchableSelector);
+			var switchIndex = [];
 
+			$.each(switchable, function(index, item) {
+				switchIndex[index] = $(item).index();
+			});
+
+			//The array should be used for picking up random elements.
+			var switchLength = switchIndex.length;
+			var randomPick, randomSwap;
+
+			for (var index = length; index > 0; index--) {
+				//Get a random index that contains a switchable element.
+				randomPick = switchIndex[Math.floor(Math.random() * switchLength)];
+
+				//Get the next element that needs to be swapped.
+				randomSwap = nodes[index - 1];
+
+				//If the element is 'not switchable', ignore and continue;
+				if($(randomSwap).hasClass(switchableSelector)) {
+					nodes[index - 1] = nodes[randomPick];
+					nodes[randomPick] = randomSwap;
+				}
+			}
+
+			return nodes;
+		}
+
+		// Create shuffleTerms fuction
+		var shuffleTerms = function () {
+			var $nodes = $("#terms").find("li");
+			shuffle($nodes, "sw");
+			$("#terms").append($nodes);
+		};
+
+		// Set a delay to shuffle terms to accomodate for Angular rendering
+		setTimeout(shuffleTerms, 5);
 
 
 });
