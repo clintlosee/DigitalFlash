@@ -199,12 +199,7 @@ DigitalFlashCtrls.controller('modeCtrl', function($scope, $routeParams, $window)
 
 	// Create Variables
 	var current_points = points.query("user_points", {ID: "1"});
-	var current_points_json = JSON.stringify(current_points);
-	var current_points_data = JSON.parse(current_points_json);
-	var display_points = current_points_data[0].points;
-
-	// Print Points to Console
-	console.log(display_points);
+	var display_points = current_points[0].points;
 
 	// Level Display
 	$("#level").css("padding-right", display_points);
@@ -435,8 +430,76 @@ DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window, $http) {
 
 	// Add Query to Scope
     $scope.entry = custom.query("entry");
+});
 
 
+/* ============================================
+					Play Game
+============================================ */
+DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $location) {
+	// Display overall points
+	levelSystem();
+
+	// Stack Name
+	$scope.stack_name = $routeParams.stack_name;
+
+	// Create a temporary database to hold game session data
+	var gameSession = new localStorageDB("gameSession", sessionStorage);
+
+	if ( gameSession.isNew() ) {
+		// Create table that records time spent, number correct, number incorrect, and the number of points earned
+		gameSession.createTable("game_data", ["num_correct", "num_incorrect", "points_earned"]);
+		gameSession.commit();
+	}
+
+	var stopGame = function() {
+		// erase previous game data
+		gameSession.deleteRows("game_data");
+
+		// insert new game data
+		gameSession.insert("game_data", {num_correct: "6", num_incorrect: "2", points_earned: "12"});
+		gameSession.commit();
+
+		$location.path("/game_results/" + $routeParams.stack_name);
+	}
+
+	if ($routeParams.mode == "hard") {
+		// Start the timer
+		var startTimer = function() {
+			$('#timer').runner({
+				autostart: true,
+				countdown: true,
+				milliseconds: false,
+				startAt: 16*1000,
+				stopAt: 0
+			}).on('runnerFinish', function() {
+				console.log("Time's Up");
+
+				// Code to advance cards here
+			});
+		}
+		startTimer();
+	}
+
+	$scope.stopGame = function() {
+		stopGame();
+	};
+});
+
+
+/* ============================================
+				Game Results
+============================================ */
+DigitalFlashCtrls.controller('gameResultsCtrl', function($scope, $routeParams) {
+	// Display the overall points
+	levelSystem();
+
+	$scope.stack_name = $routeParams.stack_name;
+
+	// Get the game session data
+	var gameSession = new localStorageDB("gameSession", sessionStorage);
+
+	$scope.game_session_data = gameSession.query("game_data");
 });
 
 // Create Digital Flash Module
@@ -471,21 +534,35 @@ DigitalFlash.config(['$routeProvider', function($routeProvider){
 		controller: 'manageCtrl'
 	})
 
+	// Manage individual stack
 	.when('/manage/:stack_slug', {
         templateUrl: 'views/manage_stack.html',
         controller: 'manageStackCtrl'
     })
 
+	// Game mode selection
     .when('/mode/:stack_name', {
 	    templateUrl: 'views/mode.html',
 	    controller: 'modeCtrl'
     })
 
+	// Add words to user dictionary
     .when('/addwords', {
             templateUrl: 'views/add_words.html',
             controller: 'addCustomCtrl'
-        });
+    })
 
+	// Play Game
+	.when('/game/:mode/:stack_name', {
+		templateUrl: 'views/game.html',
+		controller: 'gameCtrl'
+	})
+
+	// Game Results
+	.when('/game_results/:stack_name', {
+		templateUrl: 'views/game_results.html',
+		controller: 'gameResultsCtrl'
+	});
 }]);
 
 /* ============================================
@@ -497,35 +574,35 @@ var DigitalFlashServices = angular.module('DigitalFlashServices', ['ngResource']
 				DISPLAY STACKS
 ============================================ */
 DigitalFlashServices.factory('displayStacks', function(){
-	
+
 	// Create Array
     var stacks = [];
 
 	// Function For Displaying Stacks
     return function() {
-	    
+
 	    // Assign Stacks Blank.  Important!  Display Will Duplicate if Deleted.
 	    var stacks = [];
 
 		// Loop Through Local Storage
 	    for(var i = 0; i < localStorage.length; i++){
-		    
+
 		  // Get Stack Key
 	      var stackKey = localStorage.key(i);
-	
+
 		  		// If Database Object is Not a Stack, Don't Display
 	            if (stackKey == "db_cus_dict" || stackKey == "db_points"){continue;}
-	            
+
 	            // If Database Object is a Stack
 	            else {
-		            
+
 		            // Get Stack Name & Slug
 	                var stack_name = stackKey.replace("db_", "").replace(/_/g, " ");
 	                var stack_slug = stackKey.replace("db_", "");
-	
+
 					// Assign Variables to Array
 	                stack_array = {"name": stack_name, "slug": stack_slug}
-					
+
 					// Push to Stacks Array
 	                stacks.push(stack_array);
 	            }
@@ -533,22 +610,22 @@ DigitalFlashServices.factory('displayStacks', function(){
 
 		// Return Stacks
 		return stacks;
-    
+
     };
-    
+
 });
 
 /* ============================================
 				LEVEL SYSTEM
 ============================================ */
 var levelSystem = function(){
-	
+
 	// Create Points Table
 	var points = new localStorageDB("points", localStorage);
-	
+
 	// Only Run if Database is New
 	if(points.isNew()){
-		
+
 		// Create Array: Creating a Table for Levels & Populate With Data
 		var level_rows = [
 			{level: "1", required_points: "100"},
@@ -571,20 +648,15 @@ var levelSystem = function(){
 
 		// Commit Table
 		points.commit();
-		
+
 	}
-	
+
 	// Create Variables
 	var current_points = points.query("user_points", {ID: "1"});
-	var current_points_json = JSON.stringify(current_points);
-	var current_points_data = JSON.parse(current_points_json);
-	var display_points = current_points_data[0].points;
-
-	// Print Points to Console
-	console.log(display_points);
+	var display_points = current_points[0].points;
 
 	// Level Display
 	$("#level").css("padding-right", display_points);
 	$("#points").html(display_points);
-	
+
 }

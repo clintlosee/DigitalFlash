@@ -199,12 +199,7 @@ DigitalFlashCtrls.controller('modeCtrl', function($scope, $routeParams, $window)
 
 	// Create Variables
 	var current_points = points.query("user_points", {ID: "1"});
-	var current_points_json = JSON.stringify(current_points);
-	var current_points_data = JSON.parse(current_points_json);
-	var display_points = current_points_data[0].points;
-
-	// Print Points to Console
-	console.log(display_points);
+	var display_points = current_points[0].points;
 
 	// Level Display
 	$("#level").css("padding-right", display_points);
@@ -435,6 +430,74 @@ DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window, $http) {
 
 	// Add Query to Scope
     $scope.entry = custom.query("entry");
+});
 
 
+/* ============================================
+					Play Game
+============================================ */
+DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $location) {
+	// Display overall points
+	levelSystem();
+
+	// Stack Name
+	$scope.stack_name = $routeParams.stack_name;
+
+	// Create a temporary database to hold game session data
+	var gameSession = new localStorageDB("gameSession", sessionStorage);
+
+	if ( gameSession.isNew() ) {
+		// Create table that records time spent, number correct, number incorrect, and the number of points earned
+		gameSession.createTable("game_data", ["num_correct", "num_incorrect", "points_earned"]);
+		gameSession.commit();
+	}
+
+	var stopGame = function() {
+		// erase previous game data
+		gameSession.deleteRows("game_data");
+
+		// insert new game data
+		gameSession.insert("game_data", {num_correct: "6", num_incorrect: "2", points_earned: "12"});
+		gameSession.commit();
+
+		$location.path("/game_results/" + $routeParams.stack_name);
+	}
+
+	if ($routeParams.mode == "hard") {
+		// Start the timer
+		var startTimer = function() {
+			$('#timer').runner({
+				autostart: true,
+				countdown: true,
+				milliseconds: false,
+				startAt: 16*1000,
+				stopAt: 0
+			}).on('runnerFinish', function() {
+				console.log("Time's Up");
+
+				// Code to advance cards here
+			});
+		}
+		startTimer();
+	}
+
+	$scope.stopGame = function() {
+		stopGame();
+	};
+});
+
+
+/* ============================================
+				Game Results
+============================================ */
+DigitalFlashCtrls.controller('gameResultsCtrl', function($scope, $routeParams) {
+	// Display the overall points
+	levelSystem();
+
+	$scope.stack_name = $routeParams.stack_name;
+
+	// Get the game session data
+	var gameSession = new localStorageDB("gameSession", sessionStorage);
+
+	$scope.game_session_data = gameSession.query("game_data");
 });
