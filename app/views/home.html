@@ -13,22 +13,14 @@
 	</div>
 </div>
 
-
-
-
-
-
-
-
-
-
 <div class="container">
 
 	<div class="stack_box">
 
 			<ul class="col-md-12 stacks_list clearfix">
-					<li class="col-md-4 text-center" ng-repeat="stack in stacks | filter:query">
-							<h3><a href="">{{ stack.name }}</a></h3>
+					<li class="col-md-3 text-center" ng-repeat="stack in stacks | filter:query">
+							<h3><a href="/app/#/mode/{{ stack.name }}">{{ stack.name }}</a></h3>
+
 					</li>
 			</ul>
 
