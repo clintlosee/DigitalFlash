@@ -237,6 +237,13 @@ DigitalFlashCtrls.controller('modeCtrl', function($scope, $routeParams, $window)
 
 });
 
+/* ============================================
+			STUDY CONTROLLER
+============================================ */
+DigitalFlashCtrls.controller('studyCtrl', function($scope){
+	$scope.message = 'Study your Stack';
+
+});
 
 /* ============================================
 				MANAGE CONTROLLER
@@ -484,7 +491,12 @@ DigitalFlash.config(['$routeProvider', function($routeProvider){
     .when('/addwords', {
             templateUrl: 'views/add_words.html',
             controller: 'addCustomCtrl'
-        });
+    })
+
+		.when('/study', {
+						templateUrl: 'views/study.html',
+						controller: 'studyCtrl'
+		});
 
 }]);
 

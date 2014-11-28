@@ -23,11 +23,9 @@
         </div>
 
 
-
-
-
        <a class="add text-center" href="#/addwords">Add Custom Word </a></div>
         <div class="text-center search"> <input ng-model="query" placeholder="Search for Words to Add:"/ >
+
         <dl class="dict_list col-md-2" ng-repeat="term in entry">
             <dt ng-model="term.term">{{term.term}}</dt>
             <dd ng-model="term.definition">{{term.definition}}</dd>

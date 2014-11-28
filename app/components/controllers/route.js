@@ -43,6 +43,11 @@ DigitalFlash.config(['$routeProvider', function($routeProvider){
     .when('/addwords', {
             templateUrl: 'views/add_words.html',
             controller: 'addCustomCtrl'
-        });
+    })
+
+		.when('/study', {
+						templateUrl: 'views/study.html',
+						controller: 'studyCtrl'
+		});
 
 }]);

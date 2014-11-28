@@ -237,6 +237,13 @@ DigitalFlashCtrls.controller('modeCtrl', function($scope, $routeParams, $window)
 
 });
 
+/* ============================================
+			STUDY CONTROLLER
+============================================ */
+DigitalFlashCtrls.controller('studyCtrl', function($scope){
+	$scope.message = 'Study your Stack';
+
+});
 
 /* ============================================
 				MANAGE CONTROLLER
