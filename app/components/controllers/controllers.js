@@ -487,7 +487,7 @@ DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $locatio
 
 
 
-	// Code to display terms for game here
+	//******************************************* Code to display terms for game here
 
 
 
@@ -523,30 +523,30 @@ DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $locatio
 		$scope.limit = 4;
 
 
-		//Function that will shuffle only your switchable elements.
+		//Function that will shuffle the terms randomly.
 		function shuffle(nodes, switchableSelector) {
 			var length = nodes.length;
 
 			//Create the array for the random pick.
-			var switchable = nodes.filter("." + switchableSelector);
-			var switchIndex = [];
+			var shuffleable = nodes.filter("." + switchableSelector);
+			var shuffleIndex = [];
 
-			$.each(switchable, function(index, item) {
-				switchIndex[index] = $(item).index();
+			$.each(shuffleable, function(index, item) {
+				shuffleIndex[index] = $(item).index();
 			});
 
 			//The array should be used for picking up random elements.
-			var switchLength = switchIndex.length;
+			var shuffleLength = shuffleIndex.length;
 			var randomPick, randomSwap;
 
 			for (var index = length; index > 0; index--) {
-				//Get a random index that contains a switchable element.
-				randomPick = switchIndex[Math.floor(Math.random() * switchLength)];
+				//Get a random index that contains a shuffleable element.
+				randomPick = shuffleIndex[Math.floor(Math.random() * shuffleLength)];
 
 				//Get the next element that needs to be swapped.
 				randomSwap = nodes[index - 1];
 
-				//If the element is 'not switchable', ignore and continue;
+				//If the element is 'not shuffleable', ignore and continue;
 				if($(randomSwap).hasClass(switchableSelector)) {
 					nodes[index - 1] = nodes[randomPick];
 					nodes[randomPick] = randomSwap;
@@ -559,13 +559,36 @@ DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $locatio
 		// Create shuffleTerms fuction
 		var shuffleTerms = function () {
 			var $nodes = $("#terms").find("li");
-			shuffle($nodes, "sw");
+			shuffle($nodes, "sh");
 			$("#terms").append($nodes);
 		};
 
-		// Set a delay to shuffle terms to accomodate for Angular rendering
+		// Set a delay to shuffle terms in order to accomodate for Angular rendering
+		// Without this, the terms only displayed the Angular variables
 		setTimeout(shuffleTerms, 5);
 
+
+		// Function to check if correct term was selected
+		$scope.termCheck = function () {
+
+			// Get clicked item text and save to variable
+			$(document).click(function(event) {
+				var text = $(event.target).text();
+
+				// Check to see if term clicked matches definition and alert
+				if (text != $scope.randomItem.word) {
+					// Display the alert for the wrong answer
+					alert("Sorry, wrong answer. :(");
+				}
+				else {
+					// Display the alert for correct answer
+					alert("Correct!");
+
+					// Reload the current page to refresh terms
+					document.location.reload(true);
+				}
+			});
+		};
 
 });
 
