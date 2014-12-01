@@ -5,6 +5,7 @@
   border-bottom: 0.1em solid black;
   margin-bottom: 2em;
   padding: 0 0 0.5em;
+  outline:none;
 }
 
 .menu:before {
@@ -155,4 +156,37 @@ a.hard_button{
 #deleteBtn i:hover {
   color:#666;
   cursor:pointer;
+}
+
+/* ============================================
+  Game Page
+============================================ */
+#gameBox {
+  background-color:#ddd;
+  height:500px;
+}
+#gameBoxInfo {
+  background-color:#ccc;
+  height:500px;
+}
+#gameBox ul#terms li {
+  border: 1px solid #ff4400;
+  margin: 10px 20px;
+  height:50px;
+  text-align:center;
+  font-size:1.5em;
+  padding:10px 0;
+  transition: color 0.3s ease-out,
+              background-color 0.3s ease-out,
+              border-color 0.3s ease-out;
+}
+#terms li {
+  cursor:pointer;
+}
+#terms li:hover {
+  background-color: #ff4400;
+  color:#fff;
+  transition: color 0.3s ease-in,
+              background-color 0.3s ease-in,
+              border-color 0.3s ease-in;
 }

@@ -436,7 +436,7 @@ DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window, $http) {
 /* ============================================
 					Play Game
 ============================================ */
-DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $location) {
+DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $location, displayStacks) {
 	// Display overall points
 	levelSystem();
 
@@ -484,6 +484,112 @@ DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $locatio
 	$scope.stopGame = function() {
 		stopGame();
 	};
+
+
+
+	//******************************************* Code to display terms for game here
+
+
+
+		//$scope.stacks = displayStacks();
+
+		//var stack_slug = $routeParams.stack_slug;
+
+		//$scope.stack_name = stack_slug.replace(/_/g, " ");
+
+		// Access the local storage database of the stack
+		var stackDB = localStorageDB($scope.stack_name, localStorage);
+		$scope.words = stackDB.query("words");
+
+
+
+
+		//$scope.randomItem = $scope.words[Math.floor(Math.random()*$scope.words.length)];
+
+		// Create an array for the random words
+		var randomWords = [];
+
+		// Add random terms to variables
+		for (var i = 0; i < $scope.words.length; i++) {
+			randomWords[i] = $scope.words[Math.floor(Math.random()*$scope.words.length)];
+
+			$scope.randomItem = randomWords[i];
+			$scope.randomItem2 = randomWords[i - 1];
+			$scope.randomItem3 = randomWords[i - 2];
+			$scope.randomItem4 = randomWords[i - 3];
+
+		}
+
+		$scope.limit = 4;
+
+
+		//Function that will shuffle the terms randomly.
+		function shuffle(nodes, switchableSelector) {
+			var length = nodes.length;
+
+			//Create the array for the random pick.
+			var shuffleable = nodes.filter("." + switchableSelector);
+			var shuffleIndex = [];
+
+			$.each(shuffleable, function(index, item) {
+				shuffleIndex[index] = $(item).index();
+			});
+
+			//The array should be used for picking up random elements.
+			var shuffleLength = shuffleIndex.length;
+			var randomPick, randomSwap;
+
+			for (var index = length; index > 0; index--) {
+				//Get a random index that contains a shuffleable element.
+				randomPick = shuffleIndex[Math.floor(Math.random() * shuffleLength)];
+
+				//Get the next element that needs to be swapped.
+				randomSwap = nodes[index - 1];
+
+				//If the element is 'not shuffleable', ignore and continue;
+				if($(randomSwap).hasClass(switchableSelector)) {
+					nodes[index - 1] = nodes[randomPick];
+					nodes[randomPick] = randomSwap;
+				}
+			}
+
+			return nodes;
+		}
+
+		// Create shuffleTerms fuction
+		var shuffleTerms = function () {
+			var $nodes = $("#terms").find("li");
+			shuffle($nodes, "sh");
+			$("#terms").append($nodes);
+		};
+
+		// Set a delay to shuffle terms in order to accomodate for Angular rendering
+		// Without this, the terms only displayed the Angular variables
+		setTimeout(shuffleTerms, 5);
+
+
+		// Function to check if correct term was selected
+		$scope.termCheck = function () {
+
+			// Get clicked item text and save to variable
+			$(document).click(function(event) {
+				var text = $(event.target).text();
+
+				// Check to see if term clicked matches definition and alert
+				if (text != $scope.randomItem.word) {
+					// Display the alert for the wrong answer
+					alert("Sorry, wrong answer. :(");
+				}
+				else {
+					// Display the alert for correct answer
+					alert("Correct!");
+
+					// Reload the current page to refresh terms
+					document.location.reload(true);
+				}
+			});
+		};
+
 });
 
 
