@@ -1,14 +1,19 @@
 <!-- Spotlight -->
-<div class="jumbotron text-center spotlight">
+<div class="jumbotron text-center spotlight ">
     <h1>Study Mode</h1>
 
-    <p>{{ message }}</p>
+    <p>{{ stack_name }}</p>
 </div>
-<button name="button"><i class="fa fa-arrow-left"></i> Previous</button>
-<button name="button">Next <i class="fa fa-arrow-right"></i></button>
-<dl id="">
-  <dt>{{}}</dt>
-  <dd>{{}}</dd>
+<div class="clearfix"> <!-- all content enclosed -->
+
+<button name="button" class="pull-left"><i class="fa fa-arrow-left"></i> Previous</button>
+<button name="button" class="pull-right">Next <i class="fa fa-arrow-right"></i></button>
+
+<dl class="dict_list col-md-3 padding">
+    <dt>{{ term.term }}</dt>
+    <dd>{{ term.definition }}</dd>
 </dl>
-<button name="button">Flip</button>
-<a href="#/"> Stop</a>
+
+<button name="button" class="pull-right clearfix">Flip</button>
+
+</div>

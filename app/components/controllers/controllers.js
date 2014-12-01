@@ -232,13 +232,6 @@ DigitalFlashCtrls.controller('modeCtrl', function($scope, $routeParams, $window)
 
 });
 
-/* ============================================
-			STUDY CONTROLLER
-============================================ */
-DigitalFlashCtrls.controller('studyCtrl', function($scope){
-	$scope.message = 'Study your Stack';
-
-});
 
 /* ============================================
 				MANAGE CONTROLLER
@@ -507,4 +500,23 @@ DigitalFlashCtrls.controller('gameResultsCtrl', function($scope, $routeParams) {
 	var gameSession = new localStorageDB("gameSession", sessionStorage);
 
 	$scope.game_session_data = gameSession.query("game_data");
+});
+
+/* ============================================
+			STUDY CONTROLLER
+============================================ */
+DigitalFlashCtrls.controller('studyCtrl', function($scope, $http, $routeParams){
+
+// ------------------- Header Message
+	$scope.message = 'Study a Stack';
+$scope.stack_name = stack_slug.replace(/_/g, " ");
+
+//var word = localStorageDB(word , localStorage);
+	//$scope.stack_name = $routeParams.stack_name;
+
+// Fetch Dictionary
+//$http.get('components/json/test-dictionary.json').success(function(data) {
+	//$scope.dictionary = data;
+//});
+
 });
