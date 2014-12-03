@@ -1,0 +1,22 @@
+<!-- Spotlight -->
+{{ stack_name }}
+
+<div class="clearfix" id="gameBoxInfo"> <!-- all content enclosed -->
+
+<button ng-click="prevW()" class="pull-left"><i class="fa fa-arrow-left"></i> Previous</button>
+<button ng-click="nextW()" class="pull-right">Next <i class="fa fa-arrow-right"></i></button>
+
+
+  <!--<dl ng-repeat="word in words" class="dict_list col-md-3 padding" >
+    <dt>{{ word.word }}</dt>
+    <dd>{{ word.definition }}</dd>
+</dl>-->
+
+
+<ul >
+  <li id="switch" class="dict_list  padding" >{{ randomItem2.definition }}</li>
+</ul>
+
+<button ng-click="flip()" class="pull-right clearfix">Flip</button>
+
+</div>

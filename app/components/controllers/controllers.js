@@ -682,3 +682,68 @@ DigitalFlashCtrls.controller('gameResultsCtrl', function($scope, $routeParams) {
 	gameSession.commit();
 	
 });
+
+/* ============================================
+			STUDY CONTROLLER
+============================================ */
+DigitalFlashCtrls.controller('studyCtrl', function($scope, $routeParams, $location, displayStacks){
+// ------------------- Header Message
+	$scope.message = "Study";
+
+	//access stack name
+	var stack_slug = $routeParams.stack_slug;
+	$scope.stack_name = stack_slug.replace(/_/g, " ");
+
+	//access local storage for stack
+	var stackDB = localStorageDB($scope.stack_name, localStorage);
+	$scope.words = stackDB.query("words");
+
+	// Create an array for the random words
+	var randomWords = [];
+
+	// Add random terms to variables
+	// 	randomWords[i] = $scope.words[Math.floor(Math.random()*$scope.words.length)];
+	for (var i = 0; i < $scope.words.length; i++) {
+
+			//console.log("number " + $scope.number + " " + $scope.words[i].word);
+			$scope.words[i];
+			$scope.number = 0;
+			$scope.randomItem2 = $scope.words[i - $scope.number];
+
+			$scope.prevW = function(){
+
+				// increments the number to loop through array of words in stack
+					$scope.randomItem2 = $scope.words[$scope.number--];
+
+			}
+
+			$scope.nextW = function(){
+
+				// decrements the number to loop through array of words in stack
+
+//				if($scope.randomItem2){
+					$scope.randomItem2 = $scope.words[$scope.number++];
+//				}else{
+//						alert("end of stack, hit next");
+//				}
+				//console.log($scope.randomItem2);
+			}
+
+			$scope.limit = $scope.words.length;
+
+	$scope.flip = function(){
+
+// switches between term and defintion for what is displayed
+			if( $scope.randomItem2.definition ){
+				$("li#switch").replaceWith("{{randomItem2.word}}");
+			}else{
+				$("li#switch").replaceWith(" {{randomItem2.definition}} ");
+			}
+
+			// Reload the current page to refresh terms
+			//document.location.reload(true);
+
+	}
+
+}// end loop
+});
