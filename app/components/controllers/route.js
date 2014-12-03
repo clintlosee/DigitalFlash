@@ -44,15 +44,16 @@ DigitalFlash.config(['$routeProvider', function($routeProvider){
 
 	// Add words to user dictionary
     .when('/addwords', {
-            templateUrl: 'views/add_words.html',
-            controller: 'addCustomCtrl'
+      templateUrl: 'views/add_words.html',
+      controller: 'addCustomCtrl'
     })
 
-		// Study Mode
-		.when('/study', {
-						templateUrl: 'views/study.html',
-						controller: 'studyCtrl'
+	// Study Mode
+		.when('/study/:stack_slug', {
+			templateUrl: 'views/study.html',
+			controller: 'studyCtrl'
 		})
+
 
 	// Play Game
 	.when('/game/:mode/:stack_name', {

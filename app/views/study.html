@@ -1,19 +1,22 @@
 <!-- Spotlight -->
-<div class="jumbotron text-center spotlight ">
-    <h1>Study Mode</h1>
+{{ stack_name }}
 
-    <p>{{ stack_name }}</p>
-</div>
-<div class="clearfix"> <!-- all content enclosed -->
+<div class="clearfix" id="gameBoxInfo"> <!-- all content enclosed -->
 
-<button name="button" class="pull-left"><i class="fa fa-arrow-left"></i> Previous</button>
-<button name="button" class="pull-right">Next <i class="fa fa-arrow-right"></i></button>
+<button ng-click="prevW()" class="pull-left"><i class="fa fa-arrow-left"></i> Previous</button>
+<button ng-click="nextW()" class="pull-right">Next <i class="fa fa-arrow-right"></i></button>
 
-<dl class="dict_list col-md-3 padding">
-    <dt>{{ term.term }}</dt>
-    <dd>{{ term.definition }}</dd>
-</dl>
 
-<button name="button" class="pull-right clearfix">Flip</button>
+  <!--<dl ng-repeat="word in words" class="dict_list col-md-3 padding" >
+    <dt>{{ word.word }}</dt>
+    <dd>{{ word.definition }}</dd>
+</dl>-->
+
+
+<ul >
+  <li id="switch" class="dict_list  padding" >{{ randomItem2.definition }}</li>
+</ul>
+
+<button ng-click="flip()" class="pull-right clearfix">Flip</button>
 
 </div>
