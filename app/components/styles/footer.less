@@ -7,8 +7,37 @@
 ========================= */
 
 /* Foundation */
-footer {display: none;}
+footer {
+	border-top: 1px solid @footer-border;
+	height: @footer-height;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	overflow: hidden;
+}
 
+/* Logo */
+footer .logo {
+	display: none;
+	height: @footer-height;
+	line-height: @footer-height;
+}
+footer .logo a {
+	color: darken(@footer-border, 10%);
+	text-transform: uppercase;
+	font-weight: 200;
+}
+footer .logo a:hover {color: darken(@footer-border, 20%);}
+footer .logo span {font-weight: 400;}
+
+/* Copyright */
+footer .copyright {
+	height: @footer-height;
+	line-height: @footer-height;
+	color: darken(@footer-border, 10%);
+	text-align: center;
+}
 
 /* =========================
 	Tablet
@@ -18,4 +47,12 @@ footer {display: none;}
 /* =========================
 	Desktop
 ========================= */
-@media screen and (min-width: 1024px){}
+@media screen and (min-width: 1024px){
+	
+	/* Logo */
+	footer .logo {float: left; display: block;}
+	
+	/* Copyright */
+	footer .copyright {float: right; text-align: left;}
+	
+}

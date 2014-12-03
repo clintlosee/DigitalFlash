@@ -10,7 +10,8 @@
 .clear {clear: both;}
 
 /* Wrappers */
-body {background: @body-bg; .type-paragraph();}
+html {position: relative; min-height: 100%;}
+body {background: @body-bg; margin-bottom: @footer-height; .type-paragraph();}
 .app-wrapper {display: block; height: 100%; width: 100%;}
 .app-wrapper.clicked {margin-left: -70%}
 
@@ -25,6 +26,7 @@ h6 {.type-header(18px; 400); padding: 0px 0px 0px 0px; margin: 0px 0px 10px 0px;
 
 /* Links */
 a {text-decoration: none; color: @body-highlight-2;}
+a:focus {outline: 0; text-decoration: none;}
 a:hover {color: darken(@body-highlight-2, 10%); text-decoration: none;}
 
 /* =========================
@@ -70,6 +72,132 @@ a:hover {color: darken(@body-highlight-2, 10%); text-decoration: none;}
 }
 .search input:focus {outline: none; border: 1px solid @body-highlight-1;}
 
+/* Display Stacks */
+.display-stacks {margin-bottom: 30px;}
+.display-stacks .stack {
+	background: white;
+	width: 100%;
+	overflow: hidden;
+	margin: 0px 0px 25px 0px;
+	.rounded-corners(5px);
+}
+.display-stacks .stack .number {
+	background: @body-highlight-3;
+	text-align: center;
+	padding: 50px 30px 50px 30px;
+}
+.display-stacks .stack .number h1 {color: white; font-size: 50px;}
+.display-stacks .stack .name {text-align: center;}
+.display-stacks .stack .name a {
+	font-size: 20px;
+	line-height: 32px;
+	color: lighten(@body-text-color, 20%);
+	padding: 10px 20px 10px 20px;
+	display: block;
+}
+.display-stacks .stack .name a:hover {color: @body-text-color;}
+
+/* Choose Mode */
+.choose-mode .mode {margin: 0px 0px 40px 0px;}
+.choose-mode .mode article{
+	background: white;
+	padding: 20px;
+	text-align: center;
+	border-bottom: 5px solid darken(@body-bg, 10%);
+	.rounded-corners(5px);
+}
+.choose-mode .mode article i.fa {font-size: 85px; margin-bottom: 10px; color: @body-highlight-2;}
+.choose-mode .mode article h2 {color: @body-highlight-2;}
+.choose-mode .mode article p {text-align: left;}
+.choose-mode .mode article a {
+	display: block;
+	background: @body-highlight-3;
+	color: white;
+	margin: 20px 0px 0px 0px;
+	padding: 20px;
+	.rounded-corners(5px);
+	.transitions();
+}
+.choose-mode .mode article a:hover {background: darken(@body-highlight-3, 10%);}
+
+/* Game */
+.game {margin-bottom: 30px;}
+.game #timer {
+	font-size: 60px;
+	display: block;
+	margin: 20px auto 0px auto;
+	text-align: center;
+	color: @body-highlight-2;
+	font-weight: 600;
+	text-align: right;
+}
+.game button#stop {
+	display: block;
+	text-align: center;
+	padding: 20px;
+	border: 3px solid @body-highlight-2;
+	background: none;
+	width: 100%;
+	font-size: 18px;
+	font-weight: 600;
+	margin: 0px 0px 20px 0px;
+	color: @body-highlight-2;
+	.rounded-corners(5px);
+	.transitions();
+}
+.game button#stop:hover {background: @body-highlight-2; color: white;}
+.game .game-card {
+	background: white;
+	padding: 20px;
+	border-bottom: 5px solid darken(@body-bg, 10%);
+	.rounded-corners(5px);
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+.game .game-card h2 {font-size: 40px; line-height: 52px; font-weight: 400;}
+.game .game-card ul.terms {margin-top: 25px;}
+.game .game-card ul.terms li {
+	display: inline-block;
+	padding: 20px;
+	background: none;
+	border: 1px solid @body-highlight-3;
+	color: @body-highlight-3;
+	margin: 0px 20px 20px 0px;
+	cursor: pointer;
+	.rounded-corners(5px);
+	.transitions();
+}
+.game .game-card ul.terms li:hover {background: @body-highlight-3; color: white;}
+.game .game-card .answerResults {
+	text-align: center;
+	display: none;
+	margin: 10px 0px 10px 0px;
+}
+.game .game-card .answerResults .correct {
+	padding: 10px;
+	width: 100%;
+	background: lighten(@body-highlight-1, 10%);
+	color: white;
+	display: block;
+	font-size: 18px;
+	line-height: 30px;
+	.rounded-corners(5px);
+}
+.game .game-card .answerResults .wrong {
+	padding: 10px;
+	width: 100%;
+	background: lighten(@body-highlight-2, 10%);
+	color: white;
+	display: none;
+	font-size: 18px;
+	line-height: 30px;
+	.rounded-corners(5px);
+}
+.game .game-card .answerResults.showCorrect, .game .game-card .answerResults.showCorrect .correct,
+.game .game-card .answerResults.showWrong, .game .game-card .answerResults.showWrong .wrong {display: block;}
+.game .game-card .answerResults.showCorrect .wrong, .game .game-card .answerResults.showWrong .correct {display: none;}
+
 /* Create Stacks */
 .create-stack {background: white;  text-align: center; padding: 40px 0px 40px 0px;}
 .create-stack .type {border-top: 1px solid @create-stack-border-color; padding: 30px;}
@@ -86,8 +214,6 @@ a:hover {color: darken(@body-highlight-2, 10%); text-decoration: none;}
 }
 .create-stack .type a i.fa {margin-left: 10px;}
 .create-stack .type a:hover {background: darken(@body-highlight-2, 10%);}
-
-
 
 /* =========================
 	Tablet
@@ -114,8 +240,37 @@ a:hover {color: darken(@body-highlight-2, 10%); text-decoration: none;}
 ========================= */
 
 /* Foundation */
-footer {display: none;}
+footer {
+	border-top: 1px solid @footer-border;
+	height: @footer-height;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	overflow: hidden;
+}
 
+/* Logo */
+footer .logo {
+	display: none;
+	height: @footer-height;
+	line-height: @footer-height;
+}
+footer .logo a {
+	color: darken(@footer-border, 10%);
+	text-transform: uppercase;
+	font-weight: 200;
+}
+footer .logo a:hover {color: darken(@footer-border, 20%);}
+footer .logo span {font-weight: 400;}
+
+/* Copyright */
+footer .copyright {
+	height: @footer-height;
+	line-height: @footer-height;
+	color: darken(@footer-border, 10%);
+	text-align: center;
+}
 
 /* =========================
 	Tablet
@@ -125,7 +280,15 @@ footer {display: none;}
 /* =========================
 	Desktop
 ========================= */
-@media screen and (min-width: 1024px){}
+@media screen and (min-width: 1024px){
+	
+	/* Logo */
+	footer .logo {float: left; display: block;}
+	
+	/* Copyright */
+	footer .copyright {float: right; text-align: left;}
+	
+}
 /* ==================================================
 	Digital Flash Header CSS
 ================================================== */
@@ -304,42 +467,6 @@ header .level #points {
 	.spotlight p {font-size: 22px; line-height: 32px;}
 	
 }
-/* app css stylesheet */
-
-.menu {
-  list-style: none;
-  border-bottom: 0.1em solid black;
-  margin-bottom: 2em;
-  padding: 0 0 0.5em;
-  outline:none;
-}
-
-.menu:before {
-  content: "[";
-}
-
-.menu:after {
-  content: "]";
-}
-
-.menu > li {
-  display: inline;
-}
-
-.menu > li:before {
-  content: "|";
-  padding-right: 0.3em;
-}
-
-.menu > li:nth-child(1):before {
-  content: "";
-  padding: 0;
-}
-
-/*button{
-  color: @orange;
-  color: ff5f40;
-}*/
 
 /* ============================================
  Save Stack Input
@@ -510,6 +637,7 @@ a.hard_button{
 @body-text-color: #666666;
 @body-highlight-1: #a265e2;
 @body-highlight-2: #fc6047;
+@body-highlight-3: #7184cc;
 
 // Header
 @header-bg: #ffffff;
@@ -527,6 +655,8 @@ a.hard_button{
 @create-stack-border-color: #dedede;
 
 // Footer
+@footer-border: #C7C7C7;
+@footer-height: 100px;
 
 // --------------- Mixins
 
@@ -553,6 +683,15 @@ a.hard_button{
 	-webkit-border-radius: @radius;
 	-moz-border-radius: @radius;
 	border-radius: @radius;
+}
+
+// Transitions
+.transitions(@type: all; @timing: 100ms; @function: linear){
+	-webkit-transition: @arguments;
+	-moz-transition: @arguments;
+	-ms-transition: @arguments;
+	-o-transition: @arguments;	
+	transition: @arguments;
 }
 
 /* =========================================

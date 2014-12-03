@@ -11,6 +11,7 @@
 @body-text-color: #666666;
 @body-highlight-1: #a265e2;
 @body-highlight-2: #fc6047;
+@body-highlight-3: #7184cc;
 
 // Header
 @header-bg: #ffffff;
@@ -28,6 +29,8 @@
 @create-stack-border-color: #dedede;
 
 // Footer
+@footer-border: #C7C7C7;
+@footer-height: 100px;
 
 // --------------- Mixins
 
@@ -54,6 +57,15 @@
 	-webkit-border-radius: @radius;
 	-moz-border-radius: @radius;
 	border-radius: @radius;
+}
+
+// Transitions
+.transitions(@type: all; @timing: 100ms; @function: linear){
+	-webkit-transition: @arguments;
+	-moz-transition: @arguments;
+	-ms-transition: @arguments;
+	-o-transition: @arguments;	
+	transition: @arguments;
 }
 
 /* =========================================

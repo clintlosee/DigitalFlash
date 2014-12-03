@@ -22,6 +22,8 @@ DigitalFlashServices.factory('displayStacks', function(){
 
 		  // Get Stack Key
 	      var stackKey = localStorage.key(i);
+	      
+	   
 
 		  		// If Database Object is Not a Stack, Don't Display
 	            if (stackKey == "db_cus_dict" || stackKey == "db_points"){continue;}
@@ -32,9 +34,14 @@ DigitalFlashServices.factory('displayStacks', function(){
 		            // Get Stack Name & Slug
 	                var stack_name = stackKey.replace("db_", "").replace(/_/g, " ");
 	                var stack_slug = stackKey.replace("db_", "");
+	                var stack_qname = stackKey.replace("db_", "");
+	                
+	                 // Get Stack Length
+					var stack_db = localStorageDB(stack_qname, localStorage);
+					var stack_length = stack_db.query("words").length;
 
 					// Assign Variables to Array
-	                stack_array = {"name": stack_name, "slug": stack_slug}
+	                stack_array = {"name": stack_name, "slug": stack_slug, "length": stack_length, "link": stack_qname}
 
 					// Push to Stacks Array
 	                stacks.push(stack_array);

@@ -6,30 +6,34 @@
 	</div>
 </div>
 
-<h1>{{stack_name}}</h1>
-
-<div class="create-stack">
-
+<!-- Choose Mode -->
+<div class="choose-mode">
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-xs-12 col-sm-6 col-md-6 type">
-				<i class="fa fa-gamepad fa-4x"></i>
-				<h3>Game Mode</h3>
-				<p>Choose a game mode. Double points for hard mode</p>
-				<a href="/app/#/game/easy/{{ stack_name }}" ng-click="" class="easy_button center">Easy<i class="fa fa-arrow-right"></i></a>
-				<a href="/app/#/game/hard/{{ stack_name }}" ng-click="" class="hard_button center">Hard<i class="fa fa-arrow-right"></i></a>
+			<div class="col-xs-12 col-sm-12 col-md-4 mode">
+				<article>
+					<i class="fa fa-child"></i>
+					<h2>Study Mode</h2>
+					<p>Match the word to the definition!  Unlimited time, no points, no stress!   Ability to browse through the cards in your stack.</p>
+					<a href="#">Play Study Mode</a>
+				</article>
 			</div>
-			<div class="col-xs-12 col-sm-6 col-md-6 type">
-				<i class="fa fa-flash fa-4x"></i>
-				<h3>Practice Mode</h3>
-				<p>No points in this mode!</p>
-				<a href="" ng-click="">Start Game<i class="fa fa-arrow-right"></i></a>
+			<div class="col-xs-12 col-sm-12 col-md-4 mode">
+				<article>
+					<i class="fa fa-gamepad"></i>
+					<h2>Easy Mode</h2>
+					<p>In this mode, you can match the word to the definition in multiple choice!  You have as much time as you need and you can choose the answer up to two times.  Each correct answer is only worth one point.</p>
+					<a href="/app/#/game/easy/{{stack_name}}">Play Easy Mode</a>
+				</article>
 			</div>
-
+			<div class="col-xs-12 col-sm-12 col-md-4 mode">
+				<article>
+					<i class="fa fa-fighter-jet"></i>
+					<h2>Hard Mode</h2>
+					<p>In this mode, you have only ten seconds to answer before it goes to the next definition.  You only have one opportunity to choose correctly, but each correct answer is worth two points!</p>
+					<a href="/app/#/game/hard/{{stack_name}}">Play Hard Mode</a>
+				</article>
+			</div>
 		</div>
-
-	<div class="type">
-		<a href="/app/#/mode/{{ stack_name }}" ng-click="addPoints()">Add Points</a>
-
 	</div>
 </div>

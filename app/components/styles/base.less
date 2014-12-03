@@ -10,7 +10,8 @@
 .clear {clear: both;}
 
 /* Wrappers */
-body {background: @body-bg; .type-paragraph();}
+html {position: relative; min-height: 100%;}
+body {background: @body-bg; margin-bottom: @footer-height; .type-paragraph();}
 .app-wrapper {display: block; height: 100%; width: 100%;}
 .app-wrapper.clicked {margin-left: -70%}
 
@@ -25,6 +26,7 @@ h6 {.type-header(18px; 400); padding: 0px 0px 0px 0px; margin: 0px 0px 10px 0px;
 
 /* Links */
 a {text-decoration: none; color: @body-highlight-2;}
+a:focus {outline: 0; text-decoration: none;}
 a:hover {color: darken(@body-highlight-2, 10%); text-decoration: none;}
 
 /* =========================

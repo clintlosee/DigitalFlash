@@ -201,35 +201,6 @@ DigitalFlashCtrls.controller('modeCtrl', function($scope, $routeParams, $window)
 	var current_points = points.query("user_points", {ID: "1"});
 	var display_points = current_points[0].points;
 
-	// Level Display
-	$("#level").css("padding-right", display_points);
-	$("#points").html(display_points);
-
-	// Temp Button to Add Points
-	$scope.addPoints = function() {
-
-		// Update Table When Button is Pressed
-		points.insertOrUpdate("user_points", {ID: "1"}, { ID: "1",
-				points: display_points + 10,
-		});
-
-		// Commit Update
-		points.commit();
-
-		// Update Display
-		$("#level").css("padding-right", display_points);
-		$("#points").html(display_points);
-
-		// ------------------- Page Refresh
-		var refresh = (function() {
-			$window.location.reload();
-		})();
-
-		// Return Refresh
-		return refresh;
-
-	}
-
 });
 
 
@@ -437,32 +408,225 @@ DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window, $http) {
 					Play Game
 ============================================ */
 DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $location, displayStacks) {
-	// Display overall points
+	
+	// Display Overall Points
 	levelSystem();
-
-	// Stack Name
+	
+	// Get Stack Name
 	$scope.stack_name = $routeParams.stack_name;
-
-	// Create a temporary database to hold game session data
+	
+	// Spotlight Variables
+	$scope.header = $scope.stack_name.replace("_", " ");
+	
+	// Create Game Session Database
 	var gameSession = new localStorageDB("gameSession", sessionStorage);
 
-	if ( gameSession.isNew() ) {
-		// Create table that records time spent, number correct, number incorrect, and the number of points earned
+	// If Database Is New
+	if(gameSession.isNew()){
+		
+		// Create Table
 		gameSession.createTable("game_data", ["num_correct", "num_incorrect", "points_earned"]);
+		
+		// Insert Value
+		gameSession.insert("game_data", {num_correct: 0, num_incorrect: 0, points_earned: 0});
+		
+		// Commit Table
 		gameSession.commit();
+		
+	}
+	
+	// Get Stack Information
+	var stackDB = localStorageDB($scope.stack_name, localStorage);
+	
+	// Query Database
+	$scope.words = stackDB.query("words");
+	
+	// Get Random Definition
+	$scope.randomItem = $scope.words[Math.floor(Math.random()*$scope.words.length)];
+	
+	
+	// Create Random Words Array
+	var randomWords = [];
+	
+	// Push Random Terms to Variables
+	for(var i = 0; i < $scope.words.length; i++){
+		
+		// Generate Random Key
+		randomWords[i] = $scope.words[Math.floor(Math.random()*$scope.words.length)];
+		
+		// Assign to Variables
+		$scope.randomItem = randomWords[i];
+		$scope.randomItem2 = randomWords[i - 1];
+		$scope.randomItem3 = randomWords[i - 2];
+		$scope.randomItem4 = randomWords[i - 3];
+		
 	}
 
-	var stopGame = function() {
-		// erase previous game data
-		gameSession.deleteRows("game_data");
+	// Shuffled Terms
+	function shuffle(nodes, switchableSelector) {
+		
+		// Get Node Length
+		var length = nodes.length;
 
-		// insert new game data
-		gameSession.insert("game_data", {num_correct: "6", num_incorrect: "2", points_earned: "12"});
-		gameSession.commit();
+		// Create Array for Random Pick
+		var shuffleable = nodes.filter("." + switchableSelector);
+		var shuffleIndex = [];
 
+		// For Each Term
+		$.each(shuffleable, function(index, item) {
+			shuffleIndex[index] = $(item).index();
+		});
+
+		// The Array Should Be Used for Packing up Random Elements
+		var shuffleLength = shuffleIndex.length;
+		var randomPick, randomSwap;
+
+		// Loop Through Index
+		for (var index = length; index > 0; index--) {
+			
+			// Get Random INdex That Contains a Shuffable Element
+			randomPick = shuffleIndex[Math.floor(Math.random() * shuffleLength)];
+
+			// Get the Next Element That Needs to be Swapped
+			randomSwap = nodes[index - 1];
+
+			// If the Element is 'Not Shuffable', Ignore and Continue
+			if($(randomSwap).hasClass(switchableSelector)) {
+				nodes[index - 1] = nodes[randomPick];
+				nodes[randomPick] = randomSwap;
+			}
+		}
+
+		// Return Nodes
+		return nodes;
+	}
+	
+	// Shuffle Terms Function
+	var shuffleTerms = function() {
+		
+		// Declare Nodes
+		var $nodes = $(".terms").find("li");
+		
+		// Use Shuffle Function
+		shuffle($nodes, "sh");
+		
+		// Append Shuffled Terms
+		$(".terms").append($nodes);
+		
+	}
+	
+	// Set TimeOut (Don't Remove!)
+	setTimeout(shuffleTerms, 5);
+
+	// Function to check if correct term was selected
+	$scope.termCheck = function(clicked) {
+		
+		// Get Current Stats
+		var game_data = gameSession.query("game_data");
+		var game_incorrect = parseInt(game_data[0].num_incorrect, 10);
+		var game_correct = parseInt(game_data[0].num_correct, 10);
+		var game_points = parseInt(game_data[0].points_earned, 10);
+		
+		// Check To See if Term is Correct
+		if(clicked != $scope.randomItem.word){
+			
+			// Change Class for Error Message
+			$scope.answerClass = 'showWrong';
+			
+			// Update to Database
+			gameSession.update("game_data", {ID: 1}, function(row){
+				
+				// Add Incorrect
+				row.num_incorrect = game_incorrect + 1;
+				
+				// Return Row
+				return row;
+				
+			});
+			
+			// Commit Updates
+			gameSession.commit();
+			
+		}
+		else {
+		
+			// Change Class for Error Message
+			$scope.answerClass = 'showCorrect';
+			
+			// Update to Database
+			gameSession.update("game_data", {ID: 1}, function(row){
+				
+				// Add Incorrect
+				row.num_correct = game_correct + 1;
+				row.points_earned = game_points + 1;
+				
+				// Return Row
+				return row;
+				
+			});
+			
+			// Commit Updates
+			gameSession.commit();
+			
+			// Create Timer to Move to Next Card
+			var correctTimer = function(){
+				$('#correctAnswer strong').runner({
+					autostart: true,
+					countdown: true,
+					milliseconds: false,
+					startAt: 3*1000,
+					stopAt: 0
+				}).on('runnerFinish', function() {
+					
+					// Reload Document
+					document.location.reload(true);
+					
+				});
+			};
+			
+			// Start Timer
+			correctTimer();
+		
+		}
+		
+	};
+
+	// Stop Game
+	var stopGame = function(){
+		
+		// Get Current Stats
+		var game_data = gameSession.query("game_data");
+		var game_points = parseInt(game_data[0].points_earned, 10);
+		
+		// Query Point System
+		var points = new localStorageDB("points", localStorage);
+		
+		// Get Points
+		console.log(game_points);
+		
+		// Update Table
+		points.update("user_points", {ID: 1}, function(row){
+			
+			// Assign Points
+			row.points = parseInt(row.points, 10) + game_points;
+			
+			// Return Row
+			return row;
+			
+		});
+
+		// Commit Update
+		points.commit();
+				
+		// New Location Path
 		$location.path("/game_results/" + $routeParams.stack_name);
-	}
-
+		
+	};
+	
+	// Scope Function
+	$scope.stopGame = function(){stopGame();};
+	
+	// Timer for Hard Mode
 	if ($routeParams.mode == "hard") {
 		// Start the timer
 		var startTimer = function() {
@@ -481,115 +645,6 @@ DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $locatio
 		startTimer();
 	}
 
-	$scope.stopGame = function() {
-		stopGame();
-	};
-
-
-
-	//******************************************* Code to display terms for game here
-
-
-
-		//$scope.stacks = displayStacks();
-
-		//var stack_slug = $routeParams.stack_slug;
-
-		//$scope.stack_name = stack_slug.replace(/_/g, " ");
-
-		// Access the local storage database of the stack
-		var stackDB = localStorageDB($scope.stack_name, localStorage);
-		$scope.words = stackDB.query("words");
-
-
-
-
-		//$scope.randomItem = $scope.words[Math.floor(Math.random()*$scope.words.length)];
-
-		// Create an array for the random words
-		var randomWords = [];
-
-		// Add random terms to variables
-		for (var i = 0; i < $scope.words.length; i++) {
-			randomWords[i] = $scope.words[Math.floor(Math.random()*$scope.words.length)];
-
-			$scope.randomItem = randomWords[i];
-			$scope.randomItem2 = randomWords[i - 1];
-			$scope.randomItem3 = randomWords[i - 2];
-			$scope.randomItem4 = randomWords[i - 3];
-
-		}
-
-		$scope.limit = 4;
-
-
-		//Function that will shuffle the terms randomly.
-		function shuffle(nodes, switchableSelector) {
-			var length = nodes.length;
-
-			//Create the array for the random pick.
-			var shuffleable = nodes.filter("." + switchableSelector);
-			var shuffleIndex = [];
-
-			$.each(shuffleable, function(index, item) {
-				shuffleIndex[index] = $(item).index();
-			});
-
-			//The array should be used for picking up random elements.
-			var shuffleLength = shuffleIndex.length;
-			var randomPick, randomSwap;
-
-			for (var index = length; index > 0; index--) {
-				//Get a random index that contains a shuffleable element.
-				randomPick = shuffleIndex[Math.floor(Math.random() * shuffleLength)];
-
-				//Get the next element that needs to be swapped.
-				randomSwap = nodes[index - 1];
-
-				//If the element is 'not shuffleable', ignore and continue;
-				if($(randomSwap).hasClass(switchableSelector)) {
-					nodes[index - 1] = nodes[randomPick];
-					nodes[randomPick] = randomSwap;
-				}
-			}
-
-			return nodes;
-		}
-
-		// Create shuffleTerms fuction
-		var shuffleTerms = function () {
-			var $nodes = $("#terms").find("li");
-			shuffle($nodes, "sh");
-			$("#terms").append($nodes);
-		};
-
-		// Set a delay to shuffle terms in order to accomodate for Angular rendering
-		// Without this, the terms only displayed the Angular variables
-		setTimeout(shuffleTerms, 5);
-
-
-		// Function to check if correct term was selected
-		$scope.termCheck = function () {
-
-			// Get clicked item text and save to variable
-			$(document).click(function(event) {
-				var text = $(event.target).text();
-
-				// Check to see if term clicked matches definition and alert
-				if (text != $scope.randomItem.word) {
-					// Display the alert for the wrong answer
-					alert("Sorry, wrong answer. :(");
-				}
-				else {
-					// Display the alert for correct answer
-					alert("Correct!");
-
-					// Reload the current page to refresh terms
-					document.location.reload(true);
-				}
-			});
-		};
-
 });
 
 
@@ -597,15 +652,35 @@ DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $locatio
 				Game Results
 ============================================ */
 DigitalFlashCtrls.controller('gameResultsCtrl', function($scope, $routeParams) {
-	// Display the overall points
+	
+	// Display Level
 	levelSystem();
 
+	// Get Stack Name
 	$scope.stack_name = $routeParams.stack_name;
 
-	// Get the game session data
+	// Get Game Session Data
 	var gameSession = new localStorageDB("gameSession", sessionStorage);
 
+	// Store Game Session Into Scope Variable
 	$scope.game_session_data = gameSession.query("game_data");
+	
+	// Drop Database
+	gameSession.update("game_data", {ID: 1}, function(row){
+		
+		// Reset Values
+		row.num_incorrect = 0;
+		row.num_correct = 0;
+		row.points_earned = 0;
+		
+		// Return Row
+		return row;
+		
+	});
+	
+	// Commit Changes
+	gameSession.commit();
+	
 });
 
 // Create Digital Flash Module
@@ -695,6 +770,8 @@ DigitalFlashServices.factory('displayStacks', function(){
 
 		  // Get Stack Key
 	      var stackKey = localStorage.key(i);
+	      
+	   
 
 		  		// If Database Object is Not a Stack, Don't Display
 	            if (stackKey == "db_cus_dict" || stackKey == "db_points"){continue;}
@@ -705,9 +782,14 @@ DigitalFlashServices.factory('displayStacks', function(){
 		            // Get Stack Name & Slug
 	                var stack_name = stackKey.replace("db_", "").replace(/_/g, " ");
 	                var stack_slug = stackKey.replace("db_", "");
+	                var stack_qname = stackKey.replace("db_", "");
+	                
+	                 // Get Stack Length
+					var stack_db = localStorageDB(stack_qname, localStorage);
+					var stack_length = stack_db.query("words").length;
 
 					// Assign Variables to Array
-	                stack_array = {"name": stack_name, "slug": stack_slug}
+	                stack_array = {"name": stack_name, "slug": stack_slug, "length": stack_length, "link": stack_qname}
 
 					// Push to Stacks Array
 	                stacks.push(stack_array);
