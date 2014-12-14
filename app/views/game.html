@@ -16,7 +16,7 @@
 			<div class="col-md-12">
 				<div class="game-card">
 					<h2>{{randomItem.definition}}</h2>
-					<ul class="terms">
+					<ul class="terms" ng-class="guesses">
 						<li ng-click="termCheck(randomItem.word)"><strong>A: </strong>{{randomItem.word}}</li>
 						<li ng-click="termCheck(randomItem2.word)"><strong>B: </strong>{{randomItem2.word}}</li>
 						<li ng-click="termCheck(randomItem3.word)"><strong>C: </strong>{{randomItem3.word}}</li>
@@ -24,7 +24,7 @@
 					</ul>
 					<div class="answerResults" ng-class="answerClass">
 						<span class="correct" id="correctAnswer">Your answer was correct! <strong></strong></span>
-						<span class="wrong">Your answer was wrong!</span>
+						<span class="wrong" id="wrongAnswer">Your answer was wrong! <strong></strong></span>
 						<span class="time" id="timesUp">Time's up! <strong></strong></span>
 					</div>
 				</div>
