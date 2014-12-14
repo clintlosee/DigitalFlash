@@ -99,12 +99,7 @@ var levelSystem = function(){
 	$("#level").css("padding-right", display_points);
 	$("#points").html(display_points);
 
-}
-
-
-
-
-
+};
 
 /* ============================================
 HTTP GET SERVICE

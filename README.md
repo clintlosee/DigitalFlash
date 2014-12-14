@@ -9,7 +9,7 @@ Digital Flash is a web application for students to study vocabulary.  They can c
 
 ## Development Instructions
 
-This application is based on AngularJS and NodeJS.  To run this application, you must install NodeJS.  After you clone the repository, you can install the project's dependencies.  To do so, run the following command:
+This application is based on AngularJS and NodeJS.  To run this application, you must install NodeJS.  After you clone the repository into your desired directory and `cd` into that directory, you can install the project's dependencies.  To do so, run the following command:
 
 ```
 npm install
@@ -23,15 +23,17 @@ You can run the application on your local machine by running the following comma
 npm start
 ```
 
-The application is currently set up for the developers to modify scripts in /app/components/scripts and to modify styles in /app/components/styles.  The application uses GRUNT to concatinate and minify script and css files /app/scripts/ and /app/styles/ respectively.  To activate grunt, run the following command:
+After running `npm start`, you can access the application by navigating your browser to: [http://localhost:8000/app/](http://localhost:8000/app/).
 
-``` 
+The application is currently set up for the developers to modify scripts in /app/components/scripts and to modify styles in /app/components/styles.  The application uses GRUNT to concatenate and minify script and css files /app/scripts/ and /app/styles/ respectively. You must have Grunt installed. To activate grunt, run the following command:
+
+```
 grunt
 ```
 
 Running that command will automatically uglify scripts, concatenate CSS, package LESS, minify CSS, and watch the directories for any changes (if any changes are made, the process will run again).
 
-You can choose to activate any of these commands independantly, though it isn't reconmended, by running the following commands:
+You can choose to activate any of these commands independently, though it isn't recommended, by running the following commands:
 
 ```
 grunt uglify
