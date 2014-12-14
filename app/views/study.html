@@ -1,22 +1,41 @@
-<!-- Spotlight -->
-{{ stack_name }}
+<!-- Spotlight --><div class="spotlight">
+  <div class="container-fluid">
+    <h1>{{ message + stack_name }}</h1>
+  </div>
+</div>
 
-<div class="clearfix" id="gameBoxInfo"> <!-- all content enclosed -->
+ <!-- all content enclosed -->
+<section class="study">
+  <div class="row">
+    <button ng-click="prevW()" class=" pull-left prev_btn"><i class="fa fa-arrow-left"></i> Previous</button>
 
-<button ng-click="prevW()" class="pull-left"><i class="fa fa-arrow-left"></i> Previous</button>
-<button ng-click="nextW()" class="pull-right">Next <i class="fa fa-arrow-right"></i></button>
+    <button ng-click="nextW()" class=" pull-right next_btn">Next <i class="fa fa-arrow-right"></i></button>
+  </div>
 
+<div class="flip col-md-4 pull-right">
+  <input type="checkbox" value="None" id="flip" ng-model="checked" name="check" checked />
+  <label for="flip"> <i class="fa fa-repeat"></i> Flip</label>
+</div>
 
-  <!--<dl ng-repeat="word in words" class="dict_list col-md-3 padding" >
-    <dt>{{ word.word }}</dt>
-    <dd>{{ word.definition }}</dd>
-</dl>-->
+<div class="study-card col-md-8 pull-left" >
 
+  <div class=" dict_list passing"  id="switch" ng-hide="checked">
+    <span ></span><br>{{ 'Definition: ' + randomItem2.definition }}
+  </div>
 
-<ul >
-  <li id="switch" class="dict_list  padding" >{{ randomItem2.definition }}</li>
-</ul>
+  <div class=" dict_list passing"  id="switch" ng-show="checked">
+    <span></span><br>{{ 'Term: '  + randomItem2.word }}
+  </div>
 
-<button ng-click="flip()" class="pull-right clearfix">Flip</button>
+</div>
 
+<div class="flip col-md-4 pull-right">
+<button class="go_home_btn"> <a href="/app/#/">Pick a New Stack</a></button>
+</div>
+
+<div class="clearfix">
+
+</div>
+
+</section>
 </div>

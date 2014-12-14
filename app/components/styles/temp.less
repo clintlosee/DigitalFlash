@@ -38,14 +38,14 @@ ul.stacks_list li {
   Dictionary list
 ============================================ */
 
-dl.dict_list{
+dl.dict_list, ul.dict_list{
   height: 30%;
   overflow: hidden;
   padding: 2%;
   background-color: #fff;
   margin: 1%;
 }
-dl.dict_list dd{
+dl.dict_list dd, ul.dict_list li{
   height: 75px;
   overflow: hidden;
 }
@@ -75,6 +75,7 @@ dl.dict_list dd{
 }
  button.add, a.add{
   font-size: 1em;
+  color: white;
 }
 button{
   display: block;
@@ -109,7 +110,7 @@ a.hard_button{
 
 
 // Delete Button
-.stacks_list #deleteBtn {
+.stacks_list #deleteBtn, span#deleteBtn {
   display:none;
 }
 .stacks_list li:hover #deleteBtn {
@@ -161,4 +162,81 @@ a.hard_button{
   transition: color 0.3s ease-in,
               background-color 0.3s ease-in,
               border-color 0.3s ease-in;
+}
+
+/* ============================================
+  Study Page
+============================================ */
+
+/* .squaredOne */
+.flip {
+  width: 23%;
+  height: 75px;
+  position: relative;
+  background: #ff4400;
+  display: block;
+  text-align: center;
+  padding: 20px;
+  border: 3px solid @body-highlight-2;
+  background: none;
+  font-size: 18px;
+  font-weight: 600;
+  color: @body-highlight-2;
+  .rounded-corners(5px);
+  .transitions();
+  margin-top: 5%;
+}
+.flip label:hover::after {
+  opacity: 0.3;
+}
+.flip input[type=checkbox] {
+  visibility: hidden;
+}
+.flip:hover {background: @body-highlight-2; color: white;}
+.study-card{
+  background: white;
+  padding: 20px;
+  width: 75%;
+  padding-bottom: 150px;
+  margin-bottom: 40px;
+  font-size: 24px;
+  font-weight: 600;
+  border-bottom: 5px solid darken(@body-bg, 10%);
+  .rounded-corners(5px);
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+
+}
+button.next_btn, button.prev_btn{
+  display: block;
+  text-align: center;
+  padding: 20px;
+  border: 3px solid @body-highlight-2;
+  background: none;
+  width: 100%;
+  font-size: 18px;
+  font-weight: 600;
+  color: @body-highlight-2;
+  .rounded-corners(5px);
+  .transitions();
+  margin: 20px;
+}
+button.next_btn{
+  margin-right: 26%;
+}
+button.next_btn:hover, button.prev_btn:hover, .go_home_btn a:hover {background: @body-highlight-2; color: white;}
+
+.go_home_btn{
+  display: block;
+  text-align: center;
+  padding: 20px;
+  background: none;
+  margin-top: -25px;
+
+}
+.study{
+  width: 65%;
+  margin:auto;
+  padding-bottom: 150px;
 }

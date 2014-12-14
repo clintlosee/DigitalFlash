@@ -1,15 +1,15 @@
 <div class="jumbotron text-center spotlight">
-    <h1>{{ stack_name }}</h1>
+    <h1>{{ stack_name }} <span id="deleteBtn" ng-click="deleteStack()"><i class="fa fa-times-circle"></i></span></h1>
 
     <p>{{ message }}</p>
 
-    <button name="button" ng-click="deleteStack()" class="add center">Delete Stack</button>
+  <!--  <button name="button" ng-click="deleteStack()" class="add center">Delete Stack</button> -->
 </div>
 {{dictionary.term}}
 
 <div class="container">
-    <div class="col-md-10 col-md-offset-1 ">
-
+  <button class="btn padding" ng-click="toggles = !toggles">Current Words in Stack</button>
+    <div class="col-md-10 col-md-offset-1" ng-show="toggles">
 
 
         <div id="words">
@@ -17,14 +17,22 @@
                 <li>
                     <span ng-model="word" >{{ word.word }}</span>
                 </li>
-                <li>{{ word.definition}}</li>
-                <button ng-click="deleteWord(word)" class="add">Delete Word</button>
+            <button ng-click="deleteWord(word)" class="add">Delete Word</button>
+
             </ul>
         </div>
+     </div>
 
-
-       <a class="add text-center" href="#/addwords">Add Custom Word </a></div>
         <div class="text-center search"> <input ng-model="query" placeholder="Search for Words to Add:"/ >
+          <button name="button" ng-click="toggle = !toggle">Add Custom Word </a></button>
+        <div class="well" ng-show="toggle">
+          <input class="col-md-4" id="cus_term" type="text" name="cus_term" ng-model="cus_term" placeholder="Term" >
+          <input class="col-md-4" id="cus_def" type="text" name="cus_def" ng-model="cus_def" placeholder="Definition" >
+          <button class="btn add center col-md-4" id="add_to_dic" name="add_to_dic" ng-click="addToDict(cus_term, cus_def)" >Add to Dictionary</button>
+        <div class="clearfix">
+
+        </div>
+        </div>
 
         <dl class="dict_list col-md-2" ng-repeat="term in entry">
             <dt ng-model="term.term">{{term.term}}</dt>
