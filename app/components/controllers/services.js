@@ -22,8 +22,8 @@ DigitalFlashServices.factory('displayStacks', function(){
 
 		  // Get Stack Key
 	      var stackKey = localStorage.key(i);
-	      
-	   
+
+
 
 		  		// If Database Object is Not a Stack, Don't Display
 	            if (stackKey == "db_cus_dict" || stackKey == "db_points"){continue;}
@@ -35,7 +35,7 @@ DigitalFlashServices.factory('displayStacks', function(){
 	                var stack_name = stackKey.replace("db_", "").replace(/_/g, " ");
 	                var stack_slug = stackKey.replace("db_", "");
 	                var stack_qname = stackKey.replace("db_", "");
-	                
+
 	                 // Get Stack Length
 					var stack_db = localStorageDB(stack_qname, localStorage);
 					var stack_length = stack_db.query("words").length;
@@ -100,3 +100,36 @@ var levelSystem = function(){
 	$("#points").html(display_points);
 
 }
+
+
+
+
+
+
+/* ============================================
+HTTP GET SERVICE
+============================================ */
+
+DigitalFlashServices.factory('DataRequest', ['$http',
+function($http){
+  return {
+    quotes: function() {
+      return $http.get('components/json/quotes.json')
+        .then(function(result) {
+          return result.data;
+        });
+    },
+    dictionary: function() {
+      return $http.get('components/json/test-dictionary.json')
+        .then(function(result) {
+          return result.data;
+        });
+    },
+    basicDictionary: function() {
+      return $http.get('components/json/basic_dictionary.json')
+      .then(function(result) {
+        return result.data;
+      });
+    }
+  };
+}]);

@@ -6,12 +6,13 @@ var DigitalFlashCtrls = angular.module('DigitalFlashCtrls', ['DigitalFlashServic
 /* ============================================
 				MAIN CONTROLLER
 ============================================ */
-DigitalFlashCtrls.controller('mainCtrl', function($scope, $http, displayStacks){
+DigitalFlashCtrls.controller('mainCtrl', function($scope, displayStacks, DataRequest){
 
 	// ------------------- Spotlight Quotes
-	$http.get('components/json/quotes.json').success(function(data){
+	DataRequest.quotes().then(function(data) {
+		$scope.data = data;
 
-		// Generate Random Index Number
+		//Generate Random Index Number
 		var number = Math.floor(Math.random() * data.length);
 
 		// Store Data Objects into Scope Variables
@@ -31,7 +32,7 @@ DigitalFlashCtrls.controller('mainCtrl', function($scope, $http, displayStacks){
 /* ============================================
 				CREATE CONTROLLER
 ============================================ */
-DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $routeParams, displayStacks) {
+DigitalFlashCtrls.controller('createCtrl', function($scope, $window, $routeParams, displayStacks, DataRequest) {
 
 	// ------------------- Header Messages
 	$scope.header = 'Create Stacks';
@@ -59,8 +60,8 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $rou
 			stack.commit();
 
 			// Populate Table With Random Words
-			$http.get('components/json/test-dictionary.json').success(function(data) {
-
+			// Dictionary DataRequest
+			DataRequest.dictionary().then(function(data) {
 				// Put Data into Variable Scope
 				$scope.data = data;
 
@@ -88,12 +89,11 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $rou
 
 				// Commit Table
 				stack.commit();
-
 			});
 
 		}
 
-	}
+	};
 
 	// ------------------- Create Custom Stack
 	$scope.createStack = function(stack_name){
@@ -120,7 +120,7 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $rou
             $window.location.reload();
         })();  return refresh;
 
-	}
+	};
 
 	// ------------------- Create Basic Stack
 	$scope.createBasicStack = function(input){
@@ -141,8 +141,8 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $rou
 			stack.commit();
 
 			// Populate Table With Random Words
-			$http.get('components/json/basic_dictionary.json').success(function(data) {
-
+			// Basic Dictionary DataRequest
+			DataRequest.basicDictionary().then(function(data) {
 				// Put Data into Variable Scope
 				$scope.data = data;
 
@@ -175,7 +175,7 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $rou
 
 		}
 
-	}
+	};
 
 });
 
@@ -222,27 +222,27 @@ DigitalFlashCtrls.controller('manageCtrl', function($scope, displayStacks){
 	$scope.deleteStack = function() {
 
 		// Access stack slug name from object and save into variable
-		var stack_slug = $scope.stacks[0].slug
+		var stack_slug = $scope.stacks[0].slug;
 
 		// Create variable to access localstorage database
 		var stackDB = localStorageDB(stack_slug, localStorage);
 
 		// Confirm deletion of stack or cancel
-		if (confirm("Are you sure you want to delete this stack?") == true) {
+		if (confirm("Are you sure you want to delete this stack?") === true) {
 			stackDB.drop();
 			window.location.reload();
 		}
 		else {
 			return false;
 		}
-	}
+	};
 
 });
 
 /* ============================================
 				MANAGE STACK CONTROLLER
 ============================================ */
-DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $http, $window){
+DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $window, DataRequest){
 
 	// ------------------- Header Messages
 	$scope.message = 'Add words to this stack below';
@@ -270,7 +270,7 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 			$window.location.reload();
 		})();  return refresh;
 
-	}
+	};
 
 	// Add Custom Word to Stack Function
     $scope.addCustomWord = function(term, definition) {
@@ -286,21 +286,23 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
             $window.location.reload();
         })(); return refresh;
 
-    }
+    };
 
 	// Get Words
 	$scope.words = stackDB.query("words");
 
 	// Fetch Dictionary
-	$http.get('components/json/test-dictionary.json').success(function(data) {
+	DataRequest.dictionary().then(function(data) {
+		// Put Data into Variable Scope
 		$scope.dictionary = data;
 	});
+
 
 	// Delete Stack
 	$scope.deleteStack = function() {
 
 		// Confirm Dialog
-		if (confirm("Are you sure you want to delete this stack?") == true) {
+		if (confirm("Are you sure you want to delete this stack?") === true) {
 
 			// Drop Database
 			stackDB.drop();
@@ -313,7 +315,7 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 		// Return False
 		else {return false;}
 
-	}
+	};
 
 	// Delete Word
 	$scope.deleteWord = function(word) {
@@ -332,7 +334,7 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 			$window.location.reload();
 		})(); return refresh;
 
-	}
+	};
 
 	// ------------------- Create Custom Dictionary
     var custom = localStorageDB("cus_dict", localStorage);
@@ -356,7 +358,7 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 /* ============================================
 				ADD CUSTOM CONTROLLER
 ============================================ */
-DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window, $http) {
+DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window, DataRequest) {
 
 	// ------------------- Header Messages
     $scope.message = 'Add Words';  $scope.message2 = 'Add your own words to the dictionary';
@@ -365,9 +367,10 @@ DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window, $http) {
 	levelSystem();
 
 	// Fetch Dictionary
-    $http.get('components/json/test-dictionary.json').success(function(data) {
-        $scope.dictionary = data;
-    });
+	DataRequest.dictionary().then(function(data) {
+		// Put Data into Variable Scope
+		$scope.dictionary = data;
+	});
 
 	// Create Custom Variable
     var custom = new localStorageDB("cus_dict", localStorage);
@@ -397,7 +400,7 @@ DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window, $http) {
             $window.location.reload();
         })();  return refresh;
 
-    }
+    };
 
 	// Add Query to Scope
     $scope.entry = custom.query("entry");
@@ -513,7 +516,7 @@ DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $locatio
 		// Append Shuffled Terms
 		$(".terms").append($nodes);
 
-	}
+	};
 
 	// Set TimeOut (Don't Remove!)
 	setTimeout(shuffleTerms, 5);
@@ -641,7 +644,7 @@ DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $locatio
 
 				// Code to advance cards here
 			});
-		}
+		};
 		startTimer();
 	}
 
@@ -777,8 +780,8 @@ DigitalFlashServices.factory('displayStacks', function(){
 
 		  // Get Stack Key
 	      var stackKey = localStorage.key(i);
-	      
-	   
+
+
 
 		  		// If Database Object is Not a Stack, Don't Display
 	            if (stackKey == "db_cus_dict" || stackKey == "db_points"){continue;}
@@ -790,7 +793,7 @@ DigitalFlashServices.factory('displayStacks', function(){
 	                var stack_name = stackKey.replace("db_", "").replace(/_/g, " ");
 	                var stack_slug = stackKey.replace("db_", "");
 	                var stack_qname = stackKey.replace("db_", "");
-	                
+
 	                 // Get Stack Length
 					var stack_db = localStorageDB(stack_qname, localStorage);
 					var stack_length = stack_db.query("words").length;
@@ -855,3 +858,36 @@ var levelSystem = function(){
 	$("#points").html(display_points);
 
 }
+
+
+
+
+
+
+/* ============================================
+HTTP GET SERVICE
+============================================ */
+
+DigitalFlashServices.factory('DataRequest', ['$http',
+function($http){
+  return {
+    quotes: function() {
+      return $http.get('components/json/quotes.json')
+        .then(function(result) {
+          return result.data;
+        });
+    },
+    dictionary: function() {
+      return $http.get('components/json/test-dictionary.json')
+        .then(function(result) {
+          return result.data;
+        });
+    },
+    basicDictionary: function() {
+      return $http.get('components/json/basic_dictionary.json')
+      .then(function(result) {
+        return result.data;
+      });
+    }
+  };
+}]);
