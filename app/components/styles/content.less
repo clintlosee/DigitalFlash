@@ -132,7 +132,7 @@
 	line-height: 30px;
 	.rounded-corners(5px);
 }
-.game .game-card .answerResults .wrong {
+.game .game-card .answerResults .wrong, .game .game-card .answerResults .time {
 	padding: 10px;
 	width: 100%;
 	background: lighten(@body-highlight-2, 10%);
@@ -143,7 +143,8 @@
 	.rounded-corners(5px);
 }
 .game .game-card .answerResults.showCorrect, .game .game-card .answerResults.showCorrect .correct,
-.game .game-card .answerResults.showWrong, .game .game-card .answerResults.showWrong .wrong {display: block;}
+.game .game-card .answerResults.showWrong, .game .game-card .answerResults.showWrong .wrong,
+.game .game-card .answerResults.showTime, .game .game-card .answerResults.showTime .time {display: block;}
 .game .game-card .answerResults.showCorrect .wrong, .game .game-card .answerResults.showWrong .correct {display: none;}
 
 /* Create Stacks */
@@ -162,6 +163,8 @@
 }
 .create-stack .type a i.fa {margin-left: 10px;}
 .create-stack .type a:hover {background: darken(@body-highlight-2, 10%);}
+
+.terms.hideAnswers {display: none;}
 
 /* =========================
 	Tablet

@@ -104,6 +104,12 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $rou
 		// Create New Database
 		var stack = new localStorageDB(new_stack_name, localStorage);
 
+		// Assign Stack Name
+		var new_stack_name = stack_name.replace(/ /g, "_");
+
+		// Create New Database
+		var stack = new localStorageDB(new_stack_name, localStorage);
+
 		// Only if Stack is New
 		if(stack.isNew()){
 
@@ -188,11 +194,13 @@ DigitalFlashCtrls.controller('modeCtrl', function($scope, $routeParams, $window)
 	levelSystem();
 
 	// ------------------- Assign Variables
-	var stack_name = $routeParams.stack_name; $scope.stack_name = stack_name;
+	var stack_name = $routeParams.stack_name;
+	var name = stack_name.replace(/_/g, "_");
+	$scope.stack_name = name;
 
 	// ------------------- Header Messages
 	$scope.header = 'Choose Game Mode';
-	$scope.message = 'Choose the game mode for ' + stack_name + ' to start playing!';
+	$scope.message = 'Choose the game mode for ' + name + ' to start playing!';
 
 	// ------------------- Temp Add Points to Level
 	var points = new localStorageDB("points", localStorage);
@@ -251,10 +259,13 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 	levelSystem();
 
 	// ------------------- Manage Stacks
-	var stack_slug = $routeParams.stack_slug; $scope.stack_name = stack_slug.replace(/_/g, " ");
+	var stack_slug = $routeParams.stack_slug;
+	var db_name = stack_slug.replace(/ /g, "_");
+
+	$scope.stack_name = stack_slug.replace(/_/g, " ");
 
 	// Create Database
-	var stackDB = localStorageDB(stack_slug, localStorage);
+	var stackDB = localStorageDB(db_name, localStorage);
 
 	// Add Word to Stack Function
 	$scope.addWord = function(term) {
@@ -407,7 +418,7 @@ DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window, $http) {
 /* ============================================
 					Play Game
 ============================================ */
-DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $location, displayStacks) {
+DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $location, displayStacks, gameService) {
 
 	// Display Overall Points
 	levelSystem();
@@ -418,22 +429,7 @@ DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $locatio
 	// Spotlight Variables
 	$scope.header = $scope.stack_name.replace("_", " ");
 
-	// Create Game Session Database
-	var gameSession = new localStorageDB("gameSession", sessionStorage);
-
-	// If Database Is New
-	if(gameSession.isNew()){
-
-		// Create Table
-		gameSession.createTable("game_data", ["num_correct", "num_incorrect", "points_earned"]);
-
-		// Insert Value
-		gameSession.insert("game_data", {num_correct: 0, num_incorrect: 0, points_earned: 0});
-
-		// Commit Table
-		gameSession.commit();
-
-	}
+	gameSession = gameService.gameSession();
 
 	// Get Stack Information
 	var stackDB = localStorageDB($scope.stack_name, localStorage);
@@ -518,8 +514,10 @@ DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $locatio
 	// Set TimeOut (Don't Remove!)
 	setTimeout(shuffleTerms, 5);
 
+	var guesses = 0;
+
 	// Function to check if correct term was selected
-	$scope.termCheck = function(clicked) {
+	var termCheck = function(clicked) {
 
 		// Get Current Stats
 		var game_data = gameSession.query("game_data");
@@ -527,11 +525,72 @@ DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $locatio
 		var game_correct = parseInt(game_data[0].num_correct, 10);
 		var game_points = parseInt(game_data[0].points_earned, 10);
 
+		if(clicked == false) {
+			// Change Class for Error Message
+			$scope.answerClass = 'showTime';
+			$scope.guesses = 'hideAnswers';
+
+			// Update to Database
+			gameSession.update("game_data", {ID: 1}, function(row){
+
+				// Add Incorrect
+				row.num_incorrect = game_incorrect + 1;
+				// Return Row
+				return row;
+
+			});
+
+			// Commit Updates
+			gameSession.commit();
+
+			// Create Timer to Move to Next Card
+			var timesUpTimer = function(){
+				$('#timesUp strong').runner({
+					autostart: true,
+					countdown: true,
+					milliseconds: false,
+					startAt: 4*1000,
+					stopAt: 0
+				}).on('runnerFinish', function() {
+					// Reload Document
+					document.location.reload(true);
+				});
+			};
+
+			// Start Timer
+			timesUpTimer();
+		}
+
 		// Check To See if Term is Correct
-		if(clicked != $scope.randomItem.word){
+		else if(clicked != $scope.randomItem.word){
+
+			// Create Timer to Move to Next Card
+			var guessedWrongTimer = function(){
+				$('#wrongAnswer strong').runner({
+					autostart: true,
+					countdown: true,
+					milliseconds: false,
+					startAt: 3*1000,
+					stopAt: 0
+				}).on('runnerFinish', function() {
+					// Reload Document
+					document.location.reload(true);
+				});
+			};
 
 			// Change Class for Error Message
+			if (guesses != 1) {
+				guesses++;
+			}
+
+			else if (guesses == 1) {
+				$('#timer').runner('stop');
+				$scope.guesses = 'hideAnswers';
+				guessedWrongTimer();
+			}
+
 			$scope.answerClass = 'showWrong';
+
 
 			// Update to Database
 			gameSession.update("game_data", {ID: 1}, function(row){
@@ -546,19 +605,26 @@ DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $locatio
 
 			// Commit Updates
 			gameSession.commit();
-
 		}
 		else {
 
 			// Change Class for Error Message
+			$('#timer').runner('stop');
 			$scope.answerClass = 'showCorrect';
+			$scope.guesses = 'hideAnswers';
 
 			// Update to Database
 			gameSession.update("game_data", {ID: 1}, function(row){
 
-				// Add Incorrect
+				if ($routeParams.mode == "hard") {
+					row.points_earned = game_points + 2;
+				}
+				else {
+					row.points_earned = game_points + 1;
+				}
+
+				// Add Correct
 				row.num_correct = game_correct + 1;
-				row.points_earned = game_points + 1;
 
 				// Return Row
 				return row;
@@ -586,37 +652,17 @@ DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $locatio
 
 			// Start Timer
 			correctTimer();
-
 		}
+	};
 
+	$scope.termCheck = function(clicked){
+		termCheck(clicked);
 	};
 
 	// Stop Game
 	var stopGame = function(){
 
-		// Get Current Stats
-		var game_data = gameSession.query("game_data");
-		var game_points = parseInt(game_data[0].points_earned, 10);
-
-		// Query Point System
-		var points = new localStorageDB("points", localStorage);
-
-		// Get Points
-		console.log(game_points);
-
-		// Update Table
-		points.update("user_points", {ID: 1}, function(row){
-
-			// Assign Points
-			row.points = parseInt(row.points, 10) + game_points;
-
-			// Return Row
-			return row;
-
-		});
-
-		// Commit Update
-		points.commit();
+		gameService.stopGame();
 
 		// New Location Path
 		$location.path("/game_results/" + $routeParams.stack_name);
@@ -624,7 +670,9 @@ DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $locatio
 	};
 
 	// Scope Function
-	$scope.stopGame = function(){stopGame();};
+	$scope.stopGame = function(){
+		stopGame();
+	};
 
 	// Timer for Hard Mode
 	if ($routeParams.mode == "hard") {
@@ -634,12 +682,11 @@ DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $locatio
 				autostart: true,
 				countdown: true,
 				milliseconds: false,
-				startAt: 16*1000,
+				startAt: 11*1000,
 				stopAt: 0
 			}).on('runnerFinish', function() {
-				console.log("Time's Up");
-
-				// Code to advance cards here
+				var time = false;
+				termCheck(time);
 			});
 		}
 		startTimer();
@@ -651,7 +698,7 @@ DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $locatio
 /* ============================================
 				Game Results
 ============================================ */
-DigitalFlashCtrls.controller('gameResultsCtrl', function($scope, $routeParams) {
+DigitalFlashCtrls.controller('gameResultsCtrl', function($scope, $routeParams, gameService) {
 
 	// Display Level
 	levelSystem();
@@ -659,26 +706,9 @@ DigitalFlashCtrls.controller('gameResultsCtrl', function($scope, $routeParams) {
 	// Get Stack Name
 	$scope.stack_name = $routeParams.stack_name;
 
-	// Get Game Session Data
-	var gameSession = new localStorageDB("gameSession", sessionStorage);
-
 	// Store Game Session Into Scope Variable
-	$scope.game_session_data = gameSession.query("game_data");
+	$scope.game_session_data = gameService.gameResults();
 
-	// Drop Database
-	gameSession.update("game_data", {ID: 1}, function(row){
-
-		// Reset Values
-		row.num_incorrect = 0;
-		row.num_correct = 0;
-		row.points_earned = 0;
-
-		// Return Row
-		return row;
-
-	});
-
-	// Commit Changes
-	gameSession.commit();
+	gameService.clearGameSession();
 
 });
