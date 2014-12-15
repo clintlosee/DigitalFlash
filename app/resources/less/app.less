@@ -579,27 +579,36 @@ a.hard_button{
   margin: auto;
 }*/
 
+/* ============================================
+  Manage Page
+============================================ */
+#deleteBtn .fa-times-circle {
+    background: #fff;
+    border-radius: 50%;
+    height: 1em;
+    width: 1em;
+    padding-left:1px;
+}
 
-// Delete Button
-.stacks_list #deleteBtn {
+.display-stacks #deleteBtn {
   display:none;
 }
-.stacks_list li:hover #deleteBtn {
+.display-stacks .stack:hover #deleteBtn {
   display:block;
-  position:absolute;
-  padding: 10px;
-  top:-20;
-  left:180;
+   position:absolute;
+   padding: 10px;
+   top:-18px;
+   right:0;
 }
 #deleteBtn i {
   font-size:30px;
-  color:red;
+  color:#f00;
+  transition: color 0.2s ease-out;
 }
 #deleteBtn i:hover {
   color:#666;
   cursor:pointer;
-  margin: 20px auto 0px auto;
-
+  transition: color 0.2s ease-in;
 }
 
 /* ============================================

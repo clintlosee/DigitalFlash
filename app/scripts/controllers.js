@@ -195,7 +195,7 @@ DigitalFlashCtrls.controller('modeCtrl', function($scope, $routeParams, $window)
 
 	// ------------------- Assign Variables
 	var stack_name = $routeParams.stack_name;
-	var name = stack_name.replace(/_/g, " ");
+	var name = stack_name.replace(/_/g, "_");
 	$scope.stack_name = name;
 
 	// ------------------- Header Messages
