@@ -22,8 +22,8 @@ DigitalFlashServices.factory('displayStacks', function(){
 
 		  // Get Stack Key
 	      var stackKey = localStorage.key(i);
-	      
-	   
+
+
 
 		  		// If Database Object is Not a Stack, Don't Display
 	            if (stackKey == "db_cus_dict" || stackKey == "db_points"){continue;}
@@ -35,7 +35,7 @@ DigitalFlashServices.factory('displayStacks', function(){
 	                var stack_name = stackKey.replace("db_", "").replace(/_/g, " ");
 	                var stack_slug = stackKey.replace("db_", "");
 	                var stack_qname = stackKey.replace("db_", "");
-	                
+
 	                 // Get Stack Length
 					var stack_db = localStorageDB(stack_qname, localStorage);
 					var stack_length = stack_db.query("words").length;
@@ -53,6 +53,83 @@ DigitalFlashServices.factory('displayStacks', function(){
 
     };
 
+})
+
+.factory('gameService', function() {
+    return {
+        gameSession: function() {
+            // Create Game Session Database
+            var gameSession = new localStorageDB("gameSession", sessionStorage);
+
+            // If Database Is New
+            if(gameSession.isNew()){
+
+                // Create Table
+                gameSession.createTable("game_data", ["num_correct", "num_incorrect", "points_earned"]);
+
+                // Insert Value
+                gameSession.insert("game_data", {num_correct: 0, num_incorrect: 0, points_earned: 0});
+
+                // Commit Table
+                gameSession.commit();
+            }
+
+            return gameSession;
+        },
+        stopGame: function() {
+            // Get Current Stats
+            var game_data = gameSession.query("game_data");
+            var game_points = parseInt(game_data[0].points_earned, 10);
+
+            // Query Point System
+            var points = new localStorageDB("points", localStorage);
+
+            // Get Points
+            console.log(game_points);
+
+            // Update Table
+            points.update("user_points", {ID: 1}, function(row){
+
+                // Assign Points
+                row.points = parseInt(row.points, 10) + game_points;
+
+                // Return Row
+                return row;
+
+            });
+
+            // Commit Update
+            points.commit();
+        },
+        gameResults: function() {
+            // Get Game Session Data
+            var gameSession = localStorageDB("gameSession", sessionStorage);
+
+            // Get the game session data
+            game_session_data = gameSession.query("game_data");
+
+            return game_session_data;
+        },
+        clearGameSession: function() {
+            var gameSession = localStorageDB("gameSession", sessionStorage);
+
+            // Drop Database
+            gameSession.update("game_data", {ID: 1}, function(row){
+
+                // Reset Values
+                row.num_incorrect = 0;
+                row.num_correct = 0;
+                row.points_earned = 0;
+
+                // Return Row
+                return row;
+
+            });
+
+            // Commit Changes
+            gameSession.commit();
+        }
+    }
 });
 
 /* ============================================
