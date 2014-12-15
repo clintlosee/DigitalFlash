@@ -176,4 +176,32 @@ var levelSystem = function(){
 	$("#level").css("padding-right", display_points);
 	$("#points").html(display_points);
 
-}
+};
+
+/* ============================================
+HTTP GET SERVICE
+============================================ */
+
+DigitalFlashServices.factory('DataRequest', ['$http',
+function($http){
+  return {
+    quotes: function() {
+      return $http.get('components/json/quotes.json')
+        .then(function(result) {
+          return result.data;
+        });
+    },
+    dictionary: function() {
+      return $http.get('components/json/test-dictionary.json')
+        .then(function(result) {
+          return result.data;
+        });
+    },
+    basicDictionary: function() {
+      return $http.get('components/json/basic_dictionary.json')
+      .then(function(result) {
+        return result.data;
+      });
+    }
+  };
+}]);
