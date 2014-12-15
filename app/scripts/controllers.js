@@ -104,6 +104,12 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $http, $window, $rou
 		// Create New Database
 		var stack = new localStorageDB(new_stack_name, localStorage);
 
+		// Assign Stack Name
+		var new_stack_name = stack_name.replace(/ /g, "_");
+
+		// Create New Database
+		var stack = new localStorageDB(new_stack_name, localStorage);
+
 		// Only if Stack is New
 		if(stack.isNew()){
 
@@ -188,11 +194,13 @@ DigitalFlashCtrls.controller('modeCtrl', function($scope, $routeParams, $window)
 	levelSystem();
 
 	// ------------------- Assign Variables
-	var stack_name = $routeParams.stack_name; $scope.stack_name = stack_name;
+	var stack_name = $routeParams.stack_name;
+	var name = stack_name.replace(/_/g, " ");
+	$scope.stack_name = name;
 
 	// ------------------- Header Messages
 	$scope.header = 'Choose Game Mode';
-	$scope.message = 'Choose the game mode for ' + stack_name + ' to start playing!';
+	$scope.message = 'Choose the game mode for ' + name + ' to start playing!';
 
 	// ------------------- Temp Add Points to Level
 	var points = new localStorageDB("points", localStorage);
@@ -251,10 +259,13 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 	levelSystem();
 
 	// ------------------- Manage Stacks
-	var stack_slug = $routeParams.stack_slug; $scope.stack_name = stack_slug.replace(/_/g, " ");
+	var stack_slug = $routeParams.stack_slug;
+	var db_name = stack_slug.replace(/ /g, "_");
+
+	$scope.stack_name = stack_slug.replace(/_/g, " ");
 
 	// Create Database
-	var stackDB = localStorageDB(stack_slug, localStorage);
+	var stackDB = localStorageDB(db_name, localStorage);
 
 	// Add Word to Stack Function
 	$scope.addWord = function(term) {
@@ -503,10 +514,10 @@ DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $locatio
 	// Set TimeOut (Don't Remove!)
 	setTimeout(shuffleTerms, 5);
 
+	var guesses = 0;
+
 	// Function to check if correct term was selected
 	var termCheck = function(clicked) {
-
-		console.log(clicked);
 
 		// Get Current Stats
 		var game_data = gameSession.query("game_data");
@@ -517,13 +528,13 @@ DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $locatio
 		if(clicked == false) {
 			// Change Class for Error Message
 			$scope.answerClass = 'showTime';
+			$scope.guesses = 'hideAnswers';
 
 			// Update to Database
 			gameSession.update("game_data", {ID: 1}, function(row){
 
 				// Add Incorrect
 				row.num_incorrect = game_incorrect + 1;
-				console.log(row.num_incorrect);
 				// Return Row
 				return row;
 
@@ -531,8 +542,6 @@ DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $locatio
 
 			// Commit Updates
 			gameSession.commit();
-
-			console.log("The time is up");
 
 			// Create Timer to Move to Next Card
 			var timesUpTimer = function(){
@@ -554,9 +563,34 @@ DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $locatio
 
 		// Check To See if Term is Correct
 		else if(clicked != $scope.randomItem.word){
-			console.log("Hit 2");
+
+			// Create Timer to Move to Next Card
+			var guessedWrongTimer = function(){
+				$('#wrongAnswer strong').runner({
+					autostart: true,
+					countdown: true,
+					milliseconds: false,
+					startAt: 3*1000,
+					stopAt: 0
+				}).on('runnerFinish', function() {
+					// Reload Document
+					document.location.reload(true);
+				});
+			};
+
 			// Change Class for Error Message
+			if (guesses != 1) {
+				guesses++;
+			}
+
+			else if (guesses == 1) {
+				$('#timer').runner('stop');
+				$scope.guesses = 'hideAnswers';
+				guessedWrongTimer();
+			}
+
 			$scope.answerClass = 'showWrong';
+
 
 			// Update to Database
 			gameSession.update("game_data", {ID: 1}, function(row){
@@ -571,12 +605,13 @@ DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $locatio
 
 			// Commit Updates
 			gameSession.commit();
-
 		}
 		else {
 
 			// Change Class for Error Message
+			$('#timer').runner('stop');
 			$scope.answerClass = 'showCorrect';
+			$scope.guesses = 'hideAnswers';
 
 			// Update to Database
 			gameSession.update("game_data", {ID: 1}, function(row){
