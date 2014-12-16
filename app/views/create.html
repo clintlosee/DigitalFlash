@@ -17,35 +17,30 @@
 <div class="create-stack">
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-xs-12 col-sm-4 col-md-4 type">
-				<i class="fa fa-random fa-4x"></i>
-				<h3>Random</h3>
-				<p>When you build a Random stack there is a random set of words that will be generated and added to your newly created stack.</p>
-				<a href="#/mode/{{stack_name}}" ng-click="createRandomStack(stack_name)">Build Random Stack <i class="fa fa-chevron-right"></i></a>
+			<div class="col-xs-12 col-sm-12 col-md-4 type">
+				<article>
+					<i class="fa fa-random"></i>
+					<h2>Random</h2>
+					<p>When you build a Random stack there is a random set of words that will be generated and added to your newly created stack.</p>
+					<a href="#/mode/{{stack_name}}" ng-click="createRandomStack(stack_name)">Build Random Stack</a>
+				</article>
 			</div>
-			<div class="col-xs-12 col-sm-4 col-md-4 type">
-				<i class="fa fa-cog fa-4x"></i>
-				<h3>Custom</h3>
-				<p>When you build a Custom stack you can pick words to add to your stack. You can also create custom words to add to your newly created stack.</p>
-				<a href="/app/#/manage/{{ stack_name }}" ng-click="createStack(stack_name)">Build Custom Stack <i class="fa fa-chevron-right"></i></a>
+			<div class="col-xs-12 col-sm-12 col-md-4 type">
+				<article>
+					<i class="fa fa-cog"></i>
+					<h2>Custom</h2>
+					<p>When you build a Custom stack you can pick words to add to your stack. You can also create custom words to add to your newly created stack.</p>
+					<a href="/app/#/manage/{{ stack_name }}" ng-click="createStack(stack_name)">Build Custom Stack</a>
+				</article>
 			</div>
-			<div class="col-xs-12 col-sm-4 col-md-4 type">
-				<i class="fa fa-child fa-4x"></i>
-				<h3>Basic</h3>
-				<p>When you build a Basic stack there is a pre-defined set basic of words, meant to help you learn english, that will be added to your newly created stack.</p>
-				<a href="#/mode/{{stack_name}}" ng-click="createBasicStack(stack_name)">Build Basic Stack <i class="fa fa-chevron-right"></i></a>
+			<div class="col-xs-12 col-sm-12 col-md-4 type">
+				<article>
+					<i class="fa fa-child"></i>
+					<h2>Basic</h2>
+					<p>When you build a Basic stack there is a pre-defined set basic of words, meant to help you learn english, that will be added to your newly created stack.</p>
+					<a href="#/mode/{{stack_name}}" ng-click="createBasicStack(stack_name)">Build Basic Stack</a>
+				</article>
 			</div>
 		</div>
 	</div>
-</div>
-
-
-
-<!-- Temp Display for Boxes
- <div class="stack_box ">
-        <ul class="col-md-12 stacks_list clearfix">
-            <li class="col-md-3 text-center" ng-repeat="stack in stacks track by $index">
-                <h3><a href="/app/#/manage/{{ stack.slug }}">{{ stack.name }}</a></h3>
-            </li>
-        </ul>
 </div>

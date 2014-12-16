@@ -1,40 +1,59 @@
-<div class="jumbotron text-center spotlight">
+<!-- Spotlight -->
+<div class="spotlight">
     <h1>{{ stack_name }}</h1>
-
     <p>{{ message }}</p>
-
-    <button name="button" ng-click="deleteStack()" class="add center">Delete Stack</button>
+    <button name="button" ng-click="deleteStack()" class="managecards">Delete Stack</button>
 </div>
-{{dictionary.term}}
 
-<div class="container">
-    <div class="col-md-10 col-md-offset-1 ">
+<!-- Current Words -->
+<div class="current-words">
+	<div class="container-fluid">
+		<div class="words">
+			<h2>Current Words - Click to Delete</h2>
+			<div class="wordlist">
+				<ul>
+					<li ng-repeat="word in words">
+						<button ng-click="deleteWord(word)"><span ng-model="word">{{word.word}}</span><i class="fa fa-times"></i></button>
+					</li>
+					<div class="clear"></div>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
 
+<!-- Search -->
+<div class="search">
+	<div class="container-fluid">
+		<input class="col-md-12" ng-model="query" placeholder="Search Words">
+	</div>
+</div>
 
+<!-- Words -->
+<div class="add-words">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12 col-sm-6 col-md-3 wordanimate" ng-repeat="term in entry | filter:query">
+				<article>
+					<h6 ng-model="term.term">{{term.term}}</h6>
+					<p ng-model="term.definition">{{term.definition}}</p>
+					<button ng-click="addCustomWord(term.term, term.definition)">Add Word</button>
+				</article>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-3 wordanimate" ng-repeat="term in dictionary | filter:query">
+				<article>
+					<h6 ng-model="term">{{term.term}}</h6>
+					<p>{{term.definition}}</p>
+					<button ng-click="addWord(term)">Add Word</button>
+				</article>
+			</div>
+		</div>
+	</div>
+</div>
 
-        <div id="words">
-            <ul ng-repeat="word in words" class="dict_list col-md-2">
-                <li>
-                    <span ng-model="word" >{{ word.word }}</span>
-                </li>
-                <li>{{ word.definition}}</li>
-                <button ng-click="deleteWord(word)" class="add">Delete Word</button>
-            </ul>
-        </div>
-
-
-       <a class="add text-center" href="#/addwords">Add Custom Word </a></div>
-        <div class="text-center search"> <input ng-model="query" placeholder="Search for Words to Add:"/ >
-
-        <dl class="dict_list col-md-2" ng-repeat="term in entry">
-            <dt ng-model="term.term">{{term.term}}</dt>
-            <dd ng-model="term.definition">{{term.definition}}</dd>
-            <dd><button ng-click="addCustomWord(term.term, term.definition)" class="btn add">Add Word</button></dd>
-        </dl>
-        <dl class="dict_list col-md-2" ng-repeat="term in dictionary | filter:query">
-            <dt ng-model="term">{{ term.term }}</dt>
-            <dd>{{ term.definition }}</dd>
-            <dd><button ng-click="addWord(term)" class="btn add">Add Word</button></dd>
-        </dl>
-    </div>
+<!-- Custom Word Page -->
+<div class="custom-word">
+	<div class="container-fluid">
+		<a href="#/addwords">Can't Find a Word?  Add Your Own!</a>
+	</div>
 </div>

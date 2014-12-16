@@ -1,0 +1,24 @@
+/* ================================================== 
+	Digital Flash Base CSS
+================================================== */
+
+/* =========================
+	Mobile
+========================= */
+
+/* Word Animations */
+.wordanimate.ng-enter, .wordanimate.ng-leave, .wordanimate.ng-move {.transitions(@type: all; @timing: 100ms; @function: linear);}
+.wordanimate.ng-enter, .wordanimate.ng-move {opacity: 0; height: 0px; overflow: hidden;}
+.wordanimate.ng-move.ng-move-active, .wordanimate.ng-enter.ng-enter-active {opacity: 1; height: auto;}
+.wordanimate.ng-leave {opacity: 1; overflow: hidden;}
+.wordanimate.ng-leave.ng-leave-active {opacity: 0; height: 0; padding-top: 0; padding-bottom: 0;}
+
+/* =========================
+	Tablet
+========================= */
+@media screen and (min-width: 720px){}
+
+/* =========================
+	Desktop
+========================= */
+@media screen and (min-width: 1024px){}

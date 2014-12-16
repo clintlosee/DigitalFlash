@@ -58,10 +58,10 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $window, $routeParam
 
 			// Commit Table
 			stack.commit();
-
-			// Populate Table With Random Words
+			
 			// Dictionary DataRequest
 			DataRequest.dictionary().then(function(data) {
+				
 				// Put Data into Variable Scope
 				$scope.data = data;
 
@@ -89,6 +89,7 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $window, $routeParam
 
 				// Commit Table
 				stack.commit();
+				
 			});
 
 		}
@@ -121,10 +122,6 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $window, $routeParam
 
 		}
 
-		// Window Refresh
-        var refresh = (function() {
-            $window.location.reload();
-        })();  return refresh;
 
 	};
 
@@ -362,6 +359,13 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 
 	// Add Query to Scope
     $scope.entry = custom.query("entry");
+    
+    // Show Current Words
+    $('.current-words h2').on({
+	    click: function(){
+		    $('.current-words .words .wordlist').toggleClass('clicked', 200);
+	    }
+    });
 
 });
 
@@ -964,15 +968,10 @@ var levelSystem = function(){
 	$("#level").css("padding-right", display_points);
 	$("#points").html(display_points);
 
-}
-
-
-
-
-
+};
 
 /* ============================================
-HTTP GET SERVICE
+				HTTP GET SERVICE
 ============================================ */
 
 DigitalFlashServices.factory('DataRequest', ['$http',

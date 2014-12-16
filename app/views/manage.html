@@ -4,11 +4,19 @@
     <p>{{ message }}</p>
 </div>
 
+
+<!-- Search -->
+<div class="search">
+	<div class="container-fluid">
+		<input class="col-md-12" ng-model="query" placeholder="Search Stacks">
+	</div>
+</div>
+
 <!-- Diplay Stacks -->
      <div class="display-stacks">
      <div class="container-fluid">
           <div class="row">
-               <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3" ng-repeat="stack in stacks | filter:query">
+               <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3 wordanimate" ng-repeat="stack in stacks | filter:query">
                     <div class="stack">
                          <div class="number">
                               <span id="deleteBtn" ng-click="deleteStack()"><i class="fa fa-times-circle"></i></span>
@@ -20,5 +28,3 @@
           </div>
      </div>
 </div>
-
-<!-- <button class="btn btn-default btn-warning">Save changes</button> -->

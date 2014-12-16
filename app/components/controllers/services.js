@@ -179,7 +179,7 @@ var levelSystem = function(){
 };
 
 /* ============================================
-HTTP GET SERVICE
+				HTTP GET SERVICE
 ============================================ */
 
 DigitalFlashServices.factory('DataRequest', ['$http',

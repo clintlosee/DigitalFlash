@@ -6,33 +6,43 @@
 	</div>
 </div>
 
+<!-- Add Word -->
+<div class="add-custom-word">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-6">
+				<input type="text" id="cus_term" name="cus_term" ng-model="cus_term" placeholder="Enter Term" />
+			</div>
+			<div class="col-md-6">
+				<input type="text" id="cus_def" name="cus_def" ng-model="cus_def" placeholder="Enter Definition" />
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<button id="add_to_dic" name="add_to_dic" ng-click="addToDict(cus_term, cus_def)">Add to Dictionary</button>
+			</div>
+		</div>
+	</div>
+</div>
 
-<div class="container">
-    <div class="col-md-10 col-md-offset-1">
+<!-- Search -->
+<div class="search" style="margin-top: 40px;">
+	<div class="container-fluid">
+		<input class="col-md-12" ng-model="query" placeholder="Search Your Custom Words">
+	</div>
+</div>
 
-        <div>
-
-            <input class="col-md-4" id="cus_term" type="text" name="cus_term" ng-model="cus_term" placeholder="Term" >
-						<input class="col-md-4" id="cus_def" type="text" name="cus_def" ng-model="cus_def" placeholder="Definition" >
-            <button class="btn add center col-md-4" id="add_to_dic" name="add_to_dic" ng-click="addToDict(cus_term, cus_def)" >Add to Dictionary</button>
-
-            <div data-ng-repeat="enty in data">{{term.cus_term}}</div>
-        </div>
-
-				<div>
-						<dl ng-repeat="term in entry" class="dict_list col-md-3 padding">
-								<dt>{{term.term}}</dt>
-								<dd>{{term.definition}}</dd>
-								<button ng-click="deleteWord(word)" class="add">Delete Word</button>
-						</dl>
-
-        <div class="search text-center"><input ng-model="query" placeholder="Search Existing Dictionary:"></div>
-
-            <dl ng-repeat="term in dictionary | filter:query" class="dict_list col-md-3 padding">
-                <dt>{{ term.term }}</dt>
-                <dd>{{ term.definition }}</dd>
-            </dl>
-        </div>
-
-    </div>
+<!-- Current Words -->
+<div class="add-words">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12 col-sm-6 col-md-3 wordanimate" ng-repeat="term in entry | filter:query">
+				<article>
+					<h6>{{term.term}}</h6>
+					<p>{{term.definition}}</p>
+					<button ng-click="deleteWord(word)">Delete Word</button>
+				</article>
+			</div>
+		</div>
+	</div>
 </div>
