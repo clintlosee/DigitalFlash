@@ -1,7 +1,22 @@
-<ul ng-repeat="game_data in game_session_data" style="padding: 25px;">
-    <li>Number Correct: {{ game_data.num_correct }}</li>
-    <li>Number Incorrect: {{ game_data.num_incorrect }}</li>
-    <li>Points Earned: {{ game_data.points_earned }}</li>
-</ul>
+<!-- Spotlight -->
+<div class="spotlight">
+	<div class="container-fluid">
+		<h1>Game Results of {{stack_name}}</h1>
+	</div>
+</div>
 
-<a class="hard_button center" href="/app/#/mode/{{ stack_name }}" style="padding: 25px;">Return to Mode Selection</a>
+<!-- Game Session Data -->
+<div class="game-session">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12">
+				<ul ng-repeat="game_data in game_session_data">
+					<li>{{game_data.num_correct}}<span>Correct</span></li>
+					<li>{{game_data.num_incorrect}}<span>Incorrect</span></li>
+					<li>{{game_data.points_earned}}<span>Points Earned</span></li>
+				</ul>
+				<a href="/app/#/mode/{{ stack_name }}">Return to Mode Selection</a>
+			</div>
+		</div>
+	</div>
+</div>

@@ -176,6 +176,7 @@ button:focus {outline: 0px;}
 .game .game-card {
 	background: white;
 	padding: 20px;
+	margin-top: 20px;
 	border-bottom: 5px solid darken(@body-bg, 10%);
 	.rounded-corners(5px);
 	box-sizing: border-box;
@@ -354,6 +355,38 @@ button.managecards:hover {background: @body-highlight-2; border-color: @body-hig
 }
 .add-custom-word button:hover {color: white; background: @body-highlight-2;}
 .add-custom-word button:focus {outline: 0px;}
+
+/* Game Result */
+.game-session {text-align: left;}
+.game-session ul {
+	margin: 0px 0px 50px 0px;
+	background: white;
+	padding: 20px;
+	border-bottom: 5px solid darken(@body-bg, 10%);
+	.rounded-corners(10px);
+}
+.game-session ul li {
+	font-size: 120px;
+	line-height: 130px;
+	display: inline-block;
+	margin: 0px 10px 0px 0px;
+	color: @body-highlight-2;
+}
+.game-session ul li span {
+	font-size: 16px; 
+	line-height: 26px; 
+	margin-left: 5px;
+	color: @body-text-color;
+}
+.game-session a {
+	background: @body-highlight-3;
+	width: 100px;
+	color: white;
+	.rounded-corners(5px);
+	.transitions();
+	padding: 20px;
+}
+.game-session a:hover {background: darken(@body-highlight-3, 10%);}
 
 /* =========================
 	Tablet
