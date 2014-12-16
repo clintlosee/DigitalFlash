@@ -105,12 +105,6 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $window, $routeParam
 		// Create New Database
 		var stack = new localStorageDB(new_stack_name, localStorage);
 
-		// Assign Stack Name
-		var new_stack_name = stack_name.replace(/ /g, "_");
-
-		// Create New Database
-		var stack = new localStorageDB(new_stack_name, localStorage);
-
 		// Only if Stack is New
 		if(stack.isNew()){
 
@@ -415,6 +409,21 @@ DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window, DataRequ
             $window.location.reload();
         })();  return refresh;
 
+    };
+    
+    $scope.deleteWord = function(word){
+	    
+	    // Delete Word from Database
+	    custom.deleteRows("entry",{term: word});
+	    
+	    // Commit
+	    custom.commit();
+	    
+	    // Refresh Window
+		var refresh = (function() {
+			$window.location.reload();
+		})(); return refresh;
+	    
     };
 
 	// Add Query to Scope
