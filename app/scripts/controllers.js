@@ -104,12 +104,6 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $window, $routeParam
 		// Create New Database
 		var stack = new localStorageDB(new_stack_name, localStorage);
 
-		// Assign Stack Name
-		var new_stack_name = stack_name.replace(/ /g, "_");
-
-		// Create New Database
-		var stack = new localStorageDB(new_stack_name, localStorage);
-
 		// Only if Stack is New
 		if(stack.isNew()){
 
@@ -194,9 +188,7 @@ DigitalFlashCtrls.controller('modeCtrl', function($scope, $routeParams, $window)
 	levelSystem();
 
 	// ------------------- Assign Variables
-	var stack_name = $routeParams.stack_name;
-	var name = stack_name.replace(/_/g, "_");
-	$scope.stack_name = name;
+	$scope.stack_name = $routeParams.stack_name;
 
 	// ------------------- Header Messages
 	$scope.header = 'Choose Game Mode';
@@ -267,6 +259,9 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 	// Create Database
 	var stackDB = localStorageDB(db_name, localStorage);
 
+	// Get Words
+	$scope.words = stackDB.query("words");
+
 	// Add Word to Stack Function
 	$scope.addWord = function(term) {
 
@@ -276,10 +271,8 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 		// Commit Insert
 		stackDB.commit();
 
-		// Refresh Window
-		var refresh = (function() {
-			$window.location.reload();
-		})();  return refresh;
+		// Get Words
+		$scope.words = stackDB.query("words");
 
 	};
 
@@ -292,15 +285,9 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 		// Commit Insert
         stackDB.commit();
 
-		// Refresh Window
-        var refresh = (function() {
-            $window.location.reload();
-        })(); return refresh;
-
+		// Get Words
+		$scope.words = stackDB.query("words");
     };
-
-	// Get Words
-	$scope.words = stackDB.query("words");
 
 	// Fetch Dictionary
 	DataRequest.dictionary().then(function(data) {
@@ -340,10 +327,8 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 		// Commit Delete.  Important!  Keep or App Will Break!
 		stackDB.commit();
 
-		// Refresh Window
-		var refresh = (function() {
-			$window.location.reload();
-		})(); return refresh;
+		// Get Words
+		$scope.words = stackDB.query("words");
 
 	};
 
@@ -582,6 +567,12 @@ DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $locatio
 			};
 
 			// Change Class for Error Message
+			if ($routeParams.mode == "hard") {
+				$('#timer').runner('stop');
+				$scope.guesses = 'hideAnswers';
+				guessedWrongTimer();
+			}
+
 			if (guesses != 1) {
 				guesses++;
 			}
@@ -964,12 +955,7 @@ var levelSystem = function(){
 	$("#level").css("padding-right", display_points);
 	$("#points").html(display_points);
 
-}
-
-
-
-
-
+};
 
 /* ============================================
 HTTP GET SERVICE
