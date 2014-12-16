@@ -309,6 +309,38 @@ button.managecards:hover {background: @body-highlight-2; border-color: @body-hig
 }
 .game-session a:hover {background: darken(@body-highlight-3, 10%);}
 
+/* Study */
+.study-game article {
+	background: white;
+	padding: 20px;
+	border-bottom: 5px solid darken(@body-bg, 10%);
+	margin: 0px 0px 20px 0px;
+	.rounded-corners(10px);
+}
+.study-game article p {margin: 0px; font-size: 18px; line-height: 28px;}
+.study-game button.navbutton {
+	float: left;
+	font-size: 30px;
+	background: @body-highlight-3;
+	padding: 10px 20px;
+	.transitions();
+}
+.study-game button.navbutton.right {float: right;}
+.study-game button.navbutton:hover {background: darken(@body-highlight-3, 10%);}
+.study-game .flip input[type=checkbox]{visibility: hidden;}
+.study-game .flip label {
+	background: @body-highlight-3;
+	color: white;
+	padding: 20px;
+	text-align: center;
+	width: 100%;
+	cursor: pointer;
+	font-size: 18px;
+	.rounded-corners(5px);
+	.transitions();
+}
+.study-game .flip label:hover {background: darken(@body-highlight-3, 10%);}
+
 /* =========================
 	Tablet
 ========================= */

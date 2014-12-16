@@ -1,22 +1,39 @@
 <!-- Spotlight -->
-{{ stack_name }}
+<div class="spotlight">
+	<div class="container-fluid">
+		<h1>{{message + stack_name}}</h1>
+	</div>
+</div>
 
-<div class="clearfix" id="gameBoxInfo"> <!-- all content enclosed -->
-
-<button ng-click="prevW()" class="pull-left"><i class="fa fa-arrow-left"></i> Previous</button>
-<button ng-click="nextW()" class="pull-right">Next <i class="fa fa-arrow-right"></i></button>
-
-
-  <!--<dl ng-repeat="word in words" class="dict_list col-md-3 padding" >
-    <dt>{{ word.word }}</dt>
-    <dd>{{ word.definition }}</dd>
-</dl>-->
-
-
-<ul >
-  <li id="switch" class="dict_list  padding" >{{ randomItem2.definition }}</li>
-</ul>
-
-<button ng-click="flip()" class="pull-right clearfix">Flip</button>
-
+<!-- Study Cards -->
+<div class="study-game">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12">
+				<article>
+					<div ng-hide="checked">
+						<p><strong>Definition: </strong>{{randomItem2.definition}}</p>
+					</div>
+					<div ng-show="checked">
+						<p><strong>Term: </strong>{{randomItem2.word}}</p>
+					</div>
+				</article>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-6">
+				<button ng-click="prevW()" class="navbutton"><i class="fa fa-angle-double-left"></i></button>
+			</div>
+			<div class="col-xs-6" style="text-align: right;">
+				<button ng-click="nextW()" class="navbutton right"><i class="fa fa-angle-double-right"></i></button>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 flip">
+				<input type="checkbox" value="None" id="flip" ng-model="checked" name="check" checked />
+				<label for="flip"> <i class="fa fa-repeat"></i> Flip</label>
+			</div>
+		</div>
+	</div>
 </div>

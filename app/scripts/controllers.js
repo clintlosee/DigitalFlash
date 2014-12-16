@@ -725,6 +725,72 @@ DigitalFlashCtrls.controller('gameResultsCtrl', function($scope, $routeParams, g
 	gameService.clearGameSession();
 
 });
+
+/* ============================================
+ 			STUDY CONTROLLER
+ ============================================ */
+DigitalFlashCtrls.controller('studyCtrl', function($scope, $routeParams, $location, displayStacks){
+ // ------------------- Header Message
+
+	$scope.message = "Studying Stack ";
+
+	//access stack name
+	var stack_slug = $routeParams.stack_slug;
+	$scope.stack_name = stack_slug.replace(/_/g, " ");
+
+
+	//access local storage for stack
+	var stackDB = localStorageDB($scope.stack_name, localStorage);
+	$scope.words = stackDB.query("words");
+
+
+	// Create an array for the random words
+	var randomWords = [];
+
+	for (var i = 0; i < $scope.words.length; i++) {
+
+			//console.log("number " + $scope.number + " " + $scope.words[i].word);
+			$scope.words[i];
+			$scope.number = 0;
+			$scope.randomItem2 = $scope.words[i - $scope.number];
+
+			//click event - to see the previous word/definition in the stack
+			$scope.prevW = function(){
+					// increments the number to loop through array of words in stack
+				if($scope.randomItem2){
+					$scope.randomItem2 = $scope.words[$scope.number--];
+				}else{
+					alert("End of stack, hit next.");
+					// Reload the current page to refresh terms and start agian at the beginning
+				//	document.location.reload(true);
+				}
+				console.log($scope.randomItem2);
+				console.log($scope.number);
+			}
+
+			//click event - to see the next word/definition in the stack
+			$scope.nextW = function(){
+
+				// decrements the number to loop through array of words in stack
+
+				if($scope.randomItem2){
+					$scope.randomItem2 = $scope.words[$scope.number++];
+				}else{
+						$scope.end = "End of stack, hit next.";
+					// Reload the current page to refresh terms and start agian at the beginning
+					document.location.reload(true);
+
+				}
+				console.log($scope.randomItem2);
+				console.log($scope.number);
+			}
+
+			$scope.limit = $scope.words.length;
+
+
+	}// end loop
+
+});
 // Create Digital Flash Module
 var DigitalFlash = angular.module('DigitalFlash', [
 	'ngRoute',
