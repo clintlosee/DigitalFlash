@@ -58,10 +58,10 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $window, $routeParam
 
 			// Commit Table
 			stack.commit();
-			
+
 			// Dictionary DataRequest
 			DataRequest.dictionary().then(function(data) {
-				
+
 				// Put Data into Variable Scope
 				$scope.data = data;
 
@@ -89,7 +89,7 @@ DigitalFlashCtrls.controller('createCtrl', function($scope, $window, $routeParam
 
 				// Commit Table
 				stack.commit();
-				
+
 			});
 
 		}
@@ -344,7 +344,7 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 
 	// Add Query to Scope
     $scope.entry = custom.query("entry");
-    
+
     // Show Current Words
     $('.current-words h2').on({
 	    click: function(){
@@ -401,20 +401,20 @@ DigitalFlashCtrls.controller('addCustomCtrl', function($scope, $window, DataRequ
         })();  return refresh;
 
     };
-    
+
     $scope.deleteWord = function(word){
-	    
+
 	    // Delete Word from Database
 	    custom.deleteRows("entry",{term: word});
-	    
+
 	    // Commit
 	    custom.commit();
-	    
+
 	    // Refresh Window
 		var refresh = (function() {
 			$window.location.reload();
 		})(); return refresh;
-	    
+
     };
 
 	// Add Query to Scope
@@ -446,10 +446,10 @@ DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $locatio
 
 	// Create Random Words Array
 	var randomWords = [];
-	
+
 	// Get Random Definition
 	$scope.randomItem = $scope.words[Math.floor(Math.random()*$scope.words.length)];
-	
+
 	// Push Random Item into Array
 	randomWords.push($scope.randomItem);
 
@@ -458,29 +458,29 @@ DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $locatio
 
 		// Push Other Answers into Array
 		randomWords.push($scope.words[Math.floor(Math.random()*$scope.words.length)]);
-		
+
 	}
 
 	// Shuffle Array (Courtesy of Fisher-Yates)
 	var shuffleArray = function(array) {
 		  var m = array.length, t, i;
-		
+
 		  // While there remain elements to shuffle
 		  while (m) {
-			  
+
 		    // Pick a remaining element…
 		    i = Math.floor(Math.random() * m--);
-		
+
 		    // And swap it with the current element.
 		    t = array[m];
 		    array[m] = array[i];
 		    array[i] = t;
 		  }
-		
+
 		  return array;
 	};
-	
-	
+
+
 	$scope.randomWords = shuffleArray(randomWords);
 
 
@@ -702,8 +702,12 @@ DigitalFlashCtrls.controller('studyCtrl', function($scope, $routeParams, $locati
 
 	//access stack name
 	var stack_slug = $routeParams.stack_slug;
-	$scope.stack_name = stack_slug.replace(/_/g, " ");
 
+	// Required stack_name for stack names with more than one word. Spaces break app without this!
+	$scope.stack_name = stack_slug.replace(/_/g, "_");
+
+	// Variable solely for a more pleasing looking header stack name
+	$scope.header_stack_name = stack_slug.replace(/_/g, " ");
 
 	//access local storage for stack
 	var stackDB = localStorageDB($scope.stack_name, localStorage);
@@ -730,8 +734,8 @@ DigitalFlashCtrls.controller('studyCtrl', function($scope, $routeParams, $locati
 					// Reload the current page to refresh terms and start agian at the beginning
 				//	document.location.reload(true);
 				}
-				console.log($scope.randomItem2);
-				console.log($scope.number);
+				//console.log($scope.randomItem2);
+				//console.log($scope.number);
 			}
 
 			//click event - to see the next word/definition in the stack
@@ -747,8 +751,8 @@ DigitalFlashCtrls.controller('studyCtrl', function($scope, $routeParams, $locati
 					document.location.reload(true);
 
 				}
-				console.log($scope.randomItem2);
-				console.log($scope.number);
+				//console.log($scope.randomItem2);
+				//console.log($scope.number);
 			}
 
 			$scope.limit = $scope.words.length;
