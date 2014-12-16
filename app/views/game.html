@@ -17,7 +17,7 @@
 				<div class="game-card">
 					<h2>{{randomItem.definition}}</h2>
 					<ul class="terms" ng-class="guesses">
-						<li ng-repeat="word in randomWords" ng-click="termCheck(word.word)">{{word.word}}</li>
+						<li ng-repeat="word in randomWords track by $index" ng-click="termCheck(word.word)">{{word.word}}</li>
 					</ul>
 					<div class="answerResults" ng-class="answerClass">
 						<span class="correct" id="correctAnswer">Your answer was correct! <strong></strong></span>
