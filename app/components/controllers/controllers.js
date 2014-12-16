@@ -185,9 +185,7 @@ DigitalFlashCtrls.controller('modeCtrl', function($scope, $routeParams, $window)
 	levelSystem();
 
 	// ------------------- Assign Variables
-	var stack_name = $routeParams.stack_name;
-	var name = stack_name.replace(/_/g, "_");
-	$scope.stack_name = name;
+	$scope.stack_name = $routeParams.stack_name;
 
 	// ------------------- Header Messages
 	$scope.header = 'Choose Game Mode';
@@ -258,6 +256,9 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 	// Create Database
 	var stackDB = localStorageDB(db_name, localStorage);
 
+	// Get Words
+	$scope.words = stackDB.query("words");
+
 	// Add Word to Stack Function
 	$scope.addWord = function(term) {
 
@@ -267,10 +268,8 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 		// Commit Insert
 		stackDB.commit();
 
-		// Refresh Window
-		var refresh = (function() {
-			$window.location.reload();
-		})();  return refresh;
+		// Get Words
+		$scope.words = stackDB.query("words");
 
 	};
 
@@ -283,15 +282,9 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 		// Commit Insert
         stackDB.commit();
 
-		// Refresh Window
-        var refresh = (function() {
-            $window.location.reload();
-        })(); return refresh;
-
+		// Get Words
+		$scope.words = stackDB.query("words");
     };
-
-	// Get Words
-	$scope.words = stackDB.query("words");
 
 	// Fetch Dictionary
 	DataRequest.dictionary().then(function(data) {
@@ -331,10 +324,8 @@ DigitalFlashCtrls.controller('manageStackCtrl', function($scope, $routeParams, $
 		// Commit Delete.  Important!  Keep or App Will Break!
 		stackDB.commit();
 
-		// Refresh Window
-		var refresh = (function() {
-			$window.location.reload();
-		})(); return refresh;
+		// Get Words
+		$scope.words = stackDB.query("words");
 
 	};
 
@@ -595,6 +586,12 @@ DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $locatio
 			};
 
 			// Change Class for Error Message
+			if ($routeParams.mode == "hard") {
+				$('#timer').runner('stop');
+				$scope.guesses = 'hideAnswers';
+				guessedWrongTimer();
+			}
+
 			if (guesses != 1) {
 				guesses++;
 			}
