@@ -1,48 +1,36 @@
-## Application Details
+# The Application
 
-Digital Flash is a web application for students to study vocabulary.  They can choose words from a dictionary or enter the terms and definitions manually, and create stacks for them to study.  This application is being developed and managed by a team of four developers.
+Digital Flash is a Web Application for students to study vocabulary.  They can choose words from a dictionary or enter the terms and definitions manually, and create stacks for them to study.  This application is being developed and managed by the following developers:
 
-- Austin Clift (Project Manager & Scrum Master)
+- Austin Clift
 - Brennan Davis
 - Jordan Larkin
 - Clint Losee
 
-## Development Instructions
+# Running the Application
 
-This application is based on AngularJS and NodeJS.  To run this application, you must install NodeJS.  After you clone the repository into your desired directory and `cd` into that directory, you can install the project's dependencies.  To do so, run the following command:
+To run this application, first clone the repository to your local machine.  You can do this with an awesome software called [Source Tree](http://www.sourcetreeapp.com/).  This application makes it real easy to manage your repositories!
+
+After you clone it to your computer, open your terminal and **cd** into the project directory.  From there run the following command:
 
 ```
 npm install
 ```
 
-Doing so will not only install NPM development dependencies, but will also install BOWER production dependencies.  To add/remove dependencies you can modify the package.json file (development), and the bower.json file (production).
-
-You can run the application on your local machine by running the following command:
+This will install the dependencies of the application, including the **http-server** the application will be running on.  After it installs, run the server by enter the following command: 
 
 ```
 npm start
 ```
 
-After running `npm start`, you can access the application by navigating your browser to: [http://localhost:8000/app/](http://localhost:8000/app/).
-
-The application is currently set up for the developers to modify scripts in /app/components/scripts and to modify styles in /app/components/styles.  The application uses GRUNT to concatenate and minify script and css files /app/scripts/ and /app/styles/ respectively. You must have Grunt installed. To activate grunt, run the following command:
+Then navigate to your [localhost](http://localhost:8000/app/) to see the application.  The application is currently set up for the developers to modify files in the **app/components** directory.  This application uses GRUNT so any file modify in the **components** directory will be compiled and minified.  To start this process, make sure to run the following command:
 
 ```
 grunt
 ```
 
-Running that command will automatically uglify scripts, concatenate CSS, package LESS, minify CSS, and watch the directories for any changes (if any changes are made, the process will run again).
+That command will run the default GRUNT process, which includes watch (which automatically compiles files on save).
 
-You can choose to activate any of these commands independently, though it isn't recommended, by running the following commands:
-
-```
-grunt uglify
-grunt concat
-grunt less
-grunt cssmin
-grunt watch
-```
-
-## Bug Tracking
+# Bug Tracking
 - Level up bar shows points, not level.
 - On random functions the application freezes when trying to do more than 20 cards.

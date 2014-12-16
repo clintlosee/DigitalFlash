@@ -444,82 +444,48 @@ DigitalFlashCtrls.controller('gameCtrl', function($scope, $routeParams, $locatio
 	// Query Database
 	$scope.words = stackDB.query("words");
 
-	// Get Random Definition
-	$scope.randomItem = $scope.words[Math.floor(Math.random()*$scope.words.length)];
-
-
 	// Create Random Words Array
 	var randomWords = [];
+	
+	// Get Random Definition
+	$scope.randomItem = $scope.words[Math.floor(Math.random()*$scope.words.length)];
+	
+	// Push Random Item into Array
+	randomWords.push($scope.randomItem);
 
 	// Push Random Terms to Variables
-	for(var i = 0; i < $scope.words.length; i++){
+	for(var i = 0; i < 3; i++){
 
-		// Generate Random Key
-		randomWords[i] = $scope.words[Math.floor(Math.random()*$scope.words.length)];
-
-		// Assign to Variables
-		$scope.randomItem = randomWords[i];
-		$scope.randomItem2 = randomWords[i - 1];
-		$scope.randomItem3 = randomWords[i - 2];
-		$scope.randomItem4 = randomWords[i - 3];
-
+		// Push Other Answers into Array
+		randomWords.push($scope.words[Math.floor(Math.random()*$scope.words.length)]);
+		
 	}
 
-	// Shuffled Terms
-	function shuffle(nodes, switchableSelector) {
-
-		// Get Node Length
-		var length = nodes.length;
-
-		// Create Array for Random Pick
-		var shuffleable = nodes.filter("." + switchableSelector);
-		var shuffleIndex = [];
-
-		// For Each Term
-		$.each(shuffleable, function(index, item) {
-			shuffleIndex[index] = $(item).index();
-		});
-
-		// The Array Should Be Used for Packing up Random Elements
-		var shuffleLength = shuffleIndex.length;
-		var randomPick, randomSwap;
-
-		// Loop Through Index
-		for (var index = length; index > 0; index--) {
-
-			// Get Random INdex That Contains a Shuffable Element
-			randomPick = shuffleIndex[Math.floor(Math.random() * shuffleLength)];
-
-			// Get the Next Element That Needs to be Swapped
-			randomSwap = nodes[index - 1];
-
-			// If the Element is 'Not Shuffable', Ignore and Continue
-			if($(randomSwap).hasClass(switchableSelector)) {
-				nodes[index - 1] = nodes[randomPick];
-				nodes[randomPick] = randomSwap;
-			}
-		}
-
-		// Return Nodes
-		return nodes;
-	}
-
-	// Shuffle Terms Function
-	var shuffleTerms = function() {
-
-		// Declare Nodes
-		var $nodes = $(".terms").find("li");
-
-		// Use Shuffle Function
-		shuffle($nodes, "sh");
-
-		// Append Shuffled Terms
-		$(".terms").append($nodes);
-
+	// Shuffle Array (Courtesy of Fisher-Yates)
+	var shuffleArray = function(array) {
+		  var m = array.length, t, i;
+		
+		  // While there remain elements to shuffle
+		  while (m) {
+			  
+		    // Pick a remaining element…
+		    i = Math.floor(Math.random() * m--);
+		
+		    // And swap it with the current element.
+		    t = array[m];
+		    array[m] = array[i];
+		    array[i] = t;
+		  }
+		
+		  return array;
 	};
+	
+	
+	$scope.randomWords = shuffleArray(randomWords);
 
-	// Set TimeOut (Don't Remove!)
-	setTimeout(shuffleTerms, 5);
+
+	console.log($scope.randomWords);
+
 
 	var guesses = 0;
 
